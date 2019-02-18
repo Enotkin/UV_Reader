@@ -3,8 +3,11 @@
 
 #include <QMainWindow>
 #include <QFileDialog>
+#include <QTimerEvent>
 #include <QThread>
 #include <memory>
+#include <QTimer>
+#include <QSettings>
 
 #include "opencv2/core/core.hpp"
 #include "opencv2/highgui/highgui.hpp"
@@ -22,27 +25,33 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-public slots:
-    void newQImage(QImage image, int count);
-    void fileEnded();
-
 private slots:
     void on_action_triggered();
 
-    void on_horizontalSlider_sliderMoved(int position);
+    void on_startStopPushButton_clicked();
+
+    void on_horizontalSlider_valueChanged(int value);
+
+    void on_prevFramePushButton_clicked();
+
+    void on_nextFramePushButton_clicked();
+
+    void timeToChangeFrame();
 
     void on_horizontalSlider_sliderPressed();
 
-    void on_pushButtonPlayPause_clicked();
+    void on_currentFrameSpinBox_valueChanged(int arg1);
 
 private:
     Ui::MainWindow *ui;
     std::unique_ptr<VideoFileReader> videoData;
+    std::unique_ptr<QSettings> settings;
+    QTimer timer;
     QFileInfo fileInfo;
+    int timerSpeed = 40;
+    const QString defaultPathSettingsTitle = "Default_Path";
 
-    void openfile();
-    void connectVideoDataControl();
-    void setStartPositionVideoData();
+    void changeFrame(int numberFrame);
 };
 
 #endif // MAINWINDOW_H

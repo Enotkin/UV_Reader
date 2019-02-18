@@ -20,38 +20,23 @@ public:
     explicit VideoFileReader(const QFileInfo &fileInfo, QObject *parent = nullptr);
     ~VideoFileReader();
 
+    QImage getFrame(int numberFrame);
     bool isOpen() const;
-    void start();
-    void stop();
-    int coutFrames() const;
-    QImage getPreview();
-
-
-    bool isPlaying() const;
-
-public slots:
-    void setFrame(int frameNumber);
-
-signals:
-    void newImageReady(QImage image, int count);
-    void fileEnded();
-
-protected:
-    void timerEvent(QTimerEvent* event) override;
+    int getCountFrames() const;
+    int getCurrentFrameNumber() const;
+    void setCurrentFrameNumber(int value);
+    double getTime() const;
 
 private:
     QFileInfo p_fileInfo;
-    QTimer timer;
     bool p_fileIsOpen = false;
     std::unique_ptr<cv::VideoCapture> videoCapture;
 
     QImage getImage();
-    void goToBeginningFile();
-    bool isEndOfFile();
 
     bool openDataFile(const QString &pathToFile);
-    bool p_isPlaying = false;
     int countFrame = 0;
+
     int speedPlay = 40;
 
 };

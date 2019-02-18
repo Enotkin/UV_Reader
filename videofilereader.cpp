@@ -20,51 +20,33 @@ bool VideoFileReader::isOpen() const
     return p_fileIsOpen;
 }
 
-void VideoFileReader::start()
-{
-    if (isEndOfFile())
-        goToBeginningFile();
-    p_isPlaying = true;
-}
-
-void VideoFileReader::stop()
-{
-    p_isPlaying = false;
-}
-
-int VideoFileReader::coutFrames() const
+int VideoFileReader::getCountFrames() const
 {
     return static_cast<int>(videoCapture->get(cv::CAP_PROP_FRAME_COUNT));
 }
 
-QImage VideoFileReader::getPreview()
+int VideoFileReader::getCurrentFrameNumber() const
 {
-    QImage preview;
-    if (videoCapture->isOpened()){
-        int currentNumberFrame = static_cast<int>(videoCapture->get(cv::CAP_PROP_POS_FRAMES));
-        goToBeginningFile();
-        preview = getImage().copy();
-        videoCapture->set(cv::CAP_PROP_POS_FRAMES, currentNumberFrame);
-    }
-    return preview;
+    return  static_cast<int>(videoCapture->get(cv::CAP_PROP_POS_FRAMES));
 }
 
-void VideoFileReader::setFrame(int frameNumber)
+void VideoFileReader::setCurrentFrameNumber(int value)
 {
-    if (frameNumber < this->coutFrames()){
-        videoCapture->set(cv::CAP_PROP_POS_FRAMES, static_cast<double>(frameNumber));
-        emit newImageReady(getImage().copy(), static_cast<int>(videoCapture->get(cv::CAP_PROP_POS_FRAMES)));
-    }
+    videoCapture->set(cv::CAP_PROP_POS_FRAMES, value);
 }
 
-void VideoFileReader::timerEvent(QTimerEvent *event)
+double VideoFileReader::getTime() const
 {
-    if (p_isPlaying){
-        emit newImageReady(getImage().copy(), static_cast<int>(videoCapture->get(cv::CAP_PROP_POS_FRAMES)));
-    }
-    if (isEndOfFile()){
-        p_isPlaying = false;
-        emit fileEnded();
+    return  static_cast<double>(videoCapture->get(cv::CAP_PROP_POS_MSEC));
+}
+
+QImage VideoFileReader::getFrame(int numberFrame)
+{
+    if (numberFrame <= this->getCountFrames()){
+        videoCapture->set(cv::CAP_PROP_POS_FRAMES, static_cast<double>(numberFrame));
+        return getImage().copy();
+    } else {
+        return QImage();
     }
 }
 
@@ -87,19 +69,4 @@ bool VideoFileReader::openDataFile(const QString &pathToFile)
     countFrame = static_cast<int>(videoCapture->get(cv::CAP_PROP_FRAME_COUNT));
     this->startTimer(speedPlay);
     return videoCapture->isOpened();
-}
-
-bool VideoFileReader::isPlaying() const
-{
-    return p_isPlaying;
-}
-
-void VideoFileReader::goToBeginningFile()
-{
-    videoCapture->set(cv::CAP_PROP_POS_FRAMES, 1);
-}
-
-bool VideoFileReader::isEndOfFile()
-{
-    return static_cast<int>(videoCapture->get(cv::CAP_PROP_POS_FRAMES)) == static_cast<int>(videoCapture->get(cv::CAP_PROP_FRAME_COUNT));
 }
