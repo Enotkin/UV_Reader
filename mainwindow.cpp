@@ -20,16 +20,17 @@ void MainWindow::changeFrame(const int numberFrame)
     if (videoData){
         ui->displayOfImage->setPixmap(QPixmap::fromImage(videoData->getFrame(numberFrame)));
         this->setHorizontalSliderValue(numberFrame);
-        this->setSpinBoxValue(numberFrame);
-        this->setTimeValue(videoData->getTime());
+//        this->setSpinBoxValue(numberFrame);
+        this->setTimeLabel(videoData->getTime());
+        this->setNumberFrameLabel(numberFrame);
     }
 }
 
 void MainWindow::setSpinBoxValue(const int value)
 {
-    ui->currentFrameSpinBox->blockSignals(true);
-    ui->currentFrameSpinBox->setValue(value);
-    ui->currentFrameSpinBox->blockSignals(false);
+    ui->frameSpinBox->blockSignals(true);
+    ui->frameSpinBox->setValue(value);
+    ui->frameSpinBox->blockSignals(false);
 }
 
 void MainWindow::setHorizontalSliderValue(const int value)
@@ -39,14 +40,20 @@ void MainWindow::setHorizontalSliderValue(const int value)
     ui->horizontalSlider->blockSignals(false);
 }
 
-void MainWindow::setTimeValue(const double value)
+void MainWindow::setTimeLabel(const double value)
 {
-    QString result;
-    result.append(msecToStringFormat(value));
-    result.append("/");
-    result.append(msecToStringFormat(videoData->getVideoDuration()));
-    qDebug()<<value << videoData->getVideoDuration();
+    auto result = QString("%1 / %2")
+            .arg(msecToStringFormat(value))
+            .arg(msecToStringFormat(videoData->getVideoDuration()));
     ui->timeLabel->setText(result);
+}
+
+void MainWindow::setNumberFrameLabel(const int value)
+{
+    auto result = QString("%1 / %2")
+            .arg(value)
+            .arg(videoData->getCountFrames());
+    ui->framesLabel->setText(result);
 }
 
 QString MainWindow::msecToStringFormat(const double value)
@@ -76,9 +83,8 @@ void MainWindow::on_action_triggered()
     videoData = std::make_unique<VideoFileReader>(fileInfo);
 
     ui->horizontalSlider->setRange(0, videoData->getCountFrames()-1);
-    ui->maxFrameLabel->setText(" / " + QString::number(videoData->getCountFrames()-1));
-    qDebug()<< videoData->getVideoDuration();
-    changeFrame(0);
+    ui->frameSpinBox->setRange(0, videoData->getCountFrames());
+    this->changeFrame(0);
 }
 
 void MainWindow::on_startStopPushButton_clicked()
@@ -86,8 +92,10 @@ void MainWindow::on_startStopPushButton_clicked()
     if(videoData){
         if (timer.isActive()) {
             timer.stop();
+            ui->startStopPushButton->setIcon(QIcon(":/play.png"));
         }else {
             timer.start(timerSpeed);
+            ui->startStopPushButton->setIcon(QIcon(":/pause.png"));
         }
     }
 }
@@ -117,4 +125,11 @@ void MainWindow::on_horizontalSlider_sliderPressed()
 void MainWindow::on_currentFrameSpinBox_valueChanged(int arg1)
 {
     changeFrame(arg1);
+}
+
+void MainWindow::on_frameSpinBox_valueChanged(int arg1)
+{
+    if (videoData){
+      changeFrame(arg1);
+    }
 }

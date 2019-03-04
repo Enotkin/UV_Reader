@@ -197,9 +197,12 @@
                </property>
                <property name="iconSize">
                 <size>
-                 <width>24</width>
-                 <height>24</height>
+                 <width>16</width>
+                 <height>16</height>
                 </size>
+               </property>
+               <property name="shortcut">
+                <string>Space</string>
                </property>
               </widget>
              </item>
@@ -275,50 +278,55 @@
               <number>0</number>
              </property>
              <item>
-              <widget class="QLabel" name="label">
+              <widget class="QLabel" name="goToFrameLabel">
                <property name="text">
-                <string>Время:</string>
+                <string>Перейти к кадру:</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QSpinBox" name="currentFrameSpinBox">
+              <widget class="QSpinBox" name="frameSpinBox">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
+               <property name="minimumSize">
+                <size>
+                 <width>80</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>80</width>
+                 <height>16777215</height>
+                </size>
+               </property>
                <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                <set>Qt::AlignCenter</set>
                </property>
                <property name="buttonSymbols">
                 <enum>QAbstractSpinBox::NoButtons</enum>
                </property>
-               <property name="maximum">
-                <number>999999999</number>
+               <property name="suffix">
+                <string/>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="maxFrameLabel">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string>/ ___</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="Line" name="line">
+              <spacer name="horizontalSpacer">
                <property name="orientation">
-                <enum>Qt::Vertical</enum>
+                <enum>Qt::Horizontal</enum>
                </property>
-              </widget>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
              </item>
             </layout>
            </widget>

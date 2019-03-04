@@ -43,6 +43,8 @@ private slots:
 
     void on_currentFrameSpinBox_valueChanged(int arg1);
 
+    void on_frameSpinBox_valueChanged(int arg1);
+
 private:
     Ui::MainWindow *ui;
     std::unique_ptr<VideoFileReader> videoData;
@@ -55,7 +57,8 @@ private:
     void changeFrame(const int numberFrame);
     void setSpinBoxValue(const int value);
     void setHorizontalSliderValue(const int value);
-    void setTimeValue(const double value);
+    void setTimeLabel(const double value);
+    void setNumberFrameLabel(const int value);
     QString msecToStringFormat(const double value);
 };
 
