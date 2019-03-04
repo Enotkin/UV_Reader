@@ -6,7 +6,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    connect(&timer, &QTimer::timeout, this, &MainWindow::timeToChangeFrame);
+    connect(&timer, &QTimer::timeout, this, &MainWindow::timeChangeFrame);
     settings = std::make_unique<QSettings>("settings.ini", QSettings::IniFormat);
 }
 
@@ -15,23 +15,47 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::changeFrame(int numberFrame)
+void MainWindow::changeFrame(const int numberFrame)
 {
     if (videoData){
-        QPixmap pixmap = QPixmap::fromImage(videoData->getFrame(numberFrame));
-        ui->displayOfImage->setPixmap(pixmap);
-        ui->horizontalSlider->blockSignals(true);
-        ui->horizontalSlider->setValue(numberFrame);
-        ui->horizontalSlider->blockSignals(false);
-        ui->currentFrameSpinBox->blockSignals(true);
-        ui->currentFrameSpinBox->setValue(numberFrame);
-        ui->currentFrameSpinBox->blockSignals(false);
-        ui->currentFrameSpinBox->setValue(numberFrame);
-        ui->timeLabel->setText(QString("%1 сек.").arg(static_cast<double>(videoData->getTime()/1000), 0, 'f', 1));
+        ui->displayOfImage->setPixmap(QPixmap::fromImage(videoData->getFrame(numberFrame)));
+        this->setHorizontalSliderValue(numberFrame);
+        this->setSpinBoxValue(numberFrame);
+        this->setTimeValue(videoData->getTime());
     }
 }
 
-void MainWindow::timeToChangeFrame()
+void MainWindow::setSpinBoxValue(const int value)
+{
+    ui->currentFrameSpinBox->blockSignals(true);
+    ui->currentFrameSpinBox->setValue(value);
+    ui->currentFrameSpinBox->blockSignals(false);
+}
+
+void MainWindow::setHorizontalSliderValue(const int value)
+{
+    ui->horizontalSlider->blockSignals(true);
+    ui->horizontalSlider->setValue(value);
+    ui->horizontalSlider->blockSignals(false);
+}
+
+void MainWindow::setTimeValue(const double value)
+{
+    QString result;
+    result.append(msecToStringFormat(value));
+    result.append("/");
+    result.append(msecToStringFormat(videoData->getVideoDuration()));
+    qDebug()<<value << videoData->getVideoDuration();
+    ui->timeLabel->setText(result);
+}
+
+QString MainWindow::msecToStringFormat(const double value)
+{
+    KTime time(0, 0, 0, static_cast<int>(value));
+    return time.toString();
+}
+
+void MainWindow::timeChangeFrame()
 {
     changeFrame(videoData->getCurrentFrameNumber());
     if (videoData->getCurrentFrameNumber() == videoData->getCountFrames()){
@@ -53,21 +77,26 @@ void MainWindow::on_action_triggered()
 
     ui->horizontalSlider->setRange(0, videoData->getCountFrames()-1);
     ui->maxFrameLabel->setText(" / " + QString::number(videoData->getCountFrames()-1));
+    qDebug()<< videoData->getVideoDuration();
     changeFrame(0);
 }
 
 void MainWindow::on_startStopPushButton_clicked()
 {
-    if (timer.isActive()) {
-        timer.stop();
-    }else {
-        timer.start(timerSpeed);
+    if(videoData){
+        if (timer.isActive()) {
+            timer.stop();
+        }else {
+            timer.start(timerSpeed);
+        }
     }
 }
 
 void MainWindow::on_horizontalSlider_valueChanged(int value)
 {
-    changeFrame(value);
+    if (videoData){
+      changeFrame(value);
+    }
 }
 
 void MainWindow::on_prevFramePushButton_clicked()

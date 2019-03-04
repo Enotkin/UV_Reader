@@ -27,11 +27,13 @@ CONFIG += c++14
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    videofilereader.cpp
+    videofilereader.cpp \
+    ktime.cpp
 
 HEADERS += \
         mainwindow.h \
-    videofilereader.h
+    videofilereader.h \
+    ktime.h
 
 FORMS += \
         mainwindow.ui \
@@ -39,9 +41,20 @@ FORMS += \
 
 INCLUDEPATH += C:/OpenCV-4.0.1/include
 
-LIBS += "C:/OpenCV-4.0.1/lib/opencv_world401.lib"
+CONFIG (debug, debug|release) {
+    #debug
+    LIBS += "C:/OpenCV-4.0.1/lib/opencv_world401d.lib"
+    message( "debug" )
+} else {
+    #release
+    LIBS += "C:/OpenCV-4.0.1/lib/opencv_world401.lib"
+    message( "release" )
+}
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    icons.qrc

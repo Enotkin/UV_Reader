@@ -7,6 +7,7 @@
 #include <QThread>
 #include <memory>
 #include <QTimer>
+#include <ktime.h>
 #include <QSettings>
 
 #include "opencv2/core/core.hpp"
@@ -36,7 +37,7 @@ private slots:
 
     void on_nextFramePushButton_clicked();
 
-    void timeToChangeFrame();
+    void timeChangeFrame();
 
     void on_horizontalSlider_sliderPressed();
 
@@ -51,7 +52,11 @@ private:
     int timerSpeed = 40;
     const QString defaultPathSettingsTitle = "Default_Path";
 
-    void changeFrame(int numberFrame);
+    void changeFrame(const int numberFrame);
+    void setSpinBoxValue(const int value);
+    void setHorizontalSliderValue(const int value);
+    void setTimeValue(const double value);
+    QString msecToStringFormat(const double value);
 };
 
 #endif // MAINWINDOW_H

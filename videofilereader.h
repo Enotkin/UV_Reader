@@ -12,6 +12,7 @@
 #include "opencv2/highgui.hpp"
 #include "opencv2/video.hpp"
 
+
 class VideoFileReader : public QObject
 {
     Q_OBJECT
@@ -26,19 +27,18 @@ public:
     int getCurrentFrameNumber() const;
     void setCurrentFrameNumber(int value);
     double getTime() const;
+    double getVideoDuration() const;
 
 private:
-    QFileInfo p_fileInfo;
-    bool p_fileIsOpen = false;
     std::unique_ptr<cv::VideoCapture> videoCapture;
+    QFileInfo p_fileInfo;
+    double p_videoDuration = -1;
+    bool p_fileIsOpen = false;
+    int p_countFrame = 0;
 
     QImage getImage();
-
+    void calculateVideoDuration();
     bool openDataFile(const QString &pathToFile);
-    int countFrame = 0;
-
-    int speedPlay = 40;
-
 };
 
 #endif // VIDEODATA_H
