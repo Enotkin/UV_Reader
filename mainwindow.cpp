@@ -15,17 +15,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::changeFrame(const int numberFrame)
-{
-    if (videoData){
-        ui->displayOfImage->setPixmap(QPixmap::fromImage(videoData->getFrame(numberFrame)));
-        this->setHorizontalSliderValue(numberFrame);
-//        this->setSpinBoxValue(numberFrame);
-        this->setTimeLabel(videoData->getTime());
-        this->setNumberFrameLabel(numberFrame);
-    }
-}
-
 void MainWindow::setSpinBoxValue(const int value)
 {
     ui->frameSpinBox->blockSignals(true);
@@ -64,10 +53,20 @@ QString MainWindow::msecToStringFormat(const double value)
 
 void MainWindow::timeChangeFrame()
 {
-    changeFrame(videoData->getCurrentFrameNumber());
+    this->changeFrame(videoData->getCurrentFrameNumber());
     if (videoData->getCurrentFrameNumber() == videoData->getCountFrames()){
         timer.stop();
         videoData->setCurrentFrameNumber(0);
+    }
+}
+
+void MainWindow::changeFrame(const int numberFrame)
+{
+    if (videoData){
+        ui->displayOfImage->setImage(videoData->getFrame(numberFrame));
+        this->setTimeLabel(videoData->getTime());
+        this->setHorizontalSliderValue(numberFrame);
+        this->setNumberFrameLabel(numberFrame);
     }
 }
 
@@ -102,19 +101,17 @@ void MainWindow::on_startStopPushButton_clicked()
 
 void MainWindow::on_horizontalSlider_valueChanged(int value)
 {
-    if (videoData){
-      changeFrame(value);
-    }
+      this->changeFrame(value);
 }
 
 void MainWindow::on_prevFramePushButton_clicked()
 {
-    changeFrame(videoData->getCurrentFrameNumber()-2);
+    this->changeFrame(videoData->getCurrentFrameNumber()-2);
 }
 
 void MainWindow::on_nextFramePushButton_clicked()
 {
-    changeFrame(videoData->getCurrentFrameNumber());
+    this->changeFrame(videoData->getCurrentFrameNumber());
 }
 
 void MainWindow::on_horizontalSlider_sliderPressed()
@@ -124,12 +121,20 @@ void MainWindow::on_horizontalSlider_sliderPressed()
 
 void MainWindow::on_currentFrameSpinBox_valueChanged(int arg1)
 {
-    changeFrame(arg1);
+    this->changeFrame(arg1);
 }
 
 void MainWindow::on_frameSpinBox_valueChanged(int arg1)
 {
-    if (videoData){
-      changeFrame(arg1);
-    }
+    this->changeFrame(arg1);
+}
+
+void MainWindow::on_goToBeginFilePushButton_clicked()
+{
+    this->changeFrame(0);
+}
+
+void MainWindow::on_goToEndFilePushButton_clicked()
+{
+    this->changeFrame(videoData->getCountFrames());
 }

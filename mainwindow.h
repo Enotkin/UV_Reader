@@ -45,6 +45,10 @@ private slots:
 
     void on_frameSpinBox_valueChanged(int arg1);
 
+    void on_goToBeginFilePushButton_clicked();
+
+    void on_goToEndFilePushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     std::unique_ptr<VideoFileReader> videoData;

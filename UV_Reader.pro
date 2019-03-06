@@ -28,12 +28,14 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     videofilereader.cpp \
-    ktime.cpp
+    ktime.cpp \
+    labelevent.cpp
 
 HEADERS += \
         mainwindow.h \
     videofilereader.h \
-    ktime.h
+    ktime.h \
+    labelevent.h
 
 FORMS += \
         mainwindow.ui \
