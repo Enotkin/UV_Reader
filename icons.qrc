@@ -2,5 +2,18 @@
     <qresource prefix="/">
         <file>pause.png</file>
         <file>play.png</file>
+        <file>AnalysisPanelButton/clear.png</file>
+        <file>AnalysisPanelButton/delete.png</file>
+        <file>AnalysisPanelButton/excel.png</file>
+        <file>AnalysisPanelButton/exitPAnel.png</file>
+        <file>AnalysisPanelButton/play.png</file>
+        <file>AnalysisPanelButton/playback.png</file>
+        <file>AnalysisPanelButton/playvpered.png</file>
+        <file>AnalysisPanelButton/playvperedAndDel.png</file>
+        <file>AnalysisPanelButton/savevid.png</file>
+        <file>AnalysisPanelButton/sm.png</file>
+        <file>AnalysisPanelButton/stop.png</file>
+        <file>AnalysisPanelButton/stop2.png</file>
+        <file>AnalysisPanelButton/addNewPart.png</file>
     </qresource>
 </RCC>

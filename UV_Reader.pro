@@ -29,17 +29,20 @@ SOURCES += \
         mainwindow.cpp \
     videofilereader.cpp \
     ktime.cpp \
-    labelevent.cpp
+    labelevent.cpp \
+    analysisform.cpp
 
 HEADERS += \
         mainwindow.h \
     videofilereader.h \
     ktime.h \
-    labelevent.h
+    labelevent.h \
+    analysisform.h
 
 FORMS += \
         mainwindow.ui \
-    videocotrollerframe.ui
+    videocotrollerframe.ui \
+    analysisform.ui
 
 INCLUDEPATH += C:/OpenCV-4.0.1/include
 
