@@ -1,14 +1,14 @@
 #include "analysisform.h"
 #include "ui_analysisform.h"
 
-AnalysisForm::AnalysisForm(QWidget *parent) :
+analysisForm::analysisForm(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::AnalysisForm)
+    ui(new Ui::analysisForm)
 {
     ui->setupUi(this);
 }
 
-AnalysisForm::~AnalysisForm()
+analysisForm::~analysisForm()
 {
     delete ui;
 }

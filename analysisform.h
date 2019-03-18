@@ -4,19 +4,19 @@
 #include <QWidget>
 
 namespace Ui {
-class AnalysisForm;
+class analysisForm;
 }
 
-class AnalysisForm : public QWidget
+class analysisForm : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit AnalysisForm(QWidget *parent = nullptr);
-    ~AnalysisForm();
+    explicit analysisForm(QWidget *parent = nullptr);
+    ~analysisForm();
 
 private:
-    Ui::AnalysisForm *ui;
+    Ui::analysisForm *ui;
 };
 
 #endif // ANALYSISFORM_H
