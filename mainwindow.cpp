@@ -24,6 +24,7 @@ void MainWindow::setSpinBoxValue(const int value)
 
 void MainWindow::setHorizontalSliderValue(const int value)
 {
+    int sads = 44;
     ui->horizontalSlider->blockSignals(true);
     ui->horizontalSlider->setValue(value);
     ui->horizontalSlider->blockSignals(false);
