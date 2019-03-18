@@ -30,14 +30,16 @@ SOURCES += \
     videofilereader.cpp \
     ktime.cpp \
     labelevent.cpp \
-    analysisform.cpp
+    analysisform.cpp \
+    qactionbuttom.cpp
 
 HEADERS += \
         mainwindow.h \
     videofilereader.h \
     ktime.h \
     labelevent.h \
-    analysisform.h
+    analysisform.h \
+    qactionbuttom.h
 
 FORMS += \
         mainwindow.ui \

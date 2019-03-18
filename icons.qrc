@@ -15,5 +15,16 @@
         <file>AnalysisPanelButton/stop.png</file>
         <file>AnalysisPanelButton/stop2.png</file>
         <file>AnalysisPanelButton/addNewPart.png</file>
+        <file>toolButtoms/anStart.png</file>
+        <file>toolButtoms/open.png</file>
+        <file>toolButtoms/panAn.png</file>
+        <file>toolButtoms/sett.png</file>
+        <file>toolButtoms/stretch.png</file>
+        <file>mediaIcons/left.png</file>
+        <file>mediaIcons/left1.png</file>
+        <file>mediaIcons/pausa.png</file>
+        <file>mediaIcons/play.png</file>
+        <file>mediaIcons/right.png</file>
+        <file>mediaIcons/right1.png</file>
     </qresource>
 </RCC>

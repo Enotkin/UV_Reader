@@ -27,15 +27,7 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_action_triggered();
-
-    void on_startStopPushButton_clicked();
-
     void on_horizontalSlider_valueChanged(int value);
-
-    void on_prevFramePushButton_clicked();
-
-    void on_nextFramePushButton_clicked();
 
     void timeChangeFrame();
 
@@ -45,9 +37,27 @@ private slots:
 
     void on_frameSpinBox_valueChanged(int arg1);
 
-    void on_goToBeginFilePushButton_clicked();
+    void on_openFileAction_triggered();
 
-    void on_goToEndFilePushButton_clicked();
+    void on_closeFileAction_triggered();
+
+    void on_closeAppAction_triggered();
+
+    void on_startPlayAction_triggered();
+
+    void on_stopPlayAction_triggered();
+
+    void on_nextFrameAction_triggered();
+
+    void on_prevFrameAction_triggered();
+
+    void on_goToBeginAction_triggered();
+
+    void on_goToEndAction_triggered();
+
+    void on_playPauseAction_triggered();
+
+    void on_startStopPushButton_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -59,10 +69,12 @@ private:
     const QString defaultPathSettingsTitle = "Default_Path";
 
     void changeFrame(const int numberFrame);
+    void setEmptyFrame();
     void setSpinBoxValue(const int value);
     void setHorizontalSliderValue(const int value);
     void setTimeLabel(const double value);
     void setNumberFrameLabel(const int value);
+    void setupUI();
     QString msecToStringFormat(const double value);
 };
 
