@@ -24,6 +24,7 @@ void MainWindow::setSpinBoxValue(const int value)
 
 void MainWindow::setHorizontalSliderValue(const int value)
 {
+    int t = 5;
     ui->horizontalSlider->blockSignals(true);
     ui->horizontalSlider->setValue(value);
     ui->horizontalSlider->blockSignals(false);
@@ -105,7 +106,6 @@ void MainWindow::on_startStopPushButton_clicked()
 
 void MainWindow::on_playPauseAction_triggered()
 {
-
     if (videoData)
         if (timer.isActive()){
             timer.stop();
@@ -198,7 +198,6 @@ void MainWindow::on_goToEndAction_triggered()
 {
     this->changeFrame(videoData->getCountFrames());
 }
-
 
 
 
