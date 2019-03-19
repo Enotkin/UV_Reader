@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     connect(&timer, &QTimer::timeout, this, &MainWindow::timeChangeFrame);
     settings = std::make_unique<QSettings>("settings.ini", QSettings::IniFormat);
+    setupMediaControlsToolBar();
 }
 
 MainWindow::~MainWindow()
@@ -24,7 +25,6 @@ void MainWindow::setSpinBoxValue(const int value)
 
 void MainWindow::setHorizontalSliderValue(const int value)
 {
-    int t = 5;
     ui->horizontalSlider->blockSignals(true);
     ui->horizontalSlider->setValue(value);
     ui->horizontalSlider->blockSignals(false);
@@ -60,6 +60,19 @@ void MainWindow::setNumberFrameLabel(const int value)
     }
 }
 
+void MainWindow::setupMediaControlsToolBar()
+{
+    auto toolbar = new QToolBar(ui->controlButtomsWidget);
+    toolbar->setIconSize(QSize(24, 24));
+    toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    toolbar->addAction(ui->goToBeginAction);
+    toolbar->addAction(ui->prevFrameAction);
+    toolbar->addAction(ui->playPauseAction);
+    toolbar->addAction(ui->nextFrameAction);
+    toolbar->addAction(ui->goToEndAction);
+    ui->controlButtomsWidget->layout()->addWidget(toolbar);
+}
+
 QString MainWindow::msecToStringFormat(const double value)
 {
     KTime time(0, 0, 0, static_cast<int>(value));
@@ -93,38 +106,26 @@ void MainWindow::setEmptyFrame()
     this->setNumberFrameLabel(0);
 }
 
-void MainWindow::on_startStopPushButton_clicked()
-{
-    if (videoData)
-        if (timer.isActive()){
-            ui->stopPlayAction->trigger();
-        } else {
-            timer.start(timerSpeed);
-            ui->startStopPushButton->setIcon(QIcon(":/pause.png"));
-        }
-}
-
 void MainWindow::on_playPauseAction_triggered()
 {
     if (videoData)
         if (timer.isActive()){
             timer.stop();
-            ui->startStopPushButton->setIcon(QIcon(":/play.png"));
+            ui->playPauseAction->setIcon(QIcon(":/mediaIcons/play.png"));
+            ui->playPauseAction->setText(ButtomTexts::StartPlaying);
+            ui->playPauseAction->setToolTip(ButtomTexts::StartPlaying);
         } else {
             timer.start(timerSpeed);
-            ui->startStopPushButton->setIcon(QIcon(":/pause.png"));
+            ui->playPauseAction->setIcon(QIcon(":/mediaIcons/pausa.png"));
+            ui->playPauseAction->setText(ButtomTexts::PausePlaying);
+            ui->playPauseAction->setToolTip(ButtomTexts::PausePlaying);
         }
-}
-
-void MainWindow::on_startPlayAction_triggered()
-{
-
 }
 
 void MainWindow::on_stopPlayAction_triggered()
 {
     timer.stop();
-    ui->startStopPushButton->setIcon(QIcon(":/play.png"));
+    ui->goToBeginAction->trigger();
 }
 
 void MainWindow::on_horizontalSlider_valueChanged(int value)

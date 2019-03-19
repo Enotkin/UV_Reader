@@ -18,6 +18,12 @@ namespace Ui {
 class MainWindow;
 }
 
+namespace ButtomTexts {
+    const QString StartPlaying = "Начать воспроизведение";
+    const QString PausePlaying = "Пауза";
+
+}
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -43,8 +49,6 @@ private slots:
 
     void on_closeAppAction_triggered();
 
-    void on_startPlayAction_triggered();
-
     void on_stopPlayAction_triggered();
 
     void on_nextFrameAction_triggered();
@@ -56,8 +60,6 @@ private slots:
     void on_goToEndAction_triggered();
 
     void on_playPauseAction_triggered();
-
-    void on_startStopPushButton_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -74,7 +76,7 @@ private:
     void setHorizontalSliderValue(const int value);
     void setTimeLabel(const double value);
     void setNumberFrameLabel(const int value);
-    void setupUI();
+    void setupMediaControlsToolBar();
     QString msecToStringFormat(const double value);
 };
 

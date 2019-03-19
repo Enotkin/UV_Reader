@@ -1,7 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>pause.png</file>
-        <file>play.png</file>
         <file>AnalysisPanelButton/clear.png</file>
         <file>AnalysisPanelButton/delete.png</file>
         <file>AnalysisPanelButton/excel.png</file>
@@ -26,5 +24,6 @@
         <file>mediaIcons/play.png</file>
         <file>mediaIcons/right.png</file>
         <file>mediaIcons/right1.png</file>
+        <file>mediaIcons/stop.png</file>
     </qresource>
 </RCC>
