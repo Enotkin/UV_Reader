@@ -215,7 +215,7 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="icons.qrc">
+           <iconset>
             <normaloff>:/AnalysisPanelButton/sm.png</normaloff>:/AnalysisPanelButton/sm.png</iconset>
           </property>
           <property name="iconSize">
@@ -244,7 +244,7 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="icons.qrc">
+           <iconset>
             <normaloff>:/AnalysisPanelButton/playback.png</normaloff>:/AnalysisPanelButton/playback.png</iconset>
           </property>
           <property name="iconSize">
@@ -276,7 +276,7 @@
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="icons.qrc">
+              <iconset>
                <normaloff>:/AnalysisPanelButton/play.png</normaloff>:/AnalysisPanelButton/play.png</iconset>
              </property>
              <property name="iconSize">
@@ -299,7 +299,7 @@
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="icons.qrc">
+              <iconset>
                <normaloff>:/AnalysisPanelButton/stop.png</normaloff>:/AnalysisPanelButton/stop.png</iconset>
              </property>
              <property name="iconSize">
@@ -325,7 +325,7 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="icons.qrc">
+           <iconset>
             <normaloff>:/AnalysisPanelButton/playvpered.png</normaloff>:/AnalysisPanelButton/playvpered.png</iconset>
           </property>
           <property name="iconSize">
@@ -354,7 +354,7 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="icons.qrc">
+           <iconset>
             <normaloff>:/AnalysisPanelButton/playvperedAndDel.png</normaloff>:/AnalysisPanelButton/playvperedAndDel.png</iconset>
           </property>
           <property name="iconSize">
@@ -383,7 +383,7 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="icons.qrc">
+           <iconset>
             <normaloff>:/AnalysisPanelButton/delete.png</normaloff>:/AnalysisPanelButton/delete.png</iconset>
           </property>
           <property name="iconSize">
@@ -412,7 +412,7 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="icons.qrc">
+           <iconset>
             <normaloff>:/AnalysisPanelButton/clear.png</normaloff>:/AnalysisPanelButton/clear.png</iconset>
           </property>
           <property name="iconSize">
@@ -435,7 +435,7 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="icons.qrc">
+           <iconset>
             <normaloff>:/AnalysisPanelButton/addNewPart.png</normaloff>:/AnalysisPanelButton/addNewPart.png</iconset>
           </property>
           <property name="iconSize">
@@ -458,7 +458,7 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="icons.qrc">
+           <iconset>
             <normaloff>:/AnalysisPanelButton/excel.png</normaloff>:/AnalysisPanelButton/excel.png</iconset>
           </property>
           <property name="iconSize">
@@ -481,7 +481,7 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="icons.qrc">
+           <iconset>
             <normaloff>:/AnalysisPanelButton/savevid.png</normaloff>:/AnalysisPanelButton/savevid.png</iconset>
           </property>
           <property name="iconSize">
@@ -507,7 +507,7 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="icons.qrc">
+           <iconset>
             <normaloff>:/AnalysisPanelButton/exitPAnel.png</normaloff>:/AnalysisPanelButton/exitPAnel.png</iconset>
           </property>
           <property name="iconSize">
@@ -548,7 +548,7 @@
         <item>
          <widget class="QTableView" name="tableView">
           <property name="enabled">
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
           <property name="selectionMode">
            <enum>QAbstractItemView::SingleSelection</enum>
@@ -576,18 +576,6 @@
           </attribute>
          </widget>
         </item>
-        <item>
-         <widget class="QTableWidget" name="tableWidget">
-          <property name="columnCount">
-           <number>5</number>
-          </property>
-          <column/>
-          <column/>
-          <column/>
-          <column/>
-          <column/>
-         </widget>
-        </item>
        </layout>
       </widget>
      </item>
@@ -596,7 +584,7 @@
   </layout>
   <action name="hideAnalysisPanelAction">
    <property name="icon">
-    <iconset resource="icons.qrc">
+    <iconset>
      <normaloff>:/AnalysisPanelButton/exitPAnel.png</normaloff>:/AnalysisPanelButton/exitPAnel.png</iconset>
    </property>
    <property name="text">
@@ -608,7 +596,7 @@
   </action>
   <action name="addIntervalCommentAction">
    <property name="icon">
-    <iconset resource="icons.qrc">
+    <iconset>
      <normaloff>:/AnalysisPanelButton/addNewPart.png</normaloff>:/AnalysisPanelButton/addNewPart.png</iconset>
    </property>
    <property name="text">
@@ -619,9 +607,7 @@
    </property>
   </action>
  </widget>
- <resources>
-  <include location="icons.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>exitPanelButton</sender>

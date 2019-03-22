@@ -32,7 +32,8 @@ SOURCES += \
     labelevent.cpp \
     analysisform.cpp \
     addfragmentcommentdialog.cpp \
-    fragmentinfo.cpp
+    fragmentinfo.cpp \
+    fragmentmodel.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -41,7 +42,8 @@ HEADERS += \
     labelevent.h \
     analysisform.h \
     addfragmentcommentdialog.h \
-    fragmentinfo.h
+    fragmentinfo.h \
+    fragmentmodel.h
 
 FORMS += \
         mainwindow.ui \

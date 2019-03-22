@@ -8,8 +8,7 @@
 
 #include "addfragmentcommentdialog.h"
 #include "fragmentinfo.h"
-//#include "fragmentsmodel.h"
-//#include "testmodel.h"
+#include "fragmentmodel.h"
 
 namespace Ui {
 class analysisForm;
@@ -31,6 +30,7 @@ private slots:
 
 private:
     Ui::analysisForm *ui;
+    FragmentModel *model = nullptr;
 
 };
 
