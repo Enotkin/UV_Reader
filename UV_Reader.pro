@@ -31,7 +31,8 @@ SOURCES += \
     ktime.cpp \
     labelevent.cpp \
     analysisform.cpp \
-    qactionbuttom.cpp
+    addfragmentcommentdialog.cpp \
+    fragmentinfo.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -39,12 +40,13 @@ HEADERS += \
     ktime.h \
     labelevent.h \
     analysisform.h \
-    qactionbuttom.h
+    addfragmentcommentdialog.h \
+    fragmentinfo.h
 
 FORMS += \
         mainwindow.ui \
-    videocotrollerframe.ui \
-    analysisform.ui
+    analysisform.ui \
+    addfragmentcommentdialog.ui
 
 INCLUDEPATH += C:/OpenCV-4.0.1/include
 

@@ -6,10 +6,6 @@ KTime::KTime(int hours, int minutes, int seconds, int mileseconds)
     normalization();
 }
 
-KTime::KTime()
-{
-
-}
 
 void KTime::addHours(int hours)
 {

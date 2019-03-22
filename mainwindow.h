@@ -9,6 +9,8 @@
 #include <QTimer>
 #include <ktime.h>
 #include <QSettings>
+#include <addfragmentcommentdialog.h>
+#include <analysisform.h>
 
 #include "opencv2/core/core.hpp"
 #include "opencv2/highgui/highgui.hpp"
@@ -61,10 +63,16 @@ private slots:
 
     void on_playPauseAction_triggered();
 
+    void on_addFragmentCommentAction_triggered();
+
+    void on_analysisPanelAction_triggered();
+
 private:
     Ui::MainWindow *ui;
-    std::unique_ptr<VideoFileReader> videoData;
+
     std::unique_ptr<QSettings> settings;
+    std::shared_ptr<VideoFileReader> videoData;
+//    std::unique_ptr<AnalysisForm> analysisForm;
     QTimer timer;
     QFileInfo fileInfo;
     int timerSpeed = 40;
@@ -72,7 +80,6 @@ private:
 
     void changeFrame(const int numberFrame);
     void setEmptyFrame();
-    void setSpinBoxValue(const int value);
     void setHorizontalSliderValue(const int value);
     void setTimeLabel(const double value);
     void setNumberFrameLabel(const int value);

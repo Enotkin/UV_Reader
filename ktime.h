@@ -9,7 +9,7 @@ class KTime : public QObject
     Q_OBJECT
 public:
     KTime(int hours = 0, int minutes = 0, int seconds = 0, int mileseconds = 0 );
-    KTime();
+    KTime() {}
 
     void addHours(int hours);
     void addMinutes(int min);

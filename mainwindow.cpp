@@ -6,6 +6,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->analysisWidget->hide();
     connect(&timer, &QTimer::timeout, this, &MainWindow::timeChangeFrame);
     settings = std::make_unique<QSettings>("settings.ini", QSettings::IniFormat);
     setupMediaControlsToolBar();
@@ -14,13 +15,6 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
-}
-
-void MainWindow::setSpinBoxValue(const int value)
-{
-    ui->frameSpinBox->blockSignals(true);
-    ui->frameSpinBox->setValue(value);
-    ui->frameSpinBox->blockSignals(false);
 }
 
 void MainWindow::setHorizontalSliderValue(const int value)
@@ -157,7 +151,7 @@ void MainWindow::on_openFileAction_triggered()
     settings->setValue(defaultPathSettingsTitle, fileInfo.absolutePath());
 
     ui->statusBar->showMessage(fileInfo.absoluteFilePath());
-    videoData = std::make_unique<VideoFileReader>(fileInfo);
+    videoData = std::make_shared<VideoFileReader>(fileInfo);
 
     ui->horizontalSlider->setRange(0, videoData->getCountFrames()-1);
     ui->frameSpinBox->setRange(0, videoData->getCountFrames());
@@ -167,7 +161,7 @@ void MainWindow::on_openFileAction_triggered()
 void MainWindow::on_closeFileAction_triggered()
 {
     if (videoData){
-        videoData.release();
+        videoData.reset();
         ui->horizontalSlider->setRange(0, 1);
         ui->frameSpinBox->setRange(0, 1);
         ui->statusBar->showMessage("");
@@ -200,5 +194,13 @@ void MainWindow::on_goToEndAction_triggered()
     this->changeFrame(videoData->getCountFrames());
 }
 
+void MainWindow::on_addFragmentCommentAction_triggered()
+{
+    ui->analysisWidget->setVisible(true);
+    ui->analysisWidget->addIntervalComment();
+}
 
-
+void MainWindow::on_analysisPanelAction_triggered()
+{
+    ui->analysisWidget->setVisible(!ui->analysisWidget->isVisible());
+}
