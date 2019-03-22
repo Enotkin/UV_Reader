@@ -80,6 +80,11 @@
     </widget>
    </item>
   </layout>
+  <action name="actionDsfdss">
+   <property name="text">
+    <string>dsfdss</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

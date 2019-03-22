@@ -27,7 +27,9 @@ int FragmentModel::columnCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return 0;
+
     return headers.count();
+
 }
 
 QVariant FragmentModel::data(const QModelIndex &index, int role) const
@@ -57,4 +59,27 @@ void FragmentModel::addFragment(const FragmentInfo &fragment)
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
     fragments.append(fragment);
     endInsertRows();
+}
+
+void FragmentModel::removeFragment(const QModelIndexList modelIdexesList)
+{
+    beginRemoveRows(QModelIndex(), modelIdexesList.first().row(), modelIdexesList.last().row());
+    for (const auto &modelIndex : modelIdexesList){
+        fragments.removeAt(modelIndex.row());
+    }
+    endRemoveRows();
+}
+
+void FragmentModel::clearModel()
+{
+    beginRemoveRows(QModelIndex(), 0, fragments.size());
+    for (int i = 0; i < fragments.size(); i++) {
+        fragments.removeAt(i);
+    }
+    endRemoveRows();
+}
+
+QList<FragmentInfo> FragmentModel::getFragments() const
+{
+    return fragments;
 }

@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QScopedPointer>
 #include <QDebug>
+#include <QToolBar>
 #include <memory>
 
 #include "addfragmentcommentdialog.h"
@@ -28,9 +29,17 @@ private slots:
 
     void on_addIntervalCommentAction_triggered();
 
+    void on_tableView_doubleClicked(const QModelIndex &index);
+
+    void on_actionDelete_triggered();
+
+    void on_actionClear_triggered();
+
 private:
     Ui::analysisForm *ui;
     FragmentModel *model = nullptr;
+
+    void setupUI();
 
 };
 

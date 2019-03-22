@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>534</width>
-    <height>844</height>
+    <width>532</width>
+    <height>701</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -181,12 +181,27 @@
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QGroupBox" name="groupBox">
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
        <property name="title">
         <string>Действия</string>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+       <property name="checkable">
+        <bool>false</bool>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_5">
         <property name="spacing">
          <number>0</number>
+        </property>
+        <property name="sizeConstraint">
+         <enum>QLayout::SetMinimumSize</enum>
         </property>
         <property name="leftMargin">
          <number>0</number>
@@ -200,327 +215,6 @@
         <property name="bottomMargin">
          <number>0</number>
         </property>
-        <item>
-         <widget class="QPushButton" name="displayFramePushButton">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset>
-            <normaloff>:/AnalysisPanelButton/sm.png</normaloff>:/AnalysisPanelButton/sm.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="playBackPushButton">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset>
-            <normaloff>:/AnalysisPanelButton/playback.png</normaloff>:/AnalysisPanelButton/playback.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QWidget" name="horizontalWidget_2" native="true">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_3">
-           <item>
-            <widget class="QPushButton" name="playPushButton">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="icon">
-              <iconset>
-               <normaloff>:/AnalysisPanelButton/play.png</normaloff>:/AnalysisPanelButton/play.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>32</width>
-               <height>32</height>
-              </size>
-             </property>
-             <property name="flat">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="stopPushButton">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="icon">
-              <iconset>
-               <normaloff>:/AnalysisPanelButton/stop.png</normaloff>:/AnalysisPanelButton/stop.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>32</width>
-               <height>32</height>
-              </size>
-             </property>
-             <property name="flat">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="playForwardPushButton">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset>
-            <normaloff>:/AnalysisPanelButton/playvpered.png</normaloff>:/AnalysisPanelButton/playvpered.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="playForwardAndDeletePushButton">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset>
-            <normaloff>:/AnalysisPanelButton/playvperedAndDel.png</normaloff>:/AnalysisPanelButton/playvperedAndDel.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="deletePushButton">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset>
-            <normaloff>:/AnalysisPanelButton/delete.png</normaloff>:/AnalysisPanelButton/delete.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="clearPushButton">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset>
-            <normaloff>:/AnalysisPanelButton/clear.png</normaloff>:/AnalysisPanelButton/clear.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="addIntervalPushButton">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset>
-            <normaloff>:/AnalysisPanelButton/addNewPart.png</normaloff>:/AnalysisPanelButton/addNewPart.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="createExcelDocPushButton">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset>
-            <normaloff>:/AnalysisPanelButton/excel.png</normaloff>:/AnalysisPanelButton/excel.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="saveVideaIntervalPushButton">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset>
-            <normaloff>:/AnalysisPanelButton/savevid.png</normaloff>:/AnalysisPanelButton/savevid.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="checkable">
-           <bool>false</bool>
-          </property>
-          <property name="checked">
-           <bool>false</bool>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="exitPanelButton">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset>
-            <normaloff>:/AnalysisPanelButton/exitPAnel.png</normaloff>:/AnalysisPanelButton/exitPAnel.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
        </layout>
       </widget>
      </item>
@@ -550,6 +244,24 @@
           <property name="enabled">
            <bool>true</bool>
           </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="horizontalScrollBarPolicy">
+           <enum>Qt::ScrollBarAlwaysOff</enum>
+          </property>
+          <property name="sizeAdjustPolicy">
+           <enum>QAbstractScrollArea::AdjustIgnored</enum>
+          </property>
+          <property name="showDropIndicator" stdset="0">
+           <bool>false</bool>
+          </property>
+          <property name="alternatingRowColors">
+           <bool>true</bool>
+          </property>
           <property name="selectionMode">
            <enum>QAbstractItemView::SingleSelection</enum>
           </property>
@@ -568,10 +280,19 @@
           <property name="cornerButtonEnabled">
            <bool>false</bool>
           </property>
+          <attribute name="horizontalHeaderCascadingSectionResizes">
+           <bool>true</bool>
+          </attribute>
           <attribute name="horizontalHeaderMinimumSectionSize">
            <number>20</number>
           </attribute>
+          <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+           <bool>false</bool>
+          </attribute>
           <attribute name="horizontalHeaderStretchLastSection">
+           <bool>true</bool>
+          </attribute>
+          <attribute name="verticalHeaderShowSortIndicator" stdset="0">
            <bool>true</bool>
           </attribute>
          </widget>
@@ -582,9 +303,9 @@
     </layout>
    </item>
   </layout>
-  <action name="hideAnalysisPanelAction">
+  <action name="actionHideAnalysisPanel">
    <property name="icon">
-    <iconset>
+    <iconset resource="icons.qrc">
      <normaloff>:/AnalysisPanelButton/exitPAnel.png</normaloff>:/AnalysisPanelButton/exitPAnel.png</iconset>
    </property>
    <property name="text">
@@ -594,9 +315,9 @@
     <string>Закрыть панель анализа</string>
    </property>
   </action>
-  <action name="addIntervalCommentAction">
+  <action name="actionAddIntervalComment">
    <property name="icon">
-    <iconset>
+    <iconset resource="icons.qrc">
      <normaloff>:/AnalysisPanelButton/addNewPart.png</normaloff>:/AnalysisPanelButton/addNewPart.png</iconset>
    </property>
    <property name="text">
@@ -606,40 +327,105 @@
     <string>Добавить замечание</string>
    </property>
   </action>
+  <action name="actionSaveVideoFragment">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/AnalysisPanelButton/savevid.png</normaloff>:/AnalysisPanelButton/savevid.png</iconset>
+   </property>
+   <property name="text">
+    <string>Сохранить видео фрагмент</string>
+   </property>
+   <property name="toolTip">
+    <string>Сохранить видео фрагмент</string>
+   </property>
+  </action>
+  <action name="actionExcelExport">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/AnalysisPanelButton/excel.png</normaloff>:/AnalysisPanelButton/excel.png</iconset>
+   </property>
+   <property name="text">
+    <string>Экспорт в Excel</string>
+   </property>
+  </action>
+  <action name="actionClear">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/AnalysisPanelButton/clear.png</normaloff>:/AnalysisPanelButton/clear.png</iconset>
+   </property>
+   <property name="text">
+    <string>Очистить</string>
+   </property>
+   <property name="toolTip">
+    <string>Очистить</string>
+   </property>
+  </action>
+  <action name="actionDelete">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/AnalysisPanelButton/delete.png</normaloff>:/AnalysisPanelButton/delete.png</iconset>
+   </property>
+   <property name="text">
+    <string>Удалить запись</string>
+   </property>
+  </action>
+  <action name="actionDeleteAndPlayNext">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/AnalysisPanelButton/playvperedAndDel.png</normaloff>:/AnalysisPanelButton/playvperedAndDel.png</iconset>
+   </property>
+   <property name="text">
+    <string>Удалить и воспроизвесьти следующее</string>
+   </property>
+  </action>
+  <action name="actionPlayNext">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/AnalysisPanelButton/playvpered.png</normaloff>:/AnalysisPanelButton/playvpered.png</iconset>
+   </property>
+   <property name="text">
+    <string>Воспроизвести следующий</string>
+   </property>
+  </action>
+  <action name="actionPlay">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/AnalysisPanelButton/play.png</normaloff>:/AnalysisPanelButton/play.png</iconset>
+   </property>
+   <property name="text">
+    <string>Воспроизвести</string>
+   </property>
+  </action>
+  <action name="actionStop">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/AnalysisPanelButton/stop.png</normaloff>:/AnalysisPanelButton/stop.png</iconset>
+   </property>
+   <property name="text">
+    <string>Стоп</string>
+   </property>
+  </action>
+  <action name="actionPlayPrev">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/AnalysisPanelButton/playback.png</normaloff>:/AnalysisPanelButton/playback.png</iconset>
+   </property>
+   <property name="text">
+    <string>Воспроизвести предыдущий фрагмент</string>
+   </property>
+  </action>
+  <action name="actionDisplayFrame">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/AnalysisPanelButton/sm.png</normaloff>:/AnalysisPanelButton/sm.png</iconset>
+   </property>
+   <property name="text">
+    <string>Показать кадр</string>
+   </property>
+  </action>
  </widget>
- <resources/>
- <connections>
-  <connection>
-   <sender>exitPanelButton</sender>
-   <signal>clicked()</signal>
-   <receiver>hideAnalysisPanelAction</receiver>
-   <slot>trigger()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>68</x>
-     <y>790</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>addIntervalPushButton</sender>
-   <signal>clicked()</signal>
-   <receiver>addIntervalCommentAction</receiver>
-   <slot>trigger()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>68</x>
-     <y>616</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <resources>
+  <include location="icons.qrc"/>
+ </resources>
+ <connections/>
 </ui>

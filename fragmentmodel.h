@@ -22,6 +22,10 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
     void addFragment(const FragmentInfo &fragment);
+    void removeFragment(const QModelIndexList modelIdexesList);
+    void clearModel();
+
+    QList<FragmentInfo> getFragments() const;
 
 private:
     QStringList headers {"Состяние", "Кадры", "Опоры", "Время", "Номер в отчёте"};
