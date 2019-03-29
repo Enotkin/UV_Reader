@@ -18,7 +18,12 @@ FragmentInfo::FragmentInfo(FrameRange frameRange, PillarRange pillarRange, TimeR
 
 FragmentInfo::FragmentInfo() : empty(false) {}
 
-bool FragmentInfo::isEmpty()
+bool FragmentInfo::isVideoFragment() const
+{
+    return (frameRange.first == frameRange.second) ? false : true;
+}
+
+bool FragmentInfo::isEmpty() const
 {
     return empty;
 }

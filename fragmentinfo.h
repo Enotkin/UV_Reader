@@ -18,8 +18,10 @@ public:
                  TimeRange timeRange, QString status);
     FragmentInfo();
 
-    bool isEmpty();
+    bool isEmpty() const;
     operator bool() const;
+
+    bool isVideoFragment() const;
 
     FrameRange getFrameRange() const;
 

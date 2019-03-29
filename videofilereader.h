@@ -11,6 +11,7 @@
 #include <QTimer>
 #include "opencv2/highgui.hpp"
 #include "opencv2/video.hpp"
+#include "videosettings.h"
 
 
 class VideoFileReader : public QObject
@@ -23,21 +24,19 @@ public:
 
     QImage getFrame(int numberFrame);
     bool isOpen() const;
-    int getCountFrames() const;
     int getCurrentFrameNumber() const;
-    void setCurrentFrameNumber(int value);
     double getTime() const;
-    double getVideoDuration() const;
+    void setCurrentFrameNumber(int value);
+
+    VideoSettings getSettings() const;
 
 private:
     std::unique_ptr<cv::VideoCapture> videoCapture;
     QFileInfo p_fileInfo;
-    double p_videoDuration = -1;
-    bool p_fileIsOpen = false;
-    int p_countFrame = 0;
+    VideoSettings settings;
 
     QImage getImage();
-    void calculateVideoDuration();
+    void settingsCreating();
     bool openDataFile(const QString &pathToFile);
 };
 

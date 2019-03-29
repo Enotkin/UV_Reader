@@ -29,7 +29,7 @@ void MainWindow::setTimeLabel(const double value)
     if (videoData){
         auto result = QString("%1 / %2")
                 .arg(msecToStringFormat(value))
-                .arg(msecToStringFormat(videoData->getVideoDuration()));
+                .arg(msecToStringFormat(videoData->getSettings().getDuration()));
         ui->timeLabel->setText(result);
     } else {
         auto result = QString("%1 / %2")
@@ -44,7 +44,7 @@ void MainWindow::setNumberFrameLabel(const int value)
     if (videoData){
         auto result = QString("%1 / %2")
                 .arg(value)
-                .arg(videoData->getCountFrames());
+                .arg(videoData->getSettings().getCountFrames());
         ui->framesLabel->setText(result);
     } else {
         auto result = QString("%1 / %2")
@@ -76,7 +76,7 @@ QString MainWindow::msecToStringFormat(const double value)
 void MainWindow::timeChangeFrame()
 {
     this->changeFrame(videoData->getCurrentFrameNumber());
-    if (videoData->getCurrentFrameNumber() == videoData->getCountFrames()){
+    if (videoData->getCurrentFrameNumber() == videoData->getSettings().getCountFrames()){
         timer.stop();
         videoData->setCurrentFrameNumber(0);
     }
@@ -102,18 +102,19 @@ void MainWindow::setEmptyFrame()
 
 void MainWindow::on_playPauseAction_triggered()
 {
-    if (videoData)
-        if (timer.isActive()){
-            timer.stop();
-            ui->playPauseAction->setIcon(QIcon(":/mediaIcons/play.png"));
-            ui->playPauseAction->setText(ButtomTexts::StartPlaying);
-            ui->playPauseAction->setToolTip(ButtomTexts::StartPlaying);
-        } else {
-            timer.start(timerSpeed);
-            ui->playPauseAction->setIcon(QIcon(":/mediaIcons/pausa.png"));
-            ui->playPauseAction->setText(ButtomTexts::PausePlaying);
-            ui->playPauseAction->setToolTip(ButtomTexts::PausePlaying);
-        }
+    if (!videoData)
+        return;
+    if (timer.isActive()){
+        timer.stop();
+        ui->playPauseAction->setIcon(QIcon(":/mediaIcons/play.png"));
+        ui->playPauseAction->setText(ButtomTexts::StartPlaying);
+        ui->playPauseAction->setToolTip(ButtomTexts::StartPlaying);
+    } else {
+        timer.start(timerSpeed);
+        ui->playPauseAction->setIcon(QIcon(":/mediaIcons/pausa.png"));
+        ui->playPauseAction->setText(ButtomTexts::PausePlaying);
+        ui->playPauseAction->setToolTip(ButtomTexts::PausePlaying);
+    }
 }
 
 void MainWindow::on_stopPlayAction_triggered()
@@ -153,8 +154,11 @@ void MainWindow::on_openFileAction_triggered()
     ui->statusBar->showMessage(fileInfo.absoluteFilePath());
     videoData = std::make_shared<VideoFileReader>(fileInfo);
 
-    ui->horizontalSlider->setRange(0, videoData->getCountFrames()-1);
-    ui->frameSpinBox->setRange(0, videoData->getCountFrames());
+    ui->videoPlaybackMenu->setEnabled(true);
+    ui->analysisMenu->setEnabled(true);
+
+    ui->horizontalSlider->setRange(0, videoData->getSettings().getCountFrames()-1);
+    ui->frameSpinBox->setRange(0, videoData->getSettings().getCountFrames());
     this->changeFrame(0);
 }
 
@@ -165,6 +169,9 @@ void MainWindow::on_closeFileAction_triggered()
         ui->horizontalSlider->setRange(0, 1);
         ui->frameSpinBox->setRange(0, 1);
         ui->statusBar->showMessage("");
+        ui->analysisWidget->clear();
+        ui->videoPlaybackMenu->setEnabled(false);
+        ui->analysisMenu->setEnabled(false);
         setEmptyFrame();
     }
 }
@@ -191,7 +198,7 @@ void MainWindow::on_goToBeginAction_triggered()
 
 void MainWindow::on_goToEndAction_triggered()
 {
-    this->changeFrame(videoData->getCountFrames());
+    this->changeFrame(videoData->getSettings().getCountFrames());
 }
 
 void MainWindow::on_addFragmentCommentAction_triggered()

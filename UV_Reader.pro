@@ -33,7 +33,10 @@ SOURCES += \
     analysisform.cpp \
     addfragmentcommentdialog.cpp \
     fragmentinfo.cpp \
-    fragmentmodel.cpp
+    fragmentmodel.cpp \
+    videofilewriter.cpp \
+    videosettings.cpp \
+    justmpode.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -43,7 +46,10 @@ HEADERS += \
     analysisform.h \
     addfragmentcommentdialog.h \
     fragmentinfo.h \
-    fragmentmodel.h
+    fragmentmodel.h \
+    videofilewriter.h \
+    videosettings.h \
+    justmpode.h
 
 FORMS += \
         mainwindow.ui \

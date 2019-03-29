@@ -5,11 +5,14 @@
 #include <QScopedPointer>
 #include <QDebug>
 #include <QToolBar>
+#include <QFileDialog>
+
 #include <memory>
 
 #include "addfragmentcommentdialog.h"
 #include "fragmentinfo.h"
 #include "fragmentmodel.h"
+#include "videofilereader.h"
 
 namespace Ui {
 class analysisForm;
@@ -22,12 +25,11 @@ class AnalysisForm : public QWidget
 public:
     explicit AnalysisForm(QWidget *parent = nullptr);
     void addIntervalComment();
+    void clear();
     ~AnalysisForm();
 
 private slots:
-    void on_hideAnalysisPanelAction_triggered();
-
-    void on_addIntervalCommentAction_triggered();
+    void buttomEnableSwitcher(const QModelIndex &parent, int first, int last);
 
     void on_tableView_doubleClicked(const QModelIndex &index);
 
@@ -35,11 +37,20 @@ private slots:
 
     void on_actionClear_triggered();
 
+    void on_actionHideAnalysisPanel_triggered();
+
+    void on_actionAddIntervalComment_triggered();
+
+    void on_actionSaveVideoFragment_triggered();
+
 private:
     Ui::analysisForm *ui;
-    FragmentModel *model = nullptr;
+   std::unique_ptr<FragmentModel> model;
+    std::shared_ptr<VideoFileReader> videoData;
 
     void setupUI();
+    void setVideoControlButtomEnabled(const bool &state);
+    void setDeleteButtomEnabeled(const bool &state);
 
 };
 

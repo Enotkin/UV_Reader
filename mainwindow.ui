@@ -299,6 +299,9 @@
     <addaction name="closeAppAction"/>
    </widget>
    <widget class="QMenu" name="videoPlaybackMenu">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="title">
      <string>Воспроизведение</string>
     </property>
@@ -312,6 +315,9 @@
     <addaction name="prevFrameAction"/>
    </widget>
    <widget class="QMenu" name="analysisMenu">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="title">
      <string>Анализ</string>
     </property>
