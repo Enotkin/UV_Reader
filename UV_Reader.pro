@@ -35,8 +35,7 @@ SOURCES += \
     fragmentinfo.cpp \
     fragmentmodel.cpp \
     videofilewriter.cpp \
-    videosettings.cpp \
-    justmpode.cpp
+    videosettings.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -48,8 +47,7 @@ HEADERS += \
     fragmentinfo.h \
     fragmentmodel.h \
     videofilewriter.h \
-    videosettings.h \
-    justmpode.h
+    videosettings.h
 
 FORMS += \
         mainwindow.ui \

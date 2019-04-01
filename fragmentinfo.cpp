@@ -38,14 +38,47 @@ FrameRange FragmentInfo::getFrameRange() const
     return frameRange;
 }
 
+QString FragmentInfo::getFrameRangeString() const
+{
+    if (isVideoFragment()) {
+        return QString("%1 - %2")
+                .arg(frameRange.first)
+                .arg(frameRange.second);
+    } else {
+        return QString::number(frameRange.first);
+    }
+}
+
 PillarRange FragmentInfo::getPillarRange() const
 {
     return pillarRange;
 }
 
+QString FragmentInfo::getPillarRangeString() const
+{
+    if (isVideoFragment()) {
+        return QString("%1 - %2")
+                .arg(pillarRange.first)
+                .arg(pillarRange.second);
+    }else {
+        return pillarRange.first;
+    }
+}
+
 TimeRange FragmentInfo::getTime() const
 {
     return time;
+}
+
+QString FragmentInfo::getTimeString() const
+{
+    if (isVideoFragment()){
+       return QString("%1 - %2")
+                .arg(time.first.toString("hh:mm:ss"))
+                .arg(time.second.toString("hh:mm:ss"));
+    } else {
+        return time.first.toString("hh:mm:ss");
+    }
 }
 
 QString FragmentInfo::getStatus() const

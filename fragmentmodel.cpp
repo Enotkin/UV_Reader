@@ -3,10 +3,7 @@
 FragmentModel::FragmentModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
-    fragments.append(FragmentInfo(64, "434D", QTime(0,3,4,0), "добвлено"));
-    fragments.append(FragmentInfo(43, "423r", QTime(0,33,4,0), "добвлено"));
-    fragments.append(FragmentInfo(12, "4T", QTime(0,3,34,0), "добвлено"));
-    fragments.append(FragmentInfo(FrameRange(32, 214), PillarRange("5", "23d"), TimeRange(QTime(0,3,4,0), QTime(0,4,4,0)), "Добавленно"));
+
 }
 
 QVariant FragmentModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -36,43 +33,18 @@ QVariant FragmentModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
     if (role == Qt::CheckStateRole && index.column() == 0){
-        if (std::find(ss.begin(), ss.end(), &fragments[index.row()]) != ss.end()){
-            return Qt::Checked;
-        }else {
-            return Qt::Unchecked;
-        }
+        return fragmentsCheckState.at(index.row());
     }
     if (role == Qt::DisplayRole){
         switch (index.column()) {
         case 1:
             return fragments.at(index.row()).getStatus();
         case 2:
-            if (fragments.at(index.row()).isVideoFragment()){
-                auto result = QString("%1 - %2")
-                                .arg(fragments.at(index.row()).getFrameRange().first)
-                                .arg(fragments.at(index.row()).getFrameRange().second);
-                return result;
-            } else {
-                return fragments.at(index.row()).getFrameRange().first;
-            }
+            return fragments.at(index.row()).getFrameRangeString();
         case 3:
-            if (fragments.at(index.row()).isVideoFragment()){
-                auto result = QString("%1 - %2")
-                                .arg(fragments.at(index.row()).getPillarRange().first)
-                                .arg(fragments.at(index.row()).getPillarRange().second);
-                return result;
-            } else {
-                return fragments.at(index.row()).getPillarRange().first;
-            }
+            return fragments.at(index.row()).getPillarRangeString();
         case 4:
-            if (fragments.at(index.row()).isVideoFragment()){
-                auto result = QString("%1 - %2")
-                                .arg(fragments.at(index.row()).getTime().first.toString("hh:mm:ss"))
-                                .arg(fragments.at(index.row()).getTime().second.toString("hh:mm:ss"));
-                return result;
-            } else {
-                return fragments.at(index.row()).getTime().first.toString("hh:mm:ss");
-            }
+            return fragments.at(index.row()).getTimeString();
         case 5:
             return fragments.at(index.row()).getFrameNumberReport();
         }
@@ -85,20 +57,13 @@ bool FragmentModel::setData(const QModelIndex &index, const QVariant &value, int
 {
     if (!index.isValid())
         return false;
-    if (role == Qt::CheckStateRole)
-    {
-        if (static_cast<Qt::CheckState>(value.toInt()) == Qt::Checked)
-        {
-//            selectedFraments.append(&fragments[index.row()]);
-                ss.push_back(fragments[index.row()]);
-
+    if (role == Qt::CheckStateRole) {
+        if (static_cast<Qt::CheckState>(value.toInt()) == Qt::Checked){
+            fragmentsCheckState[index.row()] = Qt::Checked;
+//            selectedFraments.push_back(&fragments[index.row()]);
             return true;
-        }
-        else
-        {
-//            if (selectedFraments.contains(&fragments[index.row()])){
-//                selectedFraments.removeOne(&fragments[index.row()]);
-//            }
+        } else {
+            fragmentsCheckState[index.row()] = Qt::Unchecked;
             return true;
         }
     }
@@ -117,6 +82,7 @@ void FragmentModel::addFragment(const FragmentInfo &fragment)
 {
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
     fragments.append(fragment);
+    fragmentsCheckState.append(Qt::Unchecked);
     endInsertRows();
 }
 
@@ -127,6 +93,7 @@ void FragmentModel::removeFragment(const QModelIndexList modelIdexesList)
     beginRemoveRows(QModelIndex(), modelIdexesList.first().row(), modelIdexesList.last().row());
     for (const auto &modelIndex : modelIdexesList){
         fragments.removeAt(modelIndex.row());
+        fragmentsCheckState.removeAt(modelIndex.row());
     }
     endRemoveRows();
 }
@@ -136,28 +103,19 @@ void FragmentModel::clearModel()
     while (!fragments.isEmpty()) {
         beginRemoveRows(QModelIndex(), 0, 0);
         fragments.removeFirst();
+        fragmentsCheckState.removeFirst();
         endRemoveRows();
     }
 }
 
-
-//TODO: Я думаю можно лучше сделать
-QList<FragmentInfo> FragmentModel::getFragments(FiltersFlags filters) const
+QList<FragmentInfo> FragmentModel::getSelectedFragments() const
 {
-//    QList<FragmentInfo> resultFragmets;
-//    if (filters.testFlag(AllFragments)){
-//        for (auto &fragment : fragments) {
-//            resultFragmets.append(fragment.info);
-//        }
-//    } else if (filters.testFlag(VideoFragments)) {
-//        for (auto fragment : fragments)
-//            if (fragment.info.isVideoFragment())
-//                resultFragmets.append(fragment.info);
-//    }else if (filters.testFlag(FrameFragments)) {
-//        for (auto fragment : fragments)
-//            if (!fragment.info.isVideoFragment())
-//                resultFragmets.append(fragment.info);
-//    }
+    QList<FragmentInfo> resultList;
+    for (int i = 0; i < fragments.size(); i++) {
+        if(fragmentsCheckState.at(i) == Qt::Checked)
+            resultList.append(fragments.at(i));
+    }
+    return resultList;
 }
 
 bool FragmentModel::isContainsVideoFragment()
@@ -173,3 +131,4 @@ bool FragmentModel::isEmpty()
 {
     return fragments.isEmpty();
 }
+

@@ -8,30 +8,13 @@
 
 #include "fragmentinfo.h"
 
-//namespace Filters {
-//    enum Flags {
-//        VideoFragmentsOnly,
-//        FrameFragmentsoOnly,
-//        AllFragments,
-//        Selected
-//    };
-//    Q_DECLARE_FLAGS(FiltersFlags, Flags)
-//}
-//Q_DECLARE_OPERATORS_FOR_FLAGS(Filters::FiltersFlags)
-
 
 class FragmentModel : public QAbstractTableModel
 {
     Q_OBJECT
 
 public:
-    enum Filters {
-        VideoFragments,
-        FrameFragments,
-        AllFragments,
-        Selected
-    };
-    Q_DECLARE_FLAGS(FiltersFlags, Filters)
+
 
 
     explicit FragmentModel(QObject *parent = nullptr);
@@ -52,29 +35,16 @@ public:
     void removeFragment(const QModelIndexList modelIdexesList);
     void clearModel();
 
-    QList<FragmentInfo> getFragments(FiltersFlags filters = AllFragments) const;
+    QList<FragmentInfo> getSelectedFragments() const;
 
     bool isContainsVideoFragment();
     bool isEmpty();
 
 
 private:
-//    struct Fragment {
-//        Fragment(FragmentInfo info, Qt::CheckState state)
-//            : isSelected(state), info(info) {}
-//        Qt::CheckState isSelected;
-//        FragmentInfo info;
-//    };
-
     QStringList headers {"", "Состяние", "Кадры", "Опоры", "Время", "Номер в отчёте"};
-//    QList<FragmentInfo *> selectedFraments;
-    std::list<std::reference_wrapper<FragmentInfo> > ss;
-
     QList<FragmentInfo> fragments;
-//    QList<Fragment> fragments;
-
+    QList<Qt::CheckState> fragmentsCheckState;
 };
-
-Q_DECLARE_OPERATORS_FOR_FLAGS(FragmentModel::FiltersFlags)
 
 #endif // FRAGMENTMODEL_H

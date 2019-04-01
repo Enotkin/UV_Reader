@@ -24,10 +24,13 @@ public:
     bool isVideoFragment() const;
 
     FrameRange getFrameRange() const;
+    QString getFrameRangeString() const;
 
     PillarRange getPillarRange() const;
+    QString getPillarRangeString() const;
 
     TimeRange getTime() const;
+    QString getTimeString() const;
 
     QString getStatus() const;
 

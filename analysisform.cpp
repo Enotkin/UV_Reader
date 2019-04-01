@@ -11,6 +11,11 @@ AnalysisForm::AnalysisForm(QWidget *parent) :
     model = std::make_unique<FragmentModel>();
     connect(model.get(), &FragmentModel::rowsInserted, this, &AnalysisForm::buttomEnableSwitcher);
     connect(model.get(), &FragmentModel::rowsRemoved, this, &AnalysisForm::buttomEnableSwitcher);
+    model->addFragment(FragmentInfo(64, "434D", QTime(0,3,4,0), "Добавленно"));
+    model->addFragment(FragmentInfo(43, "423r", QTime(0,33,4,0), "Добавленно"));
+    model->addFragment(FragmentInfo(12, "4T", QTime(0,3,34,0), "Добавленно"));
+    model->addFragment(FragmentInfo(FrameRange(32, 214), PillarRange("5", "23d"), TimeRange(QTime(0,3,4,0), QTime(0,4,4,0)), "Добавленно"));
+
     ui->tableView->setModel(model.get());
     ui->tableView->resizeColumnsToContents();
     buttomEnableSwitcher(QModelIndex(), 0, 0);
@@ -110,13 +115,18 @@ void AnalysisForm::setupUI()
     toolbar->addAction(ui->actionHideAnalysisPanel);
     ui->groupBox->layout()->addWidget(toolbar);
     this->setVideoControlButtomEnabled(false);
-//    this->setDeleteButtomEnabeled(false);
+    //    this->setDeleteButtomEnabeled(false);
 }
 
 void AnalysisForm::on_actionSaveVideoFragment_triggered()
 {
-   QDir saveDir(QFileDialog::getExistingDirectory(this, tr("Выбор директории для сохранений фрагментов")));
-   auto fragments = model->getFragments();
-   for (auto fragmet:fragments){
-   }
+    QDir saveDir(QFileDialog::getExistingDirectory(this, tr("Выбор директории для сохранений фрагментов")));
+    auto fragments = model->getSelectedFragments();
+    for (auto fragment : fragments){
+        if (fragment.isVideoFragment()){
+
+        }else {
+
+        }
+    }
 }
