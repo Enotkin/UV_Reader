@@ -60,7 +60,6 @@ bool FragmentModel::setData(const QModelIndex &index, const QVariant &value, int
     if (role == Qt::CheckStateRole) {
         if (static_cast<Qt::CheckState>(value.toInt()) == Qt::Checked){
             fragmentsCheckState[index.row()] = Qt::Checked;
-//            selectedFraments.push_back(&fragments[index.row()]);
             return true;
         } else {
             fragmentsCheckState[index.row()] = Qt::Unchecked;

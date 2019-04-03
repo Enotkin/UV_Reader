@@ -12,7 +12,10 @@
 #include "addfragmentcommentdialog.h"
 #include "fragmentinfo.h"
 #include "fragmentmodel.h"
+#include "fragmentsaver.h"
 #include "videofilereader.h"
+#include "opencv2/highgui.hpp"
+#include "opencv2/video.hpp"
 
 namespace Ui {
 class analysisForm;
@@ -27,6 +30,8 @@ public:
     void addIntervalComment();
     void clear();
     ~AnalysisForm();
+
+    void setVideoData(const std::shared_ptr<VideoFileReader> &value);
 
 private slots:
     void buttomEnableSwitcher(const QModelIndex &parent, int first, int last);
@@ -45,13 +50,12 @@ private slots:
 
 private:
     Ui::analysisForm *ui;
-   std::unique_ptr<FragmentModel> model;
+    std::unique_ptr<FragmentModel> model;
     std::shared_ptr<VideoFileReader> videoData;
 
     void setupUI();
     void setVideoControlButtomEnabled(const bool &state);
     void setDeleteButtomEnabeled(const bool &state);
-
 };
 
 #endif // ANALYSISFORM_H

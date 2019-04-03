@@ -14,7 +14,7 @@ AnalysisForm::AnalysisForm(QWidget *parent) :
     model->addFragment(FragmentInfo(64, "434D", QTime(0,3,4,0), "Добавленно"));
     model->addFragment(FragmentInfo(43, "423r", QTime(0,33,4,0), "Добавленно"));
     model->addFragment(FragmentInfo(12, "4T", QTime(0,3,34,0), "Добавленно"));
-    model->addFragment(FragmentInfo(FrameRange(32, 214), PillarRange("5", "23d"), TimeRange(QTime(0,3,4,0), QTime(0,4,4,0)), "Добавленно"));
+    model->addFragment(FragmentInfo(FrameRange(32, 173), PillarRange("5", "23d"), TimeRange(QTime(0,3,4,0), QTime(0,4,4,0)), "Добавленно"));
 
     ui->tableView->setModel(model.get());
     ui->tableView->resizeColumnsToContents();
@@ -120,13 +120,22 @@ void AnalysisForm::setupUI()
 
 void AnalysisForm::on_actionSaveVideoFragment_triggered()
 {
-    QDir saveDir(QFileDialog::getExistingDirectory(this, tr("Выбор директории для сохранений фрагментов")));
+    FragmentSaver saver(QFileDialog::getExistingDirectory(this, tr("Выбор директории для сохранений фрагментов")),
+                        videoData->getP_fileInfo().absoluteFilePath() );
     auto fragments = model->getSelectedFragments();
     for (auto fragment : fragments){
-        if (fragment.isVideoFragment()){
+        if (fragment.isVideoFragment())
+            saver.saveVideoFragment(fragment);
+        else
+            saver.saveFrameFragment(fragment);
 
-        }else {
-
-        }
     }
 }
+
+void AnalysisForm::setVideoData(const std::shared_ptr<VideoFileReader> &value)
+{
+    videoData = value;
+}
+
+
+

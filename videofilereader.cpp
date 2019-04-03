@@ -27,7 +27,6 @@ int VideoFileReader::getCurrentFrameNumber() const
     return static_cast<int>(videoCapture->get(cv::CAP_PROP_POS_FRAMES));
 }
 
-
 void VideoFileReader::setCurrentFrameNumber(int value)
 {
     videoCapture->set(cv::CAP_PROP_POS_FRAMES, value);
@@ -38,10 +37,19 @@ double VideoFileReader::getTime() const
     return  static_cast<double>(videoCapture->get(cv::CAP_PROP_POS_MSEC));
 }
 
-
 VideoSettings VideoFileReader::getSettings() const
 {
     return settings;
+}
+
+cv::VideoCapture *VideoFileReader::getVideoCapture() const
+{
+    return videoCapture.get();
+}
+
+QFileInfo VideoFileReader::getP_fileInfo() const
+{
+    return p_fileInfo;
 }
 
 void VideoFileReader::settingsCreating()
@@ -62,7 +70,8 @@ QImage VideoFileReader::getFrame(int numberFrame)
 {
     if (numberFrame <= settings.getCountFrames()){
         videoCapture->set(cv::CAP_PROP_POS_FRAMES, static_cast<double>(numberFrame));
-        return getImage().copy();
+        QImage image = getImage().copy();
+        return image;
     } else {
         return QImage();
     }

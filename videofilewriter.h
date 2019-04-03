@@ -3,6 +3,7 @@
 
 #include <QVector>
 #include <QDebug>
+#include <memory>
 #include <QFileInfo>
 #include "opencv2/highgui.hpp"
 #include "opencv2/video.hpp"
@@ -12,6 +13,7 @@
 class VideoFileWriter
 {
 public:
+    VideoFileWriter(const QFileInfo fileName, std::shared_ptr<VideoFileReader> videoReader);
     VideoFileWriter(const QFileInfo &pathToDir, VideoSettings settings);
     VideoFileWriter(const QString &pathToDir, VideoSettings settings);
     ~VideoFileWriter();

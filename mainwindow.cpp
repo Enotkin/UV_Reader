@@ -153,6 +153,7 @@ void MainWindow::on_openFileAction_triggered()
 
     ui->statusBar->showMessage(fileInfo.absoluteFilePath());
     videoData = std::make_shared<VideoFileReader>(fileInfo);
+    ui->analysisWidget->setVideoData(videoData);
 
     ui->videoPlaybackMenu->setEnabled(true);
     ui->analysisMenu->setEnabled(true);

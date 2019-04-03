@@ -30,6 +30,10 @@ public:
 
     VideoSettings getSettings() const;
 
+    cv::VideoCapture *getVideoCapture() const;
+
+    QFileInfo getP_fileInfo() const;
+
 private:
     std::unique_ptr<cv::VideoCapture> videoCapture;
     QFileInfo p_fileInfo;

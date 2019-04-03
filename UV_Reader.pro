@@ -11,6 +11,9 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = UV_Reader
 TEMPLATE = app
 
+#SUBDIRS +=
+
+
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -35,7 +38,8 @@ SOURCES += \
     fragmentinfo.cpp \
     fragmentmodel.cpp \
     videofilewriter.cpp \
-    videosettings.cpp
+    videosettings.cpp \
+    fragmentsaver.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -47,7 +51,8 @@ HEADERS += \
     fragmentinfo.h \
     fragmentmodel.h \
     videofilewriter.h \
-    videosettings.h
+    videosettings.h \
+    fragmentsaver.h
 
 FORMS += \
         mainwindow.ui \
