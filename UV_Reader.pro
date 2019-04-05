@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui axcontainer
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -39,7 +39,8 @@ SOURCES += \
     fragmentmodel.cpp \
     videofilewriter.cpp \
     videosettings.cpp \
-    fragmentsaver.cpp
+    fragmentsaver.cpp \
+    excelhelper.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -52,7 +53,8 @@ HEADERS += \
     fragmentmodel.h \
     videofilewriter.h \
     videosettings.h \
-    fragmentsaver.h
+    fragmentsaver.h \
+    excelhelper.h
 
 FORMS += \
         mainwindow.ui \

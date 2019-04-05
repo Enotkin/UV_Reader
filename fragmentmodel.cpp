@@ -117,6 +117,16 @@ QList<FragmentInfo> FragmentModel::getSelectedFragments() const
     return resultList;
 }
 
+QStringList FragmentModel::getHeaders() const
+{
+    return headers;
+}
+
+QList<FragmentInfo> FragmentModel::getFragments() const
+{
+    return fragments;
+}
+
 bool FragmentModel::isContainsVideoFragment()
 {
     for (auto &fragment : fragments) {

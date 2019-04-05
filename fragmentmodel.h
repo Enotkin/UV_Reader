@@ -28,6 +28,10 @@ public:
     void clearModel();
     QList<FragmentInfo> getSelectedFragments() const;
 
+    QStringList getHeaders() const;
+
+    QList<FragmentInfo> getFragments() const;
+
 private:
     QStringList headers {"", "Состяние", "Кадры", "Опоры", "Время", "Номер в отчёте"};
     QList<FragmentInfo> fragments;

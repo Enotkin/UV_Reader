@@ -16,6 +16,7 @@
 #include "videofilereader.h"
 #include "opencv2/highgui.hpp"
 #include "opencv2/video.hpp"
+#include "excelhelper.h"
 
 namespace Ui {
 class analysisForm;
@@ -47,6 +48,8 @@ private slots:
     void on_actionAddIntervalComment_triggered();
 
     void on_actionSaveVideoFragment_triggered();
+
+    void on_actionExcelExport_triggered();
 
 private:
     Ui::analysisForm *ui;
