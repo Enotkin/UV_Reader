@@ -215,16 +215,12 @@ void AnalysisForm::on_actionExcelExport_triggered()
         QString imageFileName = QString("Рисунок %1.png").arg(imageNumber);
         videoData->getFrame(fragment.getFrameNumberReport()).save(dir.absoluteFilePath(imageFileName));
         excel.SetCellValue(imageRowNumber, 1, QString("См. рис. %1").arg(imageNumber));
-        excel.AddPicture(imageRowNumber+1, 1, dir.absoluteFilePath(imageFileName), true);
+
+        QString range = QString("A%1:H%1").arg(imageRowNumber+1);
+        excel.SetRowsHeight(range, 288);
+        excel.AddPicture(range, dir.absoluteFilePath(imageFileName).replace("/", "\\"), true);
         imageRowNumber+=10;
 
     }
-
-
-
-
-
-
-    excel.SaveAs(dir.absoluteFilePath("imageFileName"));
-
+    excel.SaveAs(dir.absoluteFilePath("imageFileName.xlsx").replace("/", "\\"));
 }

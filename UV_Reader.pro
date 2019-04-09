@@ -40,7 +40,12 @@ SOURCES += \
     videofilewriter.cpp \
     videosettings.cpp \
     fragmentsaver.cpp \
-    excelhelper.cpp
+    excelhelper.cpp \
+    excelreportcreator.cpp \
+    WidgetFileTree/filetree.cpp \
+    WidgetFileTree/filetreedialog.cpp \
+    WidgetFileTree/treeitem.cpp \
+    WidgetFileTree/treemodel.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -54,14 +59,22 @@ HEADERS += \
     videofilewriter.h \
     videosettings.h \
     fragmentsaver.h \
-    excelhelper.h
+    excelhelper.h \
+    excelreportcreator.h \
+    WidgetFileTree/filetree.h \
+    WidgetFileTree/filetreedialog.h \
+    WidgetFileTree/treeitem.h \
+    WidgetFileTree/treemodel.h
 
 FORMS += \
         mainwindow.ui \
     analysisform.ui \
-    addfragmentcommentdialog.ui
+    addfragmentcommentdialog.ui \
+    WidgetFileTree/filetree.ui \
+    WidgetFileTree/filetreedialog.ui
 
-INCLUDEPATH += C:/OpenCV-4.0.1/include
+INCLUDEPATH += C:/OpenCV-4.0.1/include \
+                $$PWD/WidgetFileTree
 
 CONFIG (debug, debug|release) {
     #debug

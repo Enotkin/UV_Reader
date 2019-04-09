@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->analysisWidget->hide();
     connect(&timer, &QTimer::timeout, this, &MainWindow::timeChangeFrame);
+    connect(&fileTreeDialog, &FileTreeDialog::signalSelectedFile, this, &MainWindow::openVideoFile);
     settings = std::make_unique<QSettings>("settings.ini", QSettings::IniFormat);
     setupMediaControlsToolBar();
 }
@@ -145,22 +146,10 @@ void MainWindow::on_frameSpinBox_valueChanged(int arg1)
 
 void MainWindow::on_openFileAction_triggered()
 {
-    if (settings->value(defaultPathSettingsTitle).toString().isNull())
-        fileInfo.setFile(QFileDialog::getOpenFileName(this, "Выбор файла"));
-    else
-        fileInfo.setFile(QFileDialog::getOpenFileName(this, "Выбор файла", settings->value(defaultPathSettingsTitle).toString()));
-    settings->setValue(defaultPathSettingsTitle, fileInfo.absolutePath());
-
-    ui->statusBar->showMessage(fileInfo.absoluteFilePath());
-    videoData = std::make_shared<VideoFileReader>(fileInfo);
-    ui->analysisWidget->setVideoData(videoData);
-
-    ui->videoPlaybackMenu->setEnabled(true);
-    ui->analysisMenu->setEnabled(true);
-
-    ui->horizontalSlider->setRange(0, videoData->getSettings().getCountFrames()-1);
-    ui->frameSpinBox->setRange(0, videoData->getSettings().getCountFrames());
-    this->changeFrame(0);
+    fileTreeDialog.show();
+    bool defaultPathIsExist = !settings->value(SettingTitles::DefaultPathSettingsTitle).toString().isNull();
+    if (defaultPathIsExist)
+        fileTreeDialog.setRootDir(settings->value(SettingTitles::DefaultPathSettingsTitle).toString());
 }
 
 void MainWindow::on_closeFileAction_triggered()
@@ -211,4 +200,25 @@ void MainWindow::on_addFragmentCommentAction_triggered()
 void MainWindow::on_analysisPanelAction_triggered()
 {
     ui->analysisWidget->setVisible(!ui->analysisWidget->isVisible());
+}
+
+void MainWindow::openVideoFile(const QString &pathToFile)
+{
+    if (pathToFile == fileInfo.absoluteFilePath())
+        return;
+
+    fileInfo.setFile(pathToFile);
+
+    settings->setValue(SettingTitles::DefaultPathSettingsTitle, fileTreeDialog.getRootDir());
+
+    ui->statusBar->showMessage(fileInfo.absoluteFilePath());
+    videoData = std::make_shared<VideoFileReader>(fileInfo);
+    ui->analysisWidget->setVideoData(videoData);
+
+    ui->videoPlaybackMenu->setEnabled(true);
+    ui->analysisMenu->setEnabled(true);
+
+    ui->horizontalSlider->setRange(0, videoData->getSettings().getCountFrames()-1);
+    ui->frameSpinBox->setRange(0, videoData->getSettings().getCountFrames());
+    this->changeFrame(0);
 }

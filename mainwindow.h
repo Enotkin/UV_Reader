@@ -15,6 +15,7 @@
 #include "opencv2/core/core.hpp"
 #include "opencv2/highgui/highgui.hpp"
 #include "videofilereader.h"
+#include "WidgetFileTree/filetreedialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -24,6 +25,10 @@ namespace ButtomTexts {
     const QString StartPlaying = "Начать воспроизведение";
     const QString PausePlaying = "Пауза";
 
+}
+
+namespace SettingTitles {
+    const QString DefaultPathSettingsTitle = "Default_Path";
 }
 
 class MainWindow : public QMainWindow
@@ -67,16 +72,18 @@ private slots:
 
     void on_analysisPanelAction_triggered();
 
+    void openVideoFile(const QString &pathToFile);
+
 private:
     Ui::MainWindow *ui;
-
     std::unique_ptr<QSettings> settings;
     std::shared_ptr<VideoFileReader> videoData;
+    FileTreeDialog fileTreeDialog;
 //    std::unique_ptr<AnalysisForm> analysisForm;
     QTimer timer;
     QFileInfo fileInfo;
     int timerSpeed = 40;
-    const QString defaultPathSettingsTitle = "Default_Path";
+
 
     void changeFrame(const int numberFrame);
     void setEmptyFrame();
