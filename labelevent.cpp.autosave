@@ -63,6 +63,8 @@ void LabelEvent::mouseMoveEvent(QMouseEvent *event)
     QPoint pos = event->pos();
     if ((pos.x() < 0) || (pos.y() < 0) || (pos.x() > this->width()) || (pos.y() > this->height()))
         return;
+    QPoint labelCenter(this->width()/2, this->height()/2);
+    if (labelCenter.x() < pixmapSize.)
     qDebug()<<pos;
 
     if (pos.x() <= this->size().width() && pos.y() <= this->size().height())

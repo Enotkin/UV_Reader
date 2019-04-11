@@ -73,6 +73,9 @@
           </sizepolicy>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
           <item>
            <widget class="QFrame" name="contrlosFrame">
             <property name="sizePolicy">
@@ -316,13 +319,14 @@
    </widget>
    <widget class="QMenu" name="analysisMenu">
     <property name="enabled">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="title">
      <string>Анализ</string>
     </property>
     <addaction name="addFragmentCommentAction"/>
     <addaction name="analysisPanelAction"/>
+    <addaction name="actionTestAnalysis"/>
    </widget>
    <addaction name="fileMenu"/>
    <addaction name="videoPlaybackMenu"/>
@@ -488,6 +492,9 @@
    </property>
   </action>
   <action name="addFragmentCommentAction">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Добавить замечание</string>
    </property>
@@ -498,6 +505,11 @@
   <action name="analysisPanelAction">
    <property name="text">
     <string>Панель анализа</string>
+   </property>
+  </action>
+  <action name="actionTestAnalysis">
+   <property name="text">
+    <string>ТЕСТ_Анализ</string>
    </property>
   </action>
  </widget>

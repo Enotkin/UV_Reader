@@ -70,11 +70,22 @@ QImage VideoFileReader::getFrame(int numberFrame)
 {
     if (numberFrame <= settings.getCountFrames()){
         videoCapture->set(cv::CAP_PROP_POS_FRAMES, static_cast<double>(numberFrame));
-        QImage image = getImage().copy();
-        return image;
+        cv::Mat frame;
+        videoCapture->read(frame);
+        if (frame.empty()) {
+            return QImage();
+        }
+        QImage image(static_cast<uchar*>(frame.data),
+                     frame.cols, frame.rows, QImage::Format_RGB888);
+        return image.copy();
     } else {
         return QImage();
     }
+}
+
+cv::Mat VideoFileReader::getMatFrame(int numberFrame)
+{
+    return cv::Mat();
 }
 
 QImage VideoFileReader::getImage()

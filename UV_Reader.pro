@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui axcontainer
+QT       += core gui axcontainer printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -45,7 +45,12 @@ SOURCES += \
     WidgetFileTree/filetree.cpp \
     WidgetFileTree/filetreedialog.cpp \
     WidgetFileTree/treeitem.cpp \
-    WidgetFileTree/treemodel.cpp
+    WidgetFileTree/treemodel.cpp \
+    ReportCreator/htmlbuilder.cpp \
+    ReportCreator/htmltemplatebuilder.cpp \
+    ReportCreator/reportdialog.cpp \
+    testanalysiswidget.cpp \
+    coordinatesconverter.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -64,17 +69,25 @@ HEADERS += \
     WidgetFileTree/filetree.h \
     WidgetFileTree/filetreedialog.h \
     WidgetFileTree/treeitem.h \
-    WidgetFileTree/treemodel.h
+    WidgetFileTree/treemodel.h \
+    ReportCreator/htmlbuilder.h \
+    ReportCreator/htmltemplatebuilder.h \
+    ReportCreator/reportdialog.h \
+    testanalysiswidget.h \
+    coordinatesconverter.h
 
 FORMS += \
         mainwindow.ui \
     analysisform.ui \
     addfragmentcommentdialog.ui \
     WidgetFileTree/filetree.ui \
-    WidgetFileTree/filetreedialog.ui
+    WidgetFileTree/filetreedialog.ui \
+    ReportCreator/reportdialog.ui \
+    testanalysiswidget.ui
 
 INCLUDEPATH += C:/OpenCV-4.0.1/include \
-                $$PWD/WidgetFileTree
+                $$PWD/WidgetFileTree \
+                $$PWD/ReportCreator
 
 CONFIG (debug, debug|release) {
     #debug

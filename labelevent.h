@@ -18,6 +18,7 @@
 #include <QMouseEvent>
 #include <QKeyEvent>
 #include <QImage>
+#include <QDebug>
 
 
 // [QImage -> QLabel] expand problem
@@ -66,6 +67,9 @@ private:
     QImage m_image;
     Qt::AspectRatioMode m_imageAspectRatioMode;
     Qt::TransformationMode m_imageTransformationMode;
+    QSize pixmapSize;
+    double scaleFactorY = 1;
+    double scaleFactorX = 1;
 };
 
 QPoint removeLabelOffset(QPoint pos, const QLabel *label, const QImage &image);

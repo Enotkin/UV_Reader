@@ -6,6 +6,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->showFullScreen();
+    this->showMaximized();
     ui->analysisWidget->hide();
     connect(&timer, &QTimer::timeout, this, &MainWindow::timeChangeFrame);
     connect(&fileTreeDialog, &FileTreeDialog::signalSelectedFile, this, &MainWindow::openVideoFile);
@@ -221,4 +223,11 @@ void MainWindow::openVideoFile(const QString &pathToFile)
     ui->horizontalSlider->setRange(0, videoData->getSettings().getCountFrames()-1);
     ui->frameSpinBox->setRange(0, videoData->getSettings().getCountFrames());
     this->changeFrame(0);
+}
+
+void MainWindow::on_actionTestAnalysis_triggered()
+{
+    testAnalysisWidget = std::make_unique<TestAnalysisWidget>();
+    testAnalysisWidget->setSourceFile(fileInfo);
+    testAnalysisWidget->show();
 }

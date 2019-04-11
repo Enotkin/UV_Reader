@@ -23,6 +23,7 @@ public:
     ~VideoFileReader();
 
     QImage getFrame(int numberFrame);
+    cv::Mat getMatFrame(int numberFrame);
     bool isOpen() const;
     int getCurrentFrameNumber() const;
     double getTime() const;

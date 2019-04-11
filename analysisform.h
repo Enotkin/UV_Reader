@@ -7,7 +7,9 @@
 #include <QToolBar>
 #include <QFileDialog>
 
+
 #include <memory>
+
 
 #include "addfragmentcommentdialog.h"
 #include "fragmentinfo.h"
