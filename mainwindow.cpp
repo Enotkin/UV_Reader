@@ -12,7 +12,11 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&timer, &QTimer::timeout, this, &MainWindow::timeChangeFrame);
     connect(&fileTreeDialog, &FileTreeDialog::signalSelectedFile, this, &MainWindow::openVideoFile);
     settings = std::make_unique<QSettings>("settings.ini", QSettings::IniFormat);
+    scene.addItem(&pixmapItem);
+    ui->graphicsView->setScene(&scene);
+    ui->graphicsView->fitInView(scene.itemsBoundingRect(), Qt::KeepAspectRatio);
     setupMediaControlsToolBar();
+
 }
 
 MainWindow::~MainWindow()
@@ -88,7 +92,8 @@ void MainWindow::timeChangeFrame()
 void MainWindow::changeFrame(const int numberFrame)
 {
     if (videoData){
-        ui->displayOfImage->setImage(videoData->getFrame(numberFrame));
+        pixmapItem.setPixmap(QPixmap::fromImage(videoData->getFrame(numberFrame)));
+//        ui->graphicsView->fitInView(scene.itemsBoundingRect(), Qt::KeepAspectRatio);
         this->setTimeLabel(videoData->getTime());
         this->setHorizontalSliderValue(numberFrame);
         this->setNumberFrameLabel(numberFrame);
@@ -97,7 +102,7 @@ void MainWindow::changeFrame(const int numberFrame)
 
 void MainWindow::setEmptyFrame()
 {
-    ui->displayOfImage->clear();
+    scene.clear();
     this->setTimeLabel(0.0);
     this->setHorizontalSliderValue(0);
     this->setNumberFrameLabel(0);
@@ -230,4 +235,10 @@ void MainWindow::on_actionTestAnalysis_triggered()
     testAnalysisWidget = std::make_unique<TestAnalysisWidget>();
     testAnalysisWidget->setSourceFile(fileInfo);
     testAnalysisWidget->show();
+}
+
+void MainWindow::on_toggleVideoZoomingAction_triggered()
+{
+    ui->graphicsView->setResizeMode(!ui->graphicsView->getResizeMode());
+    ui->graphicsView->repaint();
 }

@@ -1,0 +1,39 @@
+#include "uvgraphicsview.h"
+
+UvGraphicsView::UvGraphicsView(QWidget *parent)
+{
+    Q_UNUSED(parent);
+
+}
+
+void UvGraphicsView::mousePressEvent(QMouseEvent *event)
+{
+    if (editMode)
+        rectMask.set
+    qDebug()<<"Pressed"<<event->pos()<<this->mapToScene(event->pos());
+}
+
+void UvGraphicsView::mouseMoveEvent(QMouseEvent *event)
+{
+    qDebug()<< this->mapToScene(event->pos()).toPoint();
+}
+
+void UvGraphicsView::paintEvent(QPaintEvent *event)
+
+    QGraphicsView::paintEvent(event);
+}
+
+bool UvGraphicsView::getResizeMode() const
+{
+    return resizeMode;
+}
+
+void UvGraphicsView::setEditMode(bool value)
+{
+    editMode = value;
+}
+
+void UvGraphicsView::setResizeMode(bool value)
+{
+    resizeMode = value;
+}

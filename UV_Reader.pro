@@ -50,7 +50,8 @@ SOURCES += \
     ReportCreator/htmltemplatebuilder.cpp \
     ReportCreator/reportdialog.cpp \
     testanalysiswidget.cpp \
-    coordinatesconverter.cpp
+    coordinatesconverter.cpp \
+    uvgraphicsview.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -74,7 +75,8 @@ HEADERS += \
     ReportCreator/htmltemplatebuilder.h \
     ReportCreator/reportdialog.h \
     testanalysiswidget.h \
-    coordinatesconverter.h
+    coordinatesconverter.h \
+    uvgraphicsview.h
 
 FORMS += \
         mainwindow.ui \

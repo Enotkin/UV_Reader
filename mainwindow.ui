@@ -31,36 +31,27 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="LabelEvent" name="displayOfImage">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
+        <widget class="UvGraphicsView" name="graphicsView">
+         <property name="verticalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOff</enum>
          </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
+         <property name="horizontalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOff</enum>
          </property>
-         <property name="autoFillBackground">
-          <bool>false</bool>
+         <property name="sizeAdjustPolicy">
+          <enum>QAbstractScrollArea::AdjustToContents</enum>
          </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(140, 140, 140)</string>
+         <property name="backgroundBrush">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>172</red>
+            <green>172</green>
+            <blue>172</blue>
+           </color>
+          </brush>
          </property>
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Plain</enum>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="scaledContents">
-          <bool>false</bool>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
+         <property name="renderHints">
+          <set>QPainter::SmoothPixmapTransform</set>
          </property>
         </widget>
        </item>
@@ -466,10 +457,10 @@
   </action>
   <action name="toggleVideoZoomingAction">
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="icon">
     <iconset resource="icons.qrc">
@@ -516,15 +507,15 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>LabelEvent</class>
-   <extends>QLabel</extends>
-   <header>labelevent.h</header>
-  </customwidget>
-  <customwidget>
    <class>AnalysisForm</class>
    <extends>QWidget</extends>
    <header>analysisform.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>UvGraphicsView</class>
+   <extends>QGraphicsView</extends>
+   <header>uvgraphicsview.h</header>
   </customwidget>
  </customwidgets>
  <resources>
