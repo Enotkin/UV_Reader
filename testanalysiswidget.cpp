@@ -60,29 +60,23 @@ void TestAnalysisWidget::thresholdMagic()
         double area = contourArea(contours[i], true);
 
         if (area <= 0) {
-            //Площадь контура
+            //Отсев по площади контуров
             double contourSize = cv::contourArea(contours[i]);
-//            if (contourSize < 10)
-//                continue;
+            if (contourSize < 10)
+                continue;
             auto minRect = cv::boundingRect(contours[i]);
-//            minRect.
             cv::rectangle(out, cv::Point(minRect.x, minRect.y),
                           cv::Point((minRect.x+minRect.width),(minRect.y+minRect.height)), cv::Scalar(255, 0, 0));
-
-//            cv::drawContours(out, contours, static_cast<int>(i), cv::Scalar(0, 0, 255));
-
-            externalContours.push_back(contours[i]);
-
-
+           cv::drawContours(out, contours, static_cast<int>(i), cv::Scalar(0, 0, 255));
 
             //Момент контура и центр масс
-            auto moment = cv::moments(contours[i]);
-            double x = moment.m10/moment.m00;
-            double y = moment.m01/moment.m00;
+//            auto moment = cv::moments(contours[i]);
+//            double x = moment.m10/moment.m00;
+//            double y = moment.m01/moment.m00;
 //            cv::drawMarker(out, cv::Point(x, y), cv::Scalar(255, 0, 0));
+//            moments.push_back(moment);
 
-            moments.push_back(moment);
-
+            externalContours.push_back(contours[i]);
         }
     }
 

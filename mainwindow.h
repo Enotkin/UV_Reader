@@ -91,7 +91,7 @@ private:
     FileTreeDialog fileTreeDialog;
     std::unique_ptr<TestAnalysisWidget> testAnalysisWidget;
 
-    QGraphicsScene scene;
+//    QGraphicsScene scene;
     QGraphicsPixmapItem pixmapItem;
     QTimer timer;
     QFileInfo fileInfo;

@@ -51,7 +51,8 @@ SOURCES += \
     ReportCreator/reportdialog.cpp \
     testanalysiswidget.cpp \
     coordinatesconverter.cpp \
-    uvgraphicsview.cpp
+    uvgraphicsview.cpp \
+    qrectbuilder.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -76,7 +77,8 @@ HEADERS += \
     ReportCreator/reportdialog.h \
     testanalysiswidget.h \
     coordinatesconverter.h \
-    uvgraphicsview.h
+    uvgraphicsview.h \
+    qrectbuilder.h
 
 FORMS += \
         mainwindow.ui \
