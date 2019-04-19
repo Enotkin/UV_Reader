@@ -6,6 +6,9 @@
 #include <QMouseEvent>
 #include <QDebug>
 
+#include <forward_list>
+#include <memory>
+
 #include "qrectbuilder.h"
 
 class UvGraphicsView : public QGraphicsView
@@ -23,6 +26,10 @@ public:
 
     void setImage(const QImage &image);
 
+    QList<QRect> getMaskRect() const;
+
+    void clearMasks();
+
 protected:
     void mousePressEvent(QMouseEvent *event) override final;
     void mouseMoveEvent(QMouseEvent *event) override final;
@@ -30,15 +37,14 @@ protected:
     void paintEvent(QPaintEvent *event) override final;
 
 private:
-    QList<QGraphicsRectItem*> maskRects;
-    QGraphicsRectItem *workingRectItem;
-    QGraphicsPixmapItem *imageItem;
-    QRectBuilder *rectBuilder;
-    QRect imageRect;
+//    QList<QRect> rects;
+    QList<QGraphicsRectItem*> rectItems;
+    QGraphicsRectItem *currentRectItem = nullptr;
+    std::unique_ptr<QGraphicsPixmapItem> imageItem;
+    QRectBuilder rectBuilder;
     QGraphicsScene scene;
-    QRect rect;
-    bool editMode = true;
-    bool resizeMode = false;
+    bool editMode = false;
+    bool resizeMode = true;
 
 
     QSize size = {0, 0};

@@ -6,6 +6,7 @@ TestAnalysisWidget::TestAnalysisWidget(QWidget *parent) :
     ui(new Ui::TestAnalysisWidget)
 {
     ui->setupUi(this);
+    this->setVisible(false);
 //    ui->verticalSliderThreshold->setRange(0, 255);
 }
 
@@ -31,14 +32,31 @@ void TestAnalysisWidget::on_horizontalSliderFrame_valueChanged(int value)
     thresholdMagic();
 }
 
+void TestAnalysisWidget::setRectsList(const QList<QRect> &value)
+{
+    rectsList = value;
+}
+
+void TestAnalysisWidget::setFrame(int frame)
+{
+    ui->horizontalSliderFrame->setValue(frame);
+}
+
 void TestAnalysisWidget::thresholdMagic()
 {
-//    cv::Mat sourceMat = dataReader->getMatFrame(currentFrame);
+    //    cv::Mat sourceMat = dataReader->getMatFrame(currentFrame);
     videoCapture->set(cv::CAP_PROP_POS_FRAMES, static_cast<double>(currentFrame));
     cv::Mat src;
     videoCapture->read(src);
     cv::Mat sourceMatGray, destMat;
     cv::cvtColor(src, sourceMatGray, cv::COLOR_BGR2GRAY);
+    if (!rectsList.isEmpty()){
+        for (const auto &rect : rectsList) {
+            cv::rectangle(sourceMatGray, cv::Point(rect.topLeft().x(), rect.topLeft().y()),
+                          cv::Point(rect.topLeft().x() + rect.width(), rect.topLeft().y() + rect.height()),
+                          cv::Scalar(0, 0, 0), cv::FILLED);
+        }
+    }
     cv::threshold(sourceMatGray, destMat, thresholdValue, 255, cv::THRESH_BINARY);
 
     //поиск контуров
@@ -50,24 +68,26 @@ void TestAnalysisWidget::thresholdMagic()
     // Create output image
     cv::Mat out;
     cvtColor(destMat, out, cv::COLOR_GRAY2BGR);
-    qDebug()<<"Новый кадр";
     std::vector<std::vector<cv::Point>> externalContours;
     std::vector<cv::Moments> moments;
+    ui->listWidget->clear();
     for (size_t i = 0; i < contours.size(); ++i)
     {
 
-        // Find orientation: CW or CCW
-        double area = contourArea(contours[i], true);
+        double area = cv::contourArea(contours[i], false);
 
-        if (area <= 0) {
+
+        if (area > 5) {
             //Отсев по площади контуров
-            double contourSize = cv::contourArea(contours[i]);
-            if (contourSize < 10)
-                continue;
+//            double contourSize = cv::contourArea(contours[i]);
             auto minRect = cv::boundingRect(contours[i]);
-            cv::rectangle(out, cv::Point(minRect.x, minRect.y),
-                          cv::Point((minRect.x+minRect.width),(minRect.y+minRect.height)), cv::Scalar(255, 0, 0));
-           cv::drawContours(out, contours, static_cast<int>(i), cv::Scalar(0, 0, 255));
+            cv::putText(out, QString("%1 Size: %2").arg(i).arg(area).toStdString(), minRect.tl(), cv::FONT_HERSHEY_PLAIN   , 0.8, cv::Scalar(255, 255, 0) );
+            ui->listWidget->addItem(QString("%1 Size: %2").arg(i).arg(area));
+
+//            auto minRect = cv::boundingRect(contours[i]);
+//            cv::rectangle(out, cv::Point(minRect.x, minRect.y),
+//                          cv::Point((minRect.x+minRect.width),(minRect.y+minRect.height)), cv::Scalar(255, 0, 0));
+            cv::drawContours(out, contours, static_cast<int>(i), cv::Scalar(0, 0, 255));
 
             //Момент контура и центр масс
 //            auto moment = cv::moments(contours[i]);

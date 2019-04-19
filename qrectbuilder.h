@@ -8,15 +8,15 @@
 class QRectBuilder
 {
 public:
-    QRectBuilder(QPoint startPoint);
-    void addPoint(const QPoint &point);
-
+    QRectBuilder(QPoint startPoint = QPoint());
+    void setPoint(const QPoint &point);
+    void setStartPoint(const QPoint &point);
+    void clear();
     QRect getRect() const;
+
 
 private:
     QPoint startPoint;
-    QPoint topLeft;
-    QPoint bottomRight;
     QRect rect;
 
     bool isXLower(const QPoint &point) const;

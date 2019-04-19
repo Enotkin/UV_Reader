@@ -1,11 +1,11 @@
 #include "qrectbuilder.h"
 
-QRectBuilder::QRectBuilder(QPoint startPoint) : startPoint(startPoint), topLeft(startPoint), bottomRight(startPoint)
+QRectBuilder::QRectBuilder(QPoint startPoint) : startPoint(startPoint)
 {
 
 }
 
-void QRectBuilder::addPoint(const QPoint &point)
+void QRectBuilder::setPoint(const QPoint &point)
 {
     QRect newRect;
     if (!isXLower(point) && !isYlower(point)) { //4 четверть
@@ -25,6 +25,17 @@ void QRectBuilder::addPoint(const QPoint &point)
         newRect.setBottomLeft(point);
     }
     rect = newRect;
+}
+
+void QRectBuilder::setStartPoint(const QPoint &point)
+{
+    startPoint = point;
+}
+
+void QRectBuilder::clear()
+{
+    startPoint = QPoint();
+    rect = QRect();
 }
 
 QRect QRectBuilder::getRect() const

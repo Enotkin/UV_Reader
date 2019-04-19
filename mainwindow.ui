@@ -263,6 +263,9 @@
      </widget>
     </item>
     <item>
+     <widget class="TestAnalysisWidget" name="testAnalisysWidget" native="true"/>
+    </item>
+    <item>
      <widget class="AnalysisForm" name="analysisWidget" native="true">
       <property name="maximumSize">
        <size>
@@ -318,6 +321,7 @@
     <addaction name="addFragmentCommentAction"/>
     <addaction name="analysisPanelAction"/>
     <addaction name="actionTestAnalysis"/>
+    <addaction name="actionTestMaskCreate"/>
    </widget>
    <addaction name="fileMenu"/>
    <addaction name="videoPlaybackMenu"/>
@@ -494,13 +498,36 @@
    </property>
   </action>
   <action name="analysisPanelAction">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Панель анализа</string>
    </property>
   </action>
   <action name="actionTestAnalysis">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>ТЕСТ_Анализ</string>
+   </property>
+  </action>
+  <action name="actionTestMaskCreate">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>ТЕСТ_Режим_создания_маски</string>
    </property>
   </action>
  </widget>
@@ -516,6 +543,12 @@
    <class>UvGraphicsView</class>
    <extends>QGraphicsView</extends>
    <header>uvgraphicsview.h</header>
+  </customwidget>
+  <customwidget>
+   <class>TestAnalysisWidget</class>
+   <extends>QWidget</extends>
+   <header>testanalysiswidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>

@@ -76,20 +76,21 @@ private slots:
 
     void on_addFragmentCommentAction_triggered();
 
-    void on_analysisPanelAction_triggered();
-
     void openVideoFile(const QString &pathToFile);
 
-    void on_actionTestAnalysis_triggered();
-
     void on_toggleVideoZoomingAction_triggered();
+
+    void on_actionTestMaskCreate_triggered(bool checked);
+
+    void on_actionTestAnalysis_triggered(bool checked);
+
+    void on_analysisPanelAction_triggered(bool checked);
 
 private:
     Ui::MainWindow *ui;
     std::unique_ptr<QSettings> settings;
     std::shared_ptr<VideoFileReader> videoData;
     FileTreeDialog fileTreeDialog;
-    std::unique_ptr<TestAnalysisWidget> testAnalysisWidget;
 
 //    QGraphicsScene scene;
     QGraphicsPixmapItem pixmapItem;

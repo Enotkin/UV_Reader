@@ -134,7 +134,8 @@ void MainWindow::on_stopPlayAction_triggered()
 
 void MainWindow::on_horizontalSlider_valueChanged(int value)
 {
-      this->changeFrame(value);
+    ui->testAnalisysWidget->setFrame(value);
+    this->changeFrame(value);
 }
 
 void MainWindow::on_horizontalSlider_sliderPressed()
@@ -205,11 +206,6 @@ void MainWindow::on_addFragmentCommentAction_triggered()
     ui->analysisWidget->addIntervalComment();
 }
 
-void MainWindow::on_analysisPanelAction_triggered()
-{
-    ui->analysisWidget->setVisible(!ui->analysisWidget->isVisible());
-}
-
 void MainWindow::openVideoFile(const QString &pathToFile)
 {
     if (pathToFile == fileInfo.absoluteFilePath())
@@ -231,14 +227,32 @@ void MainWindow::openVideoFile(const QString &pathToFile)
     this->changeFrame(0);
 }
 
-void MainWindow::on_actionTestAnalysis_triggered()
-{
-    testAnalysisWidget = std::make_unique<TestAnalysisWidget>();
-    testAnalysisWidget->setSourceFile(fileInfo);
-    testAnalysisWidget->show();
-}
 
 void MainWindow::on_toggleVideoZoomingAction_triggered()
 {
     ui->graphicsView->setResizeMode(!ui->graphicsView->getResizeMode());
+}
+
+void MainWindow::on_actionTestMaskCreate_triggered(bool checked)
+{
+    if (checked){
+        ui->graphicsView->setEditMode(true);
+    }else {
+        ui->graphicsView->setEditMode(false);
+        auto rects = ui->graphicsView->getMaskRect();
+            ui->testAnalisysWidget->setRectsList(ui->graphicsView->getMaskRect());
+    }
+}
+
+void MainWindow::on_actionTestAnalysis_triggered(bool checked)
+{
+    ui->testAnalisysWidget->setVisible(checked);
+    if (ui->testAnalisysWidget->isVisible()){
+            ui->testAnalisysWidget->setSourceFile(fileInfo);
+    }
+}
+
+void MainWindow::on_analysisPanelAction_triggered(bool checked)
+{
+    ui->analysisWidget->setVisible(checked);
 }

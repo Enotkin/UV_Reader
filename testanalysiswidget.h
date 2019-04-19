@@ -22,15 +22,19 @@ public:
 
     void setSourceFile(const QFileInfo &value);
 
+    void setRectsList(const QList<QRect> &value);
+    void setFrame(int frame);
+
 private slots:
     void on_horizontalSliderFrame_valueChanged(int value);
 
 private:
     Ui::TestAnalysisWidget *ui;
     QFileInfo sourceFile;
+    QList<QRect> rectsList;
     std::unique_ptr<VideoFileReader> dataReader;
     std::unique_ptr<cv::VideoCapture> videoCapture;
-    double thresholdValue = 230;
+    double thresholdValue = 225;
     int currentFrame = 0;
 
     void thresholdMagic();
