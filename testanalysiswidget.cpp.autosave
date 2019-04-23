@@ -24,12 +24,23 @@ void TestAnalysisWidget::setSourceFile(const QFileInfo &value)
     QTime t;
     t.start();
     firstAnalysis();
-
-    if (crownCharges.empty())
-        for (const auto &[numberFrame, contours] : countersAtFrames) {
-
+    
+    
+    list
+    if (crownCharges.empty()){
+        for (const auto &contour : countersAtFrames.at(0)) {
+            crownCharges.emplace_back(contour);
         }
-//        crownCharges.emplace_back()
+    } else {
+        for (const auto &[frameNumber, contours] : countersAtFrames)
+            for (const auto &contour : contours) {
+                for (auto &crownCharge : crownCharges) {
+                    if (!crownCharge.tryAddContour(contour))
+                        
+                        
+                }
+            }
+    }
 
     qDebug()<<"Время поиска контуров:" << t.elapsed();
 }
