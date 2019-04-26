@@ -1,10 +1,5 @@
 #include "crowncharge.h"
 
-CrownCharge::CrownCharge()
-{
-
-}
-
 CrownCharge::CrownCharge(const Contour &starContour) : contours{starContour}
 {
 
@@ -29,9 +24,14 @@ bool CrownCharge::tryAddContour(const Contour &newContour)
     }
 }
 
-bool CrownCharge::isTimeToDie() const
+bool CrownCharge::timeForLifeIsEnd() const
 {
-    return countToDie <= 0 ? true : false;
+    return countToDie <= 0 ;
+}
+
+bool CrownCharge::isItNoise() const
+{
+    return contours.size() <= realChargeSize;
 }
 
 int CrownCharge::getLifeTime() const

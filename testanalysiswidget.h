@@ -51,6 +51,8 @@ private:
     void applyMask(cv::Mat &img);
     void firstAnalysis();
     void fillListView(const Contours &contours);
+    Contours searchContours(const cv::Mat &img);
+    void searchCrownCharges(const Contours &contours);
 
 };
 
