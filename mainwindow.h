@@ -18,7 +18,7 @@
 #include "opencv2/highgui/highgui.hpp"
 #include "videofilereader.h"
 #include "WidgetFileTree/filetreedialog.h"
-
+#include "fragmentinfo.h"
 #include "testanalysiswidget.h"
 
 
@@ -44,6 +44,9 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+public slots:
+    void playFragment(FragmentInfo fragment);
 
 private slots:
     void on_horizontalSlider_valueChanged(int value);

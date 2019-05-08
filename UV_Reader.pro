@@ -50,10 +50,12 @@ SOURCES += \
     ReportCreator/htmltemplatebuilder.cpp \
     ReportCreator/reportdialog.cpp \
     testanalysiswidget.cpp \
-    coordinatesconverter.cpp \
-    uvgraphicsview.cpp \
-    qrectbuilder.cpp \
-    crowncharge.cpp
+    crowncharge.cpp \
+    UVGraphicsView/qrectbuilder.cpp \
+    UVGraphicsView/uvgraphicsview.cpp \
+    contour.cpp \
+    crownchargedetector.cpp \
+    suspectcrowncharge.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -77,10 +79,12 @@ HEADERS += \
     ReportCreator/htmltemplatebuilder.h \
     ReportCreator/reportdialog.h \
     testanalysiswidget.h \
-    coordinatesconverter.h \
-    uvgraphicsview.h \
-    qrectbuilder.h \
-    crowncharge.h
+    crowncharge.h \
+    UVGraphicsView/qrectbuilder.h \
+    UVGraphicsView/uvgraphicsview.h \
+    contour.h \
+    crownchargedetector.h \
+    suspectcrowncharge.h
 
 FORMS += \
         mainwindow.ui \
@@ -93,7 +97,8 @@ FORMS += \
 
 INCLUDEPATH += C:/OpenCV-4.0.1/include \
                 $$PWD/WidgetFileTree \
-                $$PWD/ReportCreator
+                $$PWD/ReportCreator \
+                $$PWD/UVGraphicsView
 
 CONFIG (debug, debug|release) {
     #debug

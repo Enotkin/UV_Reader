@@ -24,71 +24,70 @@ void TestAnalysisWidget::setSourceFile(const QFileInfo &value)
     QTime t;
     t.start();
     {
-        firstAnalysis();
-        crownCharges.remove_if([](const auto &crownCharge){return crownCharge.isItNoise();});
+        superAnalysis();
     }
     qDebug()<<"Время поиска контуров:" << t.elapsed();
     qDebug()<<"ГОТОВО";
 }
 
-void TestAnalysisWidget::firstAnalysis()
+void TestAnalysisWidget::superAnalysis()
 {
     videoCapture->set(cv::CAP_PROP_POS_AVI_RATIO, 0);
     auto countFrame = videoCapture->get(cv::CAP_PROP_FRAME_COUNT);
+    CrownChargeDetector detector;
     for(size_t frameNumber = 0; frameNumber < countFrame; frameNumber++){
         cv::Mat src;
         videoCapture->read(src);
-        auto contours = searchContours(src);
-        searchCrownCharges(contours);
-        countersAtFrames.insert(std::make_pair(frameNumber, contours));
+        auto monochromeFrame = binarization(src);
+        auto contours = searchContours(frameNumber, monochromeFrame);
+        detector.searchCrownCharges(std::list<Contour>(contours.begin(), contours.end()));
     }
+    detector.clearBuffer();    
+    crownCharges = detector.getDetectedCharges();
 }
 
-Contours TestAnalysisWidget::searchContours(const cv::Mat &img)
+cv::Mat TestAnalysisWidget::binarization(const cv::Mat &src)
 {
     cv::Mat srcGray, dst;
-    cv::cvtColor(img, srcGray, cv::COLOR_BGR2GRAY);
+    cv::cvtColor(src, srcGray, cv::COLOR_BGR2GRAY);
     applyMask(srcGray);
     cv::threshold(srcGray, dst, thresholdValue, 255, cv::THRESH_BINARY);
-    Contours srcContours, dstContours;
-    cv::findContours(dst.clone(), srcContours, cv::RETR_LIST, cv::CHAIN_APPROX_NONE);
+    return dst;
+}
+
+std::vector<Contour> TestAnalysisWidget::searchContours(size_t frameNumber, const cv::Mat &img)
+{
+    std::vector<Contour> contours;
+    std::vector<std::vector<cv::Point>> srcContours, dstContours;
+    cv::findContours(img, srcContours, cv::RETR_LIST, cv::CHAIN_APPROX_NONE);
     std::copy_if(srcContours.begin(), srcContours.end(), std::back_inserter(dstContours),
                  [](const auto &contour){ return (cv::contourArea(contour, false) > 5.0) ? true : false; });
-    dstContours.shrink_to_fit();
-    return dstContours;
-}
-
-void TestAnalysisWidget::searchCrownCharges(const Contours &contours)
-{
-    if (crownCharges.empty()){
-        for(const auto &contour : contours)
-            crownCharges.emplace_back(contour);
-    } else {
-        std::list<Contour> contourForInsert;
-        //Попытка добавить элемент, если не получилось то оставляем для вставки
-        for (auto const &contour : contours) {
-            bool pairFound = false;
-            for (auto &crownCharge : crownCharges)
-                 pairFound |= crownCharge.tryAddContour(contour);
-            if (!pairFound)
-                contourForInsert.push_back(contour);
-        }
-
-        //Удаление элементов которые не обновлялись
-        crownCharges.remove_if([](const auto &crownCharge){return crownCharge.timeForLifeIsEnd();});
-
-        //Добавление новых элементов которые не нашли пару
-        for (const auto &contour : contourForInsert)
-            crownCharges.emplace_back(contour);
+    for (const auto &contour : dstContours) {
+        contours.emplace_back(frameNumber, contour);
     }
+    return contours;
+
+//    cv::Mat srcGray, dst;
+//    cv::cvtColor(img, srcGray, cv::COLOR_BGR2GRAY);
+//    applyMask(srcGray);
+//    cv::threshold(srcGray, dst, thresholdValue, 255, cv::THRESH_BINARY);
+//    std::vector<cv::Point> srcContours, dstContours;
+//    Contours result;
+//    cv::findContours(dst.clone(), srcContours, cv::RETR_LIST, cv::CHAIN_APPROX_NONE);
+//    std::copy_if(srcContours.begin(), srcContours.end(), std::back_inserter(dstContours),
+//                 [](const auto &contour){ return (cv::contourArea(contour, false) > 5.0) ? true : false; });
+//    for (const auto &contourVector : dstContours) {
+//        result.emplace_back(contourVector);
+//    }
+//    return result;
 }
 
-void TestAnalysisWidget::fillListView(const Contours &contours)
+void TestAnalysisWidget::fillListView(const std::vector<Contour> &contours)
 {
     ui->listWidget->clear();
     int contourNumber = 1;
      for (const auto &contour : contours) {
-            ui->listWidget->addItem(QString("%1 Size: %2").arg(contourNumber++).arg(cv::contourArea(contour)));
+            ui->listWidget->addItem(QString("%1 Size: %2").arg(contourNumber++).arg(contour.getArea()));
      }
 }
 
@@ -109,13 +108,13 @@ void TestAnalysisWidget::on_horizontalSliderFrame_valueChanged(int value)
     thresholdMagic();
 }
 
-void TestAnalysisWidget::setRectsList(const QList<QRect> &value)
+void TestAnalysisWidget::setMaskRects(const QList<QRect> &value)
 {
     if (rectsList.isEmpty()){
         rectsList = value;
     } else {
         rectsList = value;
-        firstAnalysis();
+        superAnalysis();
     }
 }
 
@@ -124,13 +123,26 @@ void TestAnalysisWidget::setFrame(int frame)
     ui->horizontalSliderFrame->setValue(frame);
 }
 
+QList<FragmentInfo> TestAnalysisWidget::getFragments()
+{
+    if (crownCharges.empty())
+        return QList<FragmentInfo>();
+    QList<FragmentInfo> fragments;
+    for (const auto &crownCharge : crownCharges) {
+        FragmentInfo fragmentInfo;
+        fragmentInfo.setCrownCharge(crownCharge);
+        fragments.append(fragmentInfo);
+    }
+    return fragments;
+}
+
 void TestAnalysisWidget::thresholdMagic()
 {
     cv::Mat src;
     fillListView(countersAtFrames.at(currentFrame));
     videoCapture->set(cv::CAP_PROP_POS_FRAMES, currentFrame);
     videoCapture->read(src);
-    cv::drawContours(src, countersAtFrames.at(currentFrame), -1, cv::Scalar(0, 0, 255));
+//    cv::drawContours(src, countersAtFrames.at(currentFrame), -1, cv::Scalar(0, 0, 255));
     QImage image(static_cast<uchar*>(src.data), src.cols, src.rows, QImage::Format_RGB888);
     ui->label->setImage(image);
 }

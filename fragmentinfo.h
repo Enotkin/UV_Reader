@@ -2,8 +2,13 @@
 #define FRAGMENTINFO_H
 
 #include <QString>
+#include <QMetaType>
 #include <QPair>
 #include <QTime>
+
+#include <memory>
+
+#include "crowncharge.h"
 
 using FrameRange = QPair<int,int>;
 using TimeRange = QPair<QTime, QTime>;
@@ -36,6 +41,9 @@ public:
 
     int getFrameNumberReport() const;
 
+    CrownCharge getCrownCharge() const;
+    void setCrownCharge(const CrownCharge &value);
+
 private:
     bool empty = true;
     FrameRange frameRange {0,0};
@@ -43,8 +51,11 @@ private:
     TimeRange time {QTime(), QTime()};
     QString status = QString();
     int frameNumberReport = 0;
-
+    CrownCharge crownCharge;
     int average(FrameRange range);
 };
+
+
+Q_DECLARE_METATYPE(FragmentInfo);
 
 #endif // FRAGMENTINFO_H

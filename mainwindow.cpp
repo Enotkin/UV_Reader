@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->analysisWidget->hide();
     connect(&timer, &QTimer::timeout, this, &MainWindow::timeChangeFrame);
     connect(&fileTreeDialog, &FileTreeDialog::signalSelectedFile, this, &MainWindow::openVideoFile);
+//    connect()
     settings = std::make_unique<QSettings>("settings.ini", QSettings::IniFormat);
 //    scene.addItem(&pixmapItem);
 //    ui->graphicsView->setScene(&scene);
@@ -22,6 +23,11 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::playFragment(FragmentInfo fragment)
+{
+    videoData->getCurrentFrameNumber();
 }
 
 void MainWindow::setHorizontalSliderValue(const int value)
@@ -212,6 +218,7 @@ void MainWindow::openVideoFile(const QString &pathToFile)
         return;
 
     fileInfo.setFile(pathToFile);
+    ui->analysisWidget->setFileInfo(fileInfo);
 
     settings->setValue(SettingTitles::DefaultPathSettingsTitle, fileTreeDialog.getRootDir());
 
@@ -240,7 +247,8 @@ void MainWindow::on_actionTestMaskCreate_triggered(bool checked)
     }else {
         ui->graphicsView->setEditMode(false);
         auto rects = ui->graphicsView->getMaskRect();
-            ui->testAnalisysWidget->setRectsList(ui->graphicsView->getMaskRect());
+        ui->testAnalisysWidget->setMaskRects(ui->graphicsView->getMaskRect());
+        ui->analysisWidget->setMask(ui->graphicsView->getMaskRect());
     }
 }
 
@@ -248,7 +256,7 @@ void MainWindow::on_actionTestAnalysis_triggered(bool checked)
 {
     ui->testAnalisysWidget->setVisible(checked);
     if (ui->testAnalisysWidget->isVisible()){
-            ui->testAnalisysWidget->setSourceFile(fileInfo);
+        ui->testAnalisysWidget->setSourceFile(fileInfo);
     }
 }
 

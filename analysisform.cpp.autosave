@@ -237,8 +237,17 @@ void AnalysisForm::on_actionExcelExport_triggered()
     excel.SaveAs(dir.absoluteFilePath("imageFileName.xlsx").replace("/", "\\"));
 }
 
+void AnalysisForm::setFileInfo(const QFileInfo &value)
+{
+    fileInfo = value;
+}
 
-void AnalysisForm::on_pushButton_clicked()
+void AnalysisForm::on_actionPlay_triggered()
+{
+
+}
+
+void AnalysisForm::on_pushButtonStartAnalysis_clicked()
 {
     auto analysis = new TestAnalysisWidget();
     analysis->setSourceFile(fileInfo);
@@ -248,14 +257,4 @@ void AnalysisForm::on_pushButton_clicked()
     for (const auto &fragment : fragments){
         model->addFragment(fragment);
     }
-}
-
-void AnalysisForm::setFileInfo(const QFileInfo &value)
-{
-    fileInfo = value;
-}
-
-void AnalysisForm::on_actionPlay_triggered()
-{
-
 }

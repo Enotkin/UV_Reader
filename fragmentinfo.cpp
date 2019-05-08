@@ -91,6 +91,20 @@ int FragmentInfo::getFrameNumberReport() const
     return frameNumberReport;
 }
 
+CrownCharge FragmentInfo::getCrownCharge() const
+{
+    return crownCharge;
+}
+
+void FragmentInfo::setCrownCharge(const CrownCharge &value)
+{
+    crownCharge = value;
+    if (frameRange.first == 0 && frameRange.second == 0){
+        auto ss = crownCharge.getRange();
+        frameRange = ss;
+    }
+}
+
 int FragmentInfo::average(FrameRange range)
 {
     return static_cast<int>((range.first + range.second)/2);

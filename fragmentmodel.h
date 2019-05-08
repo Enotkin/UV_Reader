@@ -33,7 +33,7 @@ public:
     QList<FragmentInfo> getFragments() const;
 
 private:
-    QStringList headers {"", "Состяние", "Кадры", "Опоры", "Время", "Номер в отчёте"};
+    QStringList headers {"", "Состяние", "Кадры", "Опоры", "Время", "Номер в\nотчёте"};
     QList<FragmentInfo> fragments;
     QList<Qt::CheckState> fragmentsCheckState;
 };
