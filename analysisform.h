@@ -60,10 +60,9 @@ private slots:
 
     void on_actionExcelExport_triggered();
 
-    void on_pushButton_clicked();
-
     void on_actionPlay_triggered();
 
+    void on_pushButtonStartAnalysis_clicked();
 
 private:
     Ui::analysisForm *ui;
