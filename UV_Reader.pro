@@ -55,7 +55,8 @@ SOURCES += \
     UVGraphicsView/uvgraphicsview.cpp \
     contour.cpp \
     crownchargedetector.cpp \
-    suspectcrowncharge.cpp
+    suspectcrowncharge.cpp \
+    videoplayer.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -84,7 +85,8 @@ HEADERS += \
     UVGraphicsView/uvgraphicsview.h \
     contour.h \
     crownchargedetector.h \
-    suspectcrowncharge.h
+    suspectcrowncharge.h \
+    videoplayer.h
 
 FORMS += \
         mainwindow.ui \
