@@ -60,8 +60,8 @@ void AnalysisForm::on_actionAddIntervalComment_triggered()
 
 void AnalysisForm::on_tableView_doubleClicked(const QModelIndex &index)
 {
-    auto variantFragment = model->data(index);
-    FragmentInfo fragment = variantFragment.value<FragmentInfo>();
+    auto fragment = model->getFragment(index);
+    qDebug()<<"FragmentInfo in AnalisysForm:"<<fragment.getFrameRange();
     emit playFragmet(fragment);
 }
 

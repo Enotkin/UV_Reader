@@ -122,6 +122,11 @@ QStringList FragmentModel::getHeaders() const
     return headers;
 }
 
+FragmentInfo FragmentModel::getFragment(const QModelIndex &index) const
+{
+    return fragments.at(index.row());
+}
+
 QList<FragmentInfo> FragmentModel::getFragments() const
 {
     return fragments;

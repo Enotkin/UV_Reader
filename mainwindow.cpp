@@ -11,8 +11,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->analysisWidget->hide();
     connect(&timer, &QTimer::timeout, this, &MainWindow::timeChangeFrame);
     connect(&fileTreeDialog, &FileTreeDialog::signalSelectedFile, this, &MainWindow::openVideoFile);
-//    connect()
+    connect(ui->analysisWidget, &AnalysisForm::playFragmet, this, &MainWindow::playFragment);
     settings = std::make_unique<QSettings>("settings.ini", QSettings::IniFormat);
+
+    auto view = ui->graphicsView;
+    auto viewMethod = [view](const QImage &image) mutable {view->setImage(image);};
+    videoPlayer.setView(viewMethod);
+
 //    scene.addItem(&pixmapItem);
 //    ui->graphicsView->setScene(&scene);
 //    ui->graphicsView->fitInView(scene.itemsBoundingRect(), Qt::KeepAspectRatio);
@@ -27,7 +32,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::playFragment(FragmentInfo fragment)
 {
-    videoData->getCurrentFrameNumber();
+    qDebug()<<"FragmentInfo in MainWindow:"<<fragment.getFrameRange();
+
+    videoPlayer.playFragment(fragment);
 }
 
 void MainWindow::setHorizontalSliderValue(const int value)
@@ -215,10 +222,10 @@ void MainWindow::on_addFragmentCommentAction_triggered()
 void MainWindow::openVideoFile(const QString &pathToFile)
 {
     if (pathToFile == fileInfo.absoluteFilePath())
-        return;
-
+        return;   
     fileInfo.setFile(pathToFile);
     ui->analysisWidget->setFileInfo(fileInfo);
+    videoPlayer.setSoureceFile(fileInfo);
 
     settings->setValue(SettingTitles::DefaultPathSettingsTitle, fileTreeDialog.getRootDir());
 
@@ -263,4 +270,9 @@ void MainWindow::on_actionTestAnalysis_triggered(bool checked)
 void MainWindow::on_analysisPanelAction_triggered(bool checked)
 {
     ui->analysisWidget->setVisible(checked);
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    videoPlayer.reset();
 }

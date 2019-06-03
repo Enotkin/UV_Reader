@@ -27,9 +27,9 @@ public:
     void removeFragment(const QModelIndexList modelIdexesList);
     void clearModel();
     QList<FragmentInfo> getSelectedFragments() const;
-
     QStringList getHeaders() const;
 
+    FragmentInfo getFragment(const QModelIndex &index) const;
     QList<FragmentInfo> getFragments() const;
 
 private:

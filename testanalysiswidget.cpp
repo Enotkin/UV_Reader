@@ -36,11 +36,14 @@ void TestAnalysisWidget::superAnalysis()
     auto countFrame = videoCapture->get(cv::CAP_PROP_FRAME_COUNT);
     CrownChargeDetector detector;
     for(size_t frameNumber = 0; frameNumber < countFrame; frameNumber++){
+        QTime t;
+        t.start();
         cv::Mat src;
         videoCapture->read(src);
         auto monochromeFrame = binarization(src);
         auto contours = searchContours(frameNumber, monochromeFrame);
         detector.searchCrownCharges(std::list<Contour>(contours.begin(), contours.end()));
+        qDebug()<<"Время поиска контуров на кадре:" << t.elapsed();
     }
     detector.clearBuffer();    
     crownCharges = detector.getDetectedCharges();

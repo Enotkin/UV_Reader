@@ -20,6 +20,7 @@
 #include "WidgetFileTree/filetreedialog.h"
 #include "fragmentinfo.h"
 #include "testanalysiswidget.h"
+#include "videoplayer.h"
 
 
 
@@ -89,6 +90,8 @@ private slots:
 
     void on_analysisPanelAction_triggered(bool checked);
 
+    void on_pushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     std::unique_ptr<QSettings> settings;
@@ -96,6 +99,7 @@ private:
     FileTreeDialog fileTreeDialog;
 
 //    QGraphicsScene scene;
+    VideoPlayer videoPlayer;
     QGraphicsPixmapItem pixmapItem;
     QTimer timer;
     QFileInfo fileInfo;
