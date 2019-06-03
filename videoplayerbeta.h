@@ -1,7 +1,7 @@
 #ifndef VIDEOPLAYER_H
 #define VIDEOPLAYER_H
 
-#include <QWidget>
+#include <QObject>
 #include <QFileInfo>
 #include <memory>
 #include <functional>
@@ -11,17 +11,11 @@
 #include "videosettings.h"
 #include "uvgraphicsview.h"
 
-namespace Ui {
-class VideoPlayer;
-}
-
-class VideoPlayer : public QWidget
+class VideoPlayerBETA : public QObject
 {
-    Q_OBJECT   
-
+    Q_OBJECT
 public:
-    explicit VideoPlayer(QWidget *parent = nullptr);
-    ~VideoPlayer();
+    explicit VideoPlayerBETA(QObject *parent = nullptr);
 
     void setView(const std::function<void(const QImage&)> &displayImage);
 
@@ -37,13 +31,12 @@ public:
 
     void reset();
 
-
 signals:
     void updateVideoInfo(double, int);
 
-private:
-    Ui::VideoPlayer *ui;
+public slots:
 
+private:
     void setFrame(const int frameNumber);
 
     int timerSpeed = 40;

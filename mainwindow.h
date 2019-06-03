@@ -20,7 +20,7 @@
 #include "WidgetFileTree/filetreedialog.h"
 #include "fragmentinfo.h"
 #include "testanalysiswidget.h"
-#include "videoplayer.h"
+#include "videoplayerbeta.h"
 
 
 
@@ -99,7 +99,7 @@ private:
     FileTreeDialog fileTreeDialog;
 
 //    QGraphicsScene scene;
-    VideoPlayer videoPlayer;
+    VideoPlayerBETA videoPlayer;
     QGraphicsPixmapItem pixmapItem;
     QTimer timer;
     QFileInfo fileInfo;

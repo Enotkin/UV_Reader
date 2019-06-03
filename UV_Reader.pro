@@ -56,6 +56,7 @@ SOURCES += \
     contour.cpp \
     crownchargedetector.cpp \
     suspectcrowncharge.cpp \
+    videoplayerbeta.cpp \
     videoplayer.cpp
 
 HEADERS += \
@@ -86,6 +87,7 @@ HEADERS += \
     contour.h \
     crownchargedetector.h \
     suspectcrowncharge.h \
+    videoplayerbeta.h \
     videoplayer.h
 
 FORMS += \
@@ -95,7 +97,8 @@ FORMS += \
     WidgetFileTree/filetree.ui \
     WidgetFileTree/filetreedialog.ui \
     ReportCreator/reportdialog.ui \
-    testanalysiswidget.ui
+    testanalysiswidget.ui \
+    videoplayer.ui
 
 INCLUDEPATH += C:/OpenCV-4.0.1/include \
                 $$PWD/WidgetFileTree \
