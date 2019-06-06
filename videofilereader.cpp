@@ -1,15 +1,19 @@
 #include "videofilereader.h"
 
-VideoFileReader::VideoFileReader(const QString &pathToSample, QObject *parent): QObject(parent), p_fileInfo(pathToSample)
+VideoFileReader::VideoFileReader(const QString &pathToSample, QObject *parent):
+    QObject(parent),
+    p_fileInfo(pathToSample) ,
+    settings(p_fileInfo)
 {
     openDataFile(p_fileInfo.absoluteFilePath());
-    settingsCreating();
 }
 
-VideoFileReader::VideoFileReader(const QFileInfo &fileInfo, QObject *parent): QObject(parent), p_fileInfo(fileInfo)
+VideoFileReader::VideoFileReader(const QFileInfo &fileInfo, QObject *parent):
+    QObject(parent),
+    p_fileInfo(fileInfo),
+    settings(p_fileInfo)
 {
     openDataFile(p_fileInfo.absoluteFilePath());
-    settingsCreating();
 }
 
 VideoFileReader::~VideoFileReader()
@@ -50,20 +54,6 @@ cv::VideoCapture *VideoFileReader::getVideoCapture() const
 QFileInfo VideoFileReader::getP_fileInfo() const
 {
     return p_fileInfo;
-}
-
-void VideoFileReader::settingsCreating()
-{
-    int curretnPosition = static_cast<int>(videoCapture->get(cv::CAP_PROP_POS_FRAMES));
-    videoCapture->set(cv::CAP_PROP_POS_AVI_RATIO, 1);
-    settings.setDuration(videoCapture->get(cv::CAP_PROP_POS_MSEC));
-    videoCapture->set(cv::CAP_PROP_POS_FRAMES, curretnPosition);
-
-    settings.setSize(cv::Size(static_cast<int>(videoCapture->get(cv::CAP_PROP_FRAME_WIDTH)),
-                              static_cast<int>(videoCapture->get(cv::CAP_PROP_FRAME_HEIGHT))));
-    settings.setCodec(static_cast<int>(videoCapture->get(cv::CAP_PROP_FOURCC)));
-    settings.setFrameRate(videoCapture->get(cv::CAP_PROP_FPS));
-    settings.setCountFrames(static_cast<int>(videoCapture->get(cv::CAP_PROP_FRAME_COUNT)));
 }
 
 QImage VideoFileReader::getFrame(int numberFrame)

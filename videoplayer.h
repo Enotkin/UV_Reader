@@ -1,7 +1,7 @@
 #ifndef VIDEOPLAYER_H
 #define VIDEOPLAYER_H
 
-#include <QWidget>
+#include <QObject>
 #include <QFileInfo>
 #include <memory>
 #include <functional>
@@ -11,23 +11,13 @@
 #include "videosettings.h"
 #include "uvgraphicsview.h"
 
-namespace Ui {
-class VideoPlayer;
-}
-
-class VideoPlayer : public QWidget
+class VideoPlayer : public QObject
 {
-    Q_OBJECT   
-
+    Q_OBJECT
 public:
-    explicit VideoPlayer(QWidget *parent = nullptr);
-    ~VideoPlayer();
+    explicit VideoPlayer(const QFileInfo &value, QObject *parent = nullptr);
 
-    void setView(const std::function<void(const QImage&)> &displayImage);
-
-    void setSoureceFile(const QFileInfo &value);
-
-    void playFragment(FragmentInfo fragment);
+    void setFragment(const FragmentInfo &fragment);
 
     void play();
 
@@ -35,26 +25,37 @@ public:
 
     void pause();
 
-    void reset();
+    void begin();
 
+    void end();
+
+    void nextFrame();
+
+    void prevFrame();
+
+    void setRepeatMode(bool repeat);
+
+    bool isPlayBackActive();
+
+public slots:
+    void setFrame(int frameNumber);
+
+private slots:
+    void timerOut();
 
 signals:
-    void updateVideoInfo(double, int);
+    void updateFrame(QImage, double, int);
 
 private:
-    Ui::VideoPlayer *ui;
-
-    void setFrame(const int frameNumber);
-
     int timerSpeed = 40;
     int stopFrame = 0;
     int startFrame = 0;
+    bool repeatFragment = false;
     QTimer timer;
     std::unique_ptr<VideoFileReader> videoFileReader;
     std::function<void(const QImage&)> displayFrame;
-    UvGraphicsView *view = nullptr;
-    FragmentInfo fragmentInfo;
-    QFileInfo soureceFile;
+    FragmentInfo currentFragment;
+    QFileInfo soureceVideoFile;
 
 };
 

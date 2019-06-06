@@ -16,13 +16,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     auto view = ui->graphicsView;
     auto viewMethod = [view](const QImage &image) mutable {view->setImage(image);};
-    videoPlayer.setView(viewMethod);
+    ui->videoControls->setView(viewMethod);
 
-//    scene.addItem(&pixmapItem);
-//    ui->graphicsView->setScene(&scene);
-//    ui->graphicsView->fitInView(scene.itemsBoundingRect(), Qt::KeepAspectRatio);
-    setupMediaControlsToolBar();
-
+    //setupMediaControlsToolBar();
 }
 
 MainWindow::~MainWindow()
@@ -34,7 +30,6 @@ void MainWindow::playFragment(FragmentInfo fragment)
 {
     qDebug()<<"FragmentInfo in MainWindow:"<<fragment.getFrameRange();
 
-    videoPlayer.playFragment(fragment);
 }
 
 void MainWindow::setHorizontalSliderValue(const int value)
@@ -225,7 +220,8 @@ void MainWindow::openVideoFile(const QString &pathToFile)
         return;   
     fileInfo.setFile(pathToFile);
     ui->analysisWidget->setFileInfo(fileInfo);
-    videoPlayer.setSoureceFile(fileInfo);
+    ui->videoControls->setSourceVideoFile(fileInfo);
+//    videoPlayer.setSoureceFile(fileInfo);
 
     settings->setValue(SettingTitles::DefaultPathSettingsTitle, fileTreeDialog.getRootDir());
 
@@ -274,5 +270,5 @@ void MainWindow::on_analysisPanelAction_triggered(bool checked)
 
 void MainWindow::on_pushButton_clicked()
 {
-    videoPlayer.reset();
+//    videoPlayer.reset();
 }

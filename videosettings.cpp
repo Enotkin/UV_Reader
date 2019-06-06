@@ -1,18 +1,21 @@
 #include "videosettings.h"
 
-VideoSettings::VideoSettings(const int countFrames,
-                             const cv::Size &size,
-                             const int codec,
-                             const double duration,
-                             const double frameRate)
-    : countFrames(countFrames),
-      size(size),
-      codec(codec),
-      duration(duration),
-      frameRate(frameRate)
-
+VideoSettings::VideoSettings(const QFileInfo &file)
 {
+    initialization(file);
+}
 
+void VideoSettings::initialization(const QFileInfo &file)
+{
+    cv::VideoCapture video(file.absoluteFilePath().toStdString());
+    video.set(cv::CAP_PROP_POS_AVI_RATIO, 1);
+    duration = video.get(cv::CAP_PROP_POS_MSEC);
+    size = cv::Size(static_cast<int>(video.get(cv::CAP_PROP_FRAME_WIDTH)),
+                    static_cast<int>(video.get(cv::CAP_PROP_FRAME_HEIGHT)));
+    codec = static_cast<int>(video.get(cv::CAP_PROP_FOURCC));
+    frameRate = video.get(cv::CAP_PROP_FPS);
+    countFrames = static_cast<int>(video.get(cv::CAP_PROP_FRAME_COUNT));
+    full = true;
 }
 
 int VideoSettings::getCountFrames() const
@@ -20,19 +23,9 @@ int VideoSettings::getCountFrames() const
     return countFrames;
 }
 
-void VideoSettings::setCountFrames(int value)
-{
-    countFrames = value;
-}
-
 cv::Size VideoSettings::getSize() const
 {
     return size;
-}
-
-void VideoSettings::setSize(const cv::Size &value)
-{
-    size = value;
 }
 
 QSize VideoSettings::getQSize() const
@@ -40,20 +33,9 @@ QSize VideoSettings::getQSize() const
     return QSize(size.width, size.height);
 }
 
-void VideoSettings::setQSize(const QSize &value)
-{
-    size.width = value.width();
-    size.height = value.height();
-}
-
 int VideoSettings::getCodec() const
 {
     return codec;
-}
-
-void VideoSettings::setCodec(int value)
-{
-    codec = value;
 }
 
 double VideoSettings::getDuration() const
@@ -61,17 +43,17 @@ double VideoSettings::getDuration() const
     return duration;
 }
 
-void VideoSettings::setDuration(double value)
-{
-    duration = value;
-}
-
 double VideoSettings::getFrameRate() const
 {
     return frameRate;
 }
 
-void VideoSettings::setFrameRate(double value)
+bool VideoSettings::isEmpty() const
 {
-    frameRate = value;
+    return full;
+}
+
+VideoSettings::operator bool() const
+{
+    return isEmpty();
 }

@@ -41,7 +41,6 @@ private:
     VideoSettings settings;
 
     QImage getImage();
-    void settingsCreating();
     bool openDataFile(const QString &pathToFile);
 };
 

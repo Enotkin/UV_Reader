@@ -56,6 +56,9 @@
         </widget>
        </item>
        <item>
+        <widget class="VideoControlsForm" name="videoControls" native="true"/>
+       </item>
+       <item>
         <widget class="QWidget" name="controlPanel" native="true">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -573,6 +576,12 @@
    <class>TestAnalysisWidget</class>
    <extends>QWidget</extends>
    <header>testanalysiswidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>VideoControlsForm</class>
+   <extends>QWidget</extends>
+   <header>videocontrolsform.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

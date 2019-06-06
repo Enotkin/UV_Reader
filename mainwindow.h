@@ -20,9 +20,6 @@
 #include "WidgetFileTree/filetreedialog.h"
 #include "fragmentinfo.h"
 #include "testanalysiswidget.h"
-#include "videoplayerbeta.h"
-
-
 
 namespace Ui {
 class MainWindow;
@@ -99,7 +96,7 @@ private:
     FileTreeDialog fileTreeDialog;
 
 //    QGraphicsScene scene;
-    VideoPlayerBETA videoPlayer;
+//    VideoPlayerBETA videoPlayer;
     QGraphicsPixmapItem pixmapItem;
     QTimer timer;
     QFileInfo fileInfo;

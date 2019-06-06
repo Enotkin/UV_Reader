@@ -25,5 +25,7 @@
         <file>mediaIcons/right.png</file>
         <file>mediaIcons/right1.png</file>
         <file>mediaIcons/stop.png</file>
+        <file>mediaIcons/return.png</file>
+        <file>mediaIcons/repeat.png</file>
     </qresource>
 </RCC>

@@ -1,42 +1,53 @@
 #include "videoplayer.h"
-#include "ui_videoplayer.h"
 
-VideoPlayer::VideoPlayer(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::VideoPlayer)
+VideoPlayer::VideoPlayer(const QFileInfo &value, QObject *parent) : QObject(parent), soureceVideoFile(value)
 {
-    ui->setupUi(this);
-    connect(&timer, &QTimer::timeout, this, [this](){
-        this->setFrame(this->videoFileReader->getCurrentFrameNumber());});
-}
-
-VideoPlayer::~VideoPlayer()
-{
-    delete ui;
-}
-
-void VideoPlayer::setView(const std::function<void (const QImage &)> &displayImage)
-{
-    if (!displayFrame)
-        displayFrame = displayImage;
-    return;
-}
-
-void VideoPlayer::setSoureceFile(const QFileInfo &value)
-{
-    soureceFile = value;
-    videoFileReader = std::make_unique<VideoFileReader>(soureceFile);
+    videoFileReader = std::make_unique<VideoFileReader>(soureceVideoFile);
+    connect(&timer, &QTimer::timeout, this, &VideoPlayer::timerOut);
     startFrame = 0;
     stopFrame = videoFileReader->getSettings().getCountFrames();
 }
 
-void VideoPlayer::playFragment(FragmentInfo fragment)
+void VideoPlayer::setFragment(const FragmentInfo &fragment)
 {
+    pause();
+
     if (fragment.getFrameRange().second <= videoFileReader->getSettings().getCountFrames())
         stopFrame = fragment.getFrameRange().second;
+    else
+        stopFrame = videoFileReader->getSettings().getCountFrames();
+
     startFrame = fragment.getFrameRange().first;
-    videoFileReader->setCurrentFrameNumber(startFrame);
-    play();
+    begin();
+
+    if (fragment.getFrameRange().second == videoFileReader->getSettings().getCountFrames() &&
+            fragment.getFrameRange().first == 0) {
+        setRepeatMode(false);
+    } else {
+        setRepeatMode(true);
+        play(); //Воспроизвеение по умолчанию
+    }
+}
+
+void VideoPlayer::setFrame(int frameNumber)
+{
+    if (!videoFileReader)
+        return;
+    if (frameNumber != stopFrame){
+        emit updateFrame(videoFileReader->getFrame(frameNumber), videoFileReader->getTime(), frameNumber);
+    } else {
+        if (repeatFragment){
+            emit updateFrame(videoFileReader->getFrame(startFrame), videoFileReader->getTime(), startFrame);
+        } else {
+            emit updateFrame(videoFileReader->getFrame(stopFrame), videoFileReader->getTime(), stopFrame);
+            pause();
+        }
+    }
+}
+
+void VideoPlayer::timerOut()
+{
+    setFrame(videoFileReader->getCurrentFrameNumber());
 }
 
 void VideoPlayer::play()
@@ -45,33 +56,82 @@ void VideoPlayer::play()
         timer.start(timerSpeed);
 }
 
-void VideoPlayer::stop()
-{
-    pause();
-    videoFileReader->setCurrentFrameNumber(startFrame);
-    //TODO Отмытываение на начало.
-}
-
 void VideoPlayer::pause()
 {
     if (timer.isActive())
         timer.stop();
 }
 
-void VideoPlayer::reset()
+void VideoPlayer::stop()
 {
-    stop();
-    startFrame = 0;
-    stopFrame = videoFileReader->getSettings().getCountFrames();
+    pause();
+    begin();
+}
+
+void VideoPlayer::begin()
+{
+    videoFileReader->setCurrentFrameNumber(startFrame);
     setFrame(startFrame);
 }
 
-void VideoPlayer::setFrame(const int frameNumber)
+void VideoPlayer::end()
 {
-    if (!videoFileReader || !displayFrame)
-        return;
-    auto changeFrame = [&](int frame){
-        displayFrame(videoFileReader->getFrame(frame));
-        emit updateVideoInfo(videoFileReader->getTime(), frame);};
-    frameNumber != stopFrame ? changeFrame(frameNumber) : changeFrame(startFrame);
+    videoFileReader->setCurrentFrameNumber(stopFrame);
+    setFrame(stopFrame);
 }
+
+void VideoPlayer::nextFrame()
+{
+    int frame = videoFileReader->getCurrentFrameNumber();
+    setFrame(frame);
+}
+
+void VideoPlayer::prevFrame()
+{
+    int frame = videoFileReader->getCurrentFrameNumber() - 2;
+    setFrame(frame);
+}
+
+void VideoPlayer::setRepeatMode(bool repeat)
+{
+    repeatFragment = repeat;
+}
+
+bool VideoPlayer::isPlayBackActive()
+{
+    return timer.isActive();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
