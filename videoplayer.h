@@ -10,6 +10,7 @@
 #include "videofilereader.h"
 #include "videosettings.h"
 #include "uvgraphicsview.h"
+#include "crownchargepainter.h"
 
 class VideoPlayer : public QObject
 {
@@ -56,6 +57,8 @@ private:
     std::function<void(const QImage&)> displayFrame;
     FragmentInfo currentFragment;
     QFileInfo soureceVideoFile;
+
+    QImage getFrame(int number);
 
 };
 

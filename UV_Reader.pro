@@ -58,7 +58,8 @@ SOURCES += \
     suspectcrowncharge.cpp \
     videocontrolsform.cpp \
     videoplayer.cpp \
-    frame.cpp
+    frame.cpp \
+    crownchargepainter.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -90,7 +91,8 @@ HEADERS += \
     suspectcrowncharge.h \
     videocontrolsform.h \
     videoplayer.h \
-    frame.h
+    frame.h \
+    crownchargepainter.h
 
 FORMS += \
         mainwindow.ui \

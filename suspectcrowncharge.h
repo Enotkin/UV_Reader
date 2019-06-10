@@ -14,6 +14,12 @@ namespace SuspectCrownChargeDefaultParameters {
     static size_t DefaultChargeSize = 3;
 }
 
+struct SuspectCrownChargeSettings{
+    int size;
+    int lifeTime;
+    double delta;
+};
+
 class SuspectCrownCharge
 {
 public:
@@ -22,6 +28,7 @@ public:
                        double delta = SuspectCrownChargeDefaultParameters::DefaultDelta,
                        size_t chargeSize = SuspectCrownChargeDefaultParameters::DefaultChargeSize);
     bool tryAddContour(const Contour &newContour);
+    void setSettings(SuspectCrownChargeSettings settings);
     CrownCharge getCrownCharge() const;
     bool isConfirmedCharge() const ;
     bool isNoise() const;

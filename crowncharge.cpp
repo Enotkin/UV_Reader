@@ -21,4 +21,18 @@ QPair<int, int> CrownCharge::getRange()
                            contours.back().getFrameNumber());
 }
 
+std::vector<Contour> CrownCharge::getContours(int frame)
+{
+    std::vector<Contour> result;
+    std::copy_if(std::begin(contours), std::end(contours), std::back_inserter(result), [frame](const Contour &value){
+        return value.getFrameNumber() == frame;
+    });
+    return result;
+}
+
+std::vector<Contour> CrownCharge::getContours()
+{
+    return std::vector<Contour>{std::begin(contours), std::end(contours)};
+}
+
 

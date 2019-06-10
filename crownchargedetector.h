@@ -15,10 +15,14 @@ public:
     void clearBuffer();
 
     std::list<CrownCharge> getDetectedCharges() const;
+    void setSettings(SuspectCrownChargeSettings settings);
     
 private:
     std::list<CrownCharge> detectedCharges;
     std::list<SuspectCrownCharge> suspectCrownCharges;
+    SuspectCrownChargeSettings suspetctSettings;
+
+
     
     void insertContours(const std::list<Contour> &contours);
 };

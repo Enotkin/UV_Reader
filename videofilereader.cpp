@@ -75,7 +75,17 @@ QImage VideoFileReader::getFrame(int numberFrame)
 
 cv::Mat VideoFileReader::getMatFrame(int numberFrame)
 {
-    return cv::Mat();
+    if (numberFrame <= settings.getCountFrames()){
+        videoCapture->set(cv::CAP_PROP_POS_FRAMES, static_cast<double>(numberFrame));
+        cv::Mat frame;
+        videoCapture->read(frame);
+        if (frame.empty()) {
+            return cv::Mat();
+        }
+        return frame;
+    } else {
+        return cv::Mat();
+    }
 }
 
 QImage VideoFileReader::getImage()

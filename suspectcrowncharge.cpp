@@ -12,8 +12,8 @@ bool SuspectCrownCharge::tryAddContour(const Contour &newContour)
         contours.push_back(newContour);
         return true;
     }
-    auto newContourCenterMass = newContour.getPointCenterMass();
-    auto lastContourCenterMass = contours.back().getPointCenterMass();
+    auto newContourCenterMass = newContour.getCenterMass();
+    auto lastContourCenterMass = contours.back().getCenterMass();
 
     if (distanceBetweenTwoPoints(newContourCenterMass, lastContourCenterMass) < 10) {
         countToDie = lifeTime;
@@ -23,6 +23,13 @@ bool SuspectCrownCharge::tryAddContour(const Contour &newContour)
         countToDie--;
         return false;
     }
+}
+
+void SuspectCrownCharge::setSettings(SuspectCrownChargeSettings settings)
+{
+    lifeTime = settings.lifeTime;
+    delta = settings.delta;
+    realChargeSize = settings.size;
 }
 
 CrownCharge SuspectCrownCharge::getCrownCharge() const

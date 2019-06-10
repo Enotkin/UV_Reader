@@ -250,6 +250,14 @@ void AnalysisForm::on_actionPlay_triggered()
 void AnalysisForm::on_pushButtonStartAnalysis_clicked()
 {
     auto analysis = new TestAnalysisWidget();
+
+
+    SuspectCrownChargeSettings settings;
+    settings.size = ui->spinBoxMinSizeCrownCharge->value();
+    settings.lifeTime = ui->spinBoxLifeTime->value();
+    settings.delta = ui->spinBox->value();
+
+    analysis->setSuspectSettings(settings);
     analysis->setSourceFile(fileInfo);
     analysis->setMaskRects(mask);
     analysis->superAnalysis();
@@ -257,4 +265,9 @@ void AnalysisForm::on_pushButtonStartAnalysis_clicked()
     for (const auto &fragment : fragments){
         model->addFragment(fragment);
     }
+}
+
+void AnalysisForm::on_spinBoxDistanceBetweenCenterMass_valueChanged(int arg1)
+{
+
 }

@@ -22,7 +22,7 @@ QPoint Contour::getQPointCenterMass() const
                   static_cast<int>(moments.m01/moments.m00));
 }
 
-cv::Point Contour::getPointCenterMass() const
+cv::Point Contour::getCenterMass() const
 {
     return cv::Point(static_cast<int>(moments.m10/moments.m00),
                      static_cast<int>(moments.m01/moments.m00));

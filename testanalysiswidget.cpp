@@ -35,6 +35,7 @@ void TestAnalysisWidget::superAnalysis()
     videoCapture->set(cv::CAP_PROP_POS_AVI_RATIO, 0);
     auto countFrame = videoCapture->get(cv::CAP_PROP_FRAME_COUNT);
     CrownChargeDetector detector;
+    detector.setSettings(settingss);
     for(size_t frameNumber = 0; frameNumber < countFrame; frameNumber++){
         QTime t;
         t.start();
@@ -124,6 +125,11 @@ void TestAnalysisWidget::setMaskRects(const QList<QRect> &value)
 void TestAnalysisWidget::setFrame(int frame)
 {
     ui->horizontalSliderFrame->setValue(frame);
+}
+
+void TestAnalysisWidget::setSuspectSettings(SuspectCrownChargeSettings settings)
+{
+        settingss = settings;
 }
 
 QList<FragmentInfo> TestAnalysisWidget::getFragments()

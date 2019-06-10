@@ -17,7 +17,7 @@ public:
 
     QPoint getQPointCenterMass() const;
 
-    cv::Point getPointCenterMass() const;
+    cv::Point getCenterMass() const;
 
     int getFrameNumber() const;
 

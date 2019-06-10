@@ -31,7 +31,7 @@ public:
     void superAnalysis();
     QList<FragmentInfo> getFragments();
     void setFrame(int frame);
-
+    void setSuspectSettings(SuspectCrownChargeSettings settings);
 
 private slots:
     void on_horizontalSliderFrame_valueChanged(int value);
@@ -42,6 +42,7 @@ private:
     QList<QRect> rectsList;
     std::list<FragmentInfo> fragmetsInfo;
     std::list<CrownCharge> crownCharges;
+    SuspectCrownChargeSettings settingss;
     std::map<int, std::vector<Contour>> countersAtFrames;
     std::unique_ptr<VideoFileReader> dataReader;
     std::unique_ptr<cv::VideoCapture> videoCapture;

@@ -17,6 +17,9 @@ public:
     CrownCharge(const std::list<Contour> &contours);
     bool isEmpty();
     QPair<int, int> getRange();
+    std::vector<Contour> getContours(int number);
+    std::vector<Contour> getContours();
+    //TODO ХОЧУ ЧТОБЫ ДИАПАЗОН БЫЛ ИТЕРАБЕЛЬНЫМ
     
 private:
     std::list<Contour> contours;

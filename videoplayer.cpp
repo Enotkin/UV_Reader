@@ -20,6 +20,7 @@ void VideoPlayer::setFragment(const FragmentInfo &fragment)
     startFrame = fragment.getFrameRange().first;
     begin();
 
+    currentFragment = fragment;
     if (fragment.getFrameRange().second == videoFileReader->getSettings().getCountFrames() &&
             fragment.getFrameRange().first == 0) {
         setRepeatMode(false);
@@ -34,12 +35,12 @@ void VideoPlayer::setFrame(int frameNumber)
     if (!videoFileReader)
         return;
     if (frameNumber != stopFrame){
-        emit updateFrame(videoFileReader->getFrame(frameNumber), videoFileReader->getTime(), frameNumber);
+        emit updateFrame(getFrame(frameNumber), videoFileReader->getTime(), frameNumber);
     } else {
         if (repeatFragment){
-            emit updateFrame(videoFileReader->getFrame(startFrame), videoFileReader->getTime(), startFrame);
+            emit updateFrame(getFrame(startFrame), videoFileReader->getTime(), startFrame);
         } else {
-            emit updateFrame(videoFileReader->getFrame(stopFrame), videoFileReader->getTime(), stopFrame);
+            emit updateFrame(getFrame(stopFrame), videoFileReader->getTime(), stopFrame);
             pause();
         }
     }
@@ -48,6 +49,13 @@ void VideoPlayer::setFrame(int frameNumber)
 void VideoPlayer::timerOut()
 {
     setFrame(videoFileReader->getCurrentFrameNumber());
+}
+
+QImage VideoPlayer::getFrame(int number)
+{
+    CrownChargePainter p(currentFragment);
+
+    return p.getImage(videoFileReader->getMatFrame(number), number);
 }
 
 void VideoPlayer::play()

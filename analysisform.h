@@ -64,6 +64,8 @@ private slots:
 
     void on_pushButtonStartAnalysis_clicked();
 
+    void on_spinBoxDistanceBetweenCenterMass_valueChanged(int arg1);
+
 private:
     Ui::analysisForm *ui;
     QFileInfo fileInfo;
