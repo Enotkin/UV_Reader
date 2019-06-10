@@ -33,5 +33,6 @@ void CrownChargePainter::drawTrack(cv::Mat &imageMat)
         cv::circle(imageMat, track.at(i), 2, cv::Scalar(0, 255, 0), -1, cv::LINE_AA);
         cv::line(imageMat, track.at(i), track.at(i+1), cv::Scalar(0, 255, 0), 1);
     }
+    cv::circle(imageMat, track.back(), 2, cv::Scalar(0, 255, 0), -1, cv::LINE_AA);
 }
 

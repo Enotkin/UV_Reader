@@ -161,7 +161,7 @@ void VideoControlsForm::setSourceVideoFile(const QFileInfo &value)
 void VideoControlsForm::setFragment(const FragmentInfo &fragment)
 {
     if (videoPlayer){
-        updateSlider(fragment.getFrameRange().first, fragment.getFrameRange().second);
+        updateSlider(fragment.getFrameRange().first - 10, fragment.getFrameRange().second + 10); //NOTE: Допуск для слайдера
         videoPlayer->setFragment(fragment);
     }
 }

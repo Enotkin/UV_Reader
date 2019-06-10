@@ -11,6 +11,7 @@ VideoPlayer::VideoPlayer(const QFileInfo &value, QObject *parent) : QObject(pare
 void VideoPlayer::setFragment(const FragmentInfo &fragment)
 {
     pause();
+    currentFragment = fragment;
 
     if (fragment.getFrameRange().second <= videoFileReader->getSettings().getCountFrames())
         stopFrame = fragment.getFrameRange().second;
@@ -20,7 +21,7 @@ void VideoPlayer::setFragment(const FragmentInfo &fragment)
     startFrame = fragment.getFrameRange().first;
     begin();
 
-    currentFragment = fragment;
+
     if (fragment.getFrameRange().second == videoFileReader->getSettings().getCountFrames() &&
             fragment.getFrameRange().first == 0) {
         setRepeatMode(false);
@@ -56,6 +57,7 @@ void VideoPlayer::timerOut()
 QImage VideoPlayer::getFrame(int number)
 {
     CrownChargePainter p(currentFragment);
+    qDebug()<<"Фрагмент"<< currentFragment.getFrameRange().first << currentFragment.getFrameRange().second;
 
     return p.getImage(videoFileReader->getMatFrame(number), number);
 }
