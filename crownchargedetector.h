@@ -21,10 +21,9 @@ private:
     std::list<CrownCharge> detectedCharges;
     std::list<SuspectCrownCharge> suspectCrownCharges;
     SuspectCrownChargeSettings suspetctSettings;
-
-
     
     void insertContours(const std::list<Contour> &contours);
+    void nextRound();
 };
 
 #endif // CROWNCHARGEDETECTOR_H

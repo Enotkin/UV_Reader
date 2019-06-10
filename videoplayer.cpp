@@ -26,12 +26,13 @@ void VideoPlayer::setFragment(const FragmentInfo &fragment)
         setRepeatMode(false);
     } else {
         setRepeatMode(true);
-        play(); //Воспроизвеение по умолчанию
+//        play(); //Воспроизвеение по умолчанию
     }
 }
 
 void VideoPlayer::setFrame(int frameNumber)
 {
+
     if (!videoFileReader)
         return;
     if (frameNumber != stopFrame){
@@ -48,6 +49,7 @@ void VideoPlayer::setFrame(int frameNumber)
 
 void VideoPlayer::timerOut()
 {
+    qDebug()<<"timerOut"<< QTime::currentTime();
     setFrame(videoFileReader->getCurrentFrameNumber());
 }
 

@@ -15,12 +15,11 @@ bool SuspectCrownCharge::tryAddContour(const Contour &newContour)
     auto newContourCenterMass = newContour.getCenterMass();
     auto lastContourCenterMass = contours.back().getCenterMass();
 
-    if (distanceBetweenTwoPoints(newContourCenterMass, lastContourCenterMass) < 10) {
-        countToDie = lifeTime;
+    if (distanceBetweenTwoPoints(newContourCenterMass, lastContourCenterMass) < delta) {
+        pairFounded = true;
         contours.push_back(newContour);
-        return true;
+        return pairFounded;
     } else {
-        countToDie--;
         return false;
     }
 }
@@ -45,6 +44,15 @@ bool SuspectCrownCharge::isConfirmedCharge() const
 bool SuspectCrownCharge::isNoise() const
 {
     return (contours.size() < realChargeSize) && (countToDie <= 0);
+}
+
+void SuspectCrownCharge::endRound()
+{
+    if (pairFounded)
+        countToDie = lifeTime;
+    else
+        countToDie--;
+    pairFounded = false;
 }
 
 double SuspectCrownCharge::distanceBetweenTwoPoints(const cv::Point &first, const cv::Point &second) const

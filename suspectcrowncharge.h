@@ -32,14 +32,16 @@ public:
     CrownCharge getCrownCharge() const;
     bool isConfirmedCharge() const ;
     bool isNoise() const;
+    void endRound();
 
 private:
     std::list<Contour> contours;
     size_t realChargeSize = 2;
     int lifeTime = 5;
-    double delta = 75;
+    double delta = 10;
     int countToDie = lifeTime;
     double distanceBetweenTwoPoints(const cv::Point &first, const cv::Point &second) const;
+    bool pairFounded = false;
 };
 
 #endif // SUSPECTCROWNCHARGE_H

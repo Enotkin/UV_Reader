@@ -37,10 +37,22 @@ void CrownChargeDetector::insertContours(const std::list<Contour> &contours)
             contourWithoutPair.push_back(contour);
         }
     }
+
+    for (auto &suspectCrownCharge : suspectCrownCharges) {
+        suspectCrownCharge.endRound();
+    }
+
     for (const auto &contour : contourWithoutPair){
         suspectCrownCharges.emplace_back(contour);
         suspectCrownCharges.back().setSettings(suspetctSettings);
     }
+}
+
+void CrownChargeDetector::nextRound()
+{
+//    for (auto &suspectCrownCharge : suspectCrownCharges) {
+//        suspectCrownCharge.endRound();
+//    }
 }
 
 void CrownChargeDetector::clearBuffer()
