@@ -2,6 +2,7 @@
 #define CROWNCHARGEDETECTOR_H
 
 #include "contour.h"
+#include <set>
 #include "suspectcrowncharge.h"
 #include "crowncharge.h"
 
@@ -19,7 +20,12 @@ public:
     
 private:
     std::list<CrownCharge> detectedCharges;
+
     std::list<SuspectCrownCharge> suspectCrownCharges;
+
+    std::set<SuspectCrownCharge> setSuspectCrownCharges;
+//    std::set<Co
+
     SuspectCrownChargeSettings suspetctSettings;
     
     void insertContours(const std::list<Contour> &contours);

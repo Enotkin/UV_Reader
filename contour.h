@@ -21,6 +21,9 @@ public:
 
     int getFrameNumber() const;
 
+    friend bool operator<(const Contour& l, const Contour& r){
+        return l.getArea() < r.getArea();
+    }
 private:
     std::vector<cv::Point> contour;
     cv::Moments moments;

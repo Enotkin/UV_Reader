@@ -27,20 +27,31 @@ public:
                        int lifeTime = SuspectCrownChargeDefaultParameters::DefaultLifeTime,
                        double delta = SuspectCrownChargeDefaultParameters::DefaultDelta,
                        size_t chargeSize = SuspectCrownChargeDefaultParameters::DefaultChargeSize);
+    SuspectCrownCharge (const Contour &startContour, const SuspectCrownChargeSettings &settings);
     bool tryAddContour(const Contour &newContour);
+    bool checkCompatibility(const Contour& newContour) const;
+
+    void addContour(const Contour &newContour);
+
     void setSettings(SuspectCrownChargeSettings settings);
+
     CrownCharge getCrownCharge() const;
+    int getSize() const;
     bool isConfirmedCharge() const ;
     bool isNoise() const;
     void endRound();
 
+    friend bool operator<(const SuspectCrownCharge& l, const SuspectCrownCharge& r){
+        return l.getSize() < r.getSize();
+    }
 private:
     std::list<Contour> contours;
+    std::vector<Contour> tempContours;
     size_t realChargeSize = 2;
     int lifeTime = 5;
     double delta = 10;
     int countToDie = lifeTime;
-    double distanceBetweenTwoPoints(const cv::Point &first, const cv::Point &second) const;
+    double distanceBetweenPoints(const cv::Point &first, const cv::Point &second) const;
     bool pairFounded = false;
 };
 

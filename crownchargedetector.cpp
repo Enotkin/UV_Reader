@@ -10,8 +10,7 @@ void CrownChargeDetector::searchCrownCharges(const std::list<Contour> &contours)
 {
     if (suspectCrownCharges.empty()){
         for(const auto &contour : contours){
-            suspectCrownCharges.emplace_back(contour);
-            suspectCrownCharges.back().setSettings(suspetctSettings);
+            suspectCrownCharges.emplace_back(contour, suspetctSettings);
         }
     } else {
         insertContours(contours);
@@ -29,6 +28,17 @@ void CrownChargeDetector::searchCrownCharges(const std::list<Contour> &contours)
 void CrownChargeDetector::insertContours(const std::list<Contour> &contours)
 {
     std::list<Contour> contourWithoutPair;
+
+    for (const auto &contour : contours) {
+        bool pairFound = false;
+        for (auto &suspectCrownCharge : suspectCrownCharges) {
+            if (suspectCrownCharge.checkCompatibility(contour)){
+                suspectCrownCharge.addContour(contour);
+                pairFound = true;
+            }
+        }
+    }
+
     for (auto const &contour : contours) {
         bool pairFound = false;
         for (auto &suspectCrownCharge : suspectCrownCharges)
@@ -43,8 +53,7 @@ void CrownChargeDetector::insertContours(const std::list<Contour> &contours)
     }
 
     for (const auto &contour : contourWithoutPair){
-        suspectCrownCharges.emplace_back(contour);
-        suspectCrownCharges.back().setSettings(suspetctSettings);
+        suspectCrownCharges.emplace_back(contour, suspetctSettings);
     }
 }
 
