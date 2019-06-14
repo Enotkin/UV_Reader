@@ -9,9 +9,9 @@ SuspectCrownCharge::SuspectCrownCharge(const Contour &startContour, const Suspec
 bool SuspectCrownCharge::tryAddContour(const Contour &newContour)
 {
     if (checkCompatibility(newContour)) {
-        pairFounded = true;
+        pairFound = true;
         contours.push_back(newContour);
-        return pairFounded;
+        return pairFound;
     } else {
         return false;
     }
@@ -24,6 +24,7 @@ bool SuspectCrownCharge::checkCompatibility(const Contour &newContour) const
 
 void SuspectCrownCharge::addContour(const Contour &newContour)
 {
+    pairFound = true;
     contours.push_back(newContour);
 }
 
@@ -42,6 +43,11 @@ CrownCharge SuspectCrownCharge::getCrownCharge() const
 int SuspectCrownCharge::getSize() const
 {
     return contours.size();
+}
+
+double SuspectCrownCharge::getAverageArea() const
+{
+    return std::accumulate(contours.begin(), contours.end(), 0.0, [](double sum, const Contour &val){return sum += val.getArea();}) / contours.size();
 }
 
 bool SuspectCrownCharge::isConfirmedCharge() const
@@ -70,4 +76,9 @@ void SuspectCrownCharge::endRound()
 double SuspectCrownCharge::distanceBetweenPoints(const cv::Point &first, const cv::Point &second) const
 {
     return cv::norm(first - second);
+}
+
+bool SuspectCrownCharge::isPairFound() const
+{
+    return pairFound;
 }

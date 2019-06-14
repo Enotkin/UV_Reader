@@ -8,7 +8,7 @@ CrownChargeDetector::CrownChargeDetector()
 
 void CrownChargeDetector::searchCrownCharges(std::list<Contour> &contours)
 {
-    contours.sort();
+    contours.sort([](const Contour &a, const Contour &b){ return a.getArea() > b.getArea();});
     if (suspectCrownCharges.empty()){
         for(const auto &contour : contours){
             suspectCrownCharges.emplace_back(contour, suspetctSettings);
@@ -22,8 +22,47 @@ void CrownChargeDetector::searchCrownCharges(std::list<Contour> &contours)
         suspectCrownCharges.remove_if([](const auto &suspectCrownCharge){
             return suspectCrownCharge.isNoise() || suspectCrownCharge.isConfirmedCharge();
         });
-        suspectCrownCharges.sort();
+        suspectCrownCharges.sort([](const SuspectCrownCharge &a, const SuspectCrownCharge &b){ return a.getSize() > b.getSize();});
     }
+}
+
+void CrownChargeDetector::findCrownCharges(std::list<Contour> &contours)
+{
+    contours.sort([](const Contour &a, const Contour &b){ return a.getArea() > b.getArea();});
+    if (suspectCrownCharges.empty()){
+        for(const auto &contour : contours)
+            suspectCrownCharges.emplace_back(contour, suspetctSettings);
+        return;
+    }
+    std::list<BrancheSelector> selectors;
+    for (auto &contour : contours) {
+        selectors.emplace_back(contour);
+    }
+    for (auto &selector : selectors)
+        for (auto &suspectCrownCharge : suspectCrownCharges)
+            if(suspectCrownCharge.checkCompatibility(selector.getContour()))
+                selector.addBranche(suspectCrownCharge);
+    for (auto &selector : selectors) {
+        selector.selectionBranch();
+
+    }
+
+    for (auto &suspectCrownCharge : suspectCrownCharges) {
+        suspectCrownCharge.endRound();
+    }
+
+    suspectCrownCharges.remove_if([](const auto &suspectCrownCharge){
+        return suspectCrownCharge.isNoise() || suspectCrownCharge.isConfirmedCharge();
+    });
+
+    for (auto &selector : selectors){
+        if (!selector.isSelectingEnd())
+            suspectCrownCharges.emplace_back(selector.getContour(), suspetctSettings);
+    }
+
+     suspectCrownCharges.sort([](const SuspectCrownCharge &a, const SuspectCrownCharge &b){ return a.getSize() > b.getSize();});
+
+
 }
 
 

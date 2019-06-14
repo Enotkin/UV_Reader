@@ -2,6 +2,7 @@
 #define SUSPECTCROWNCHARGE_H
 #include <vector>
 #include <list>
+#include <numeric>
 
 #include "contour.h"
 #include "crowncharge.h"
@@ -37,13 +38,17 @@ public:
 
     CrownCharge getCrownCharge() const;
     int getSize() const;
+    double getAverageArea() const;
     bool isConfirmedCharge() const ;
     bool isNoise() const;
+
     void endRound();
 
     friend bool operator<(const SuspectCrownCharge& l, const SuspectCrownCharge& r){
         return l.getSize() < r.getSize();
     }
+    bool isPairFound() const;
+
 private:
     std::list<Contour> contours;
     std::vector<Contour> tempContours;
@@ -52,7 +57,8 @@ private:
     double delta = 10;
     int countToDie = lifeTime;
     double distanceBetweenPoints(const cv::Point &first, const cv::Point &second) const;
-    bool pairFounded = false;
+    bool pairFound = false;
+
 };
 
 #endif // SUSPECTCROWNCHARGE_H

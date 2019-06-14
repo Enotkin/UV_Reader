@@ -6,6 +6,7 @@
 #include <algorithm>
 #include "suspectcrowncharge.h"
 #include "crowncharge.h"
+#include "brancheselector.h"
 
 class CrownChargeDetector
 {
@@ -13,6 +14,7 @@ public:
     CrownChargeDetector();
 
     void searchCrownCharges(std::list<Contour> &contours);
+    void findCrownCharges(std::list<Contour> &contours);
 
     void clearBuffer();
 
