@@ -3,6 +3,7 @@
 
 #include "contour.h"
 #include <set>
+#include <algorithm>
 #include "suspectcrowncharge.h"
 #include "crowncharge.h"
 
@@ -11,7 +12,7 @@ class CrownChargeDetector
 public:
     CrownChargeDetector();
 
-    void searchCrownCharges(const std::list<Contour> &contours);
+    void searchCrownCharges(std::list<Contour> &contours);
 
     void clearBuffer();
 
@@ -23,7 +24,6 @@ private:
 
     std::list<SuspectCrownCharge> suspectCrownCharges;
 
-    std::set<SuspectCrownCharge> setSuspectCrownCharges;
 //    std::set<Co
 
     SuspectCrownChargeSettings suspetctSettings;

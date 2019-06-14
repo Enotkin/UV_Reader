@@ -28,87 +28,91 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++17
 
 SOURCES += \
-        main.cpp \
-        mainwindow.cpp \
-    videofilereader.cpp \
-    ktime.cpp \
-    labelevent.cpp \
-    analysisform.cpp \
-    addfragmentcommentdialog.cpp \
-    fragmentinfo.cpp \
-    fragmentmodel.cpp \
-    videofilewriter.cpp \
-    videosettings.cpp \
-    fragmentsaver.cpp \
-    excelhelper.cpp \
-    excelreportcreator.cpp \
+    Analysis/analysisform.cpp \
+    Analysis/brancheselector.cpp \
+    Analysis/contour.cpp \
+    Analysis/crowncharge.cpp \
+    Analysis/crownchargedetector.cpp \
+    Analysis/fragmentmodel.cpp \
+    Analysis/fragmentsaver.cpp \
+    Analysis/suspectcrowncharge.cpp \
+    Analysis/testanalysiswidget.cpp \
+    ReportCreator/htmlbuilder.cpp \
+    ReportCreator/htmltemplatebuilder.cpp \
+    ReportCreator/reportdialog.cpp \
+    UVGraphicsView/qrectbuilder.cpp \
+    UVGraphicsView/uvgraphicsview.cpp \
+    Video/crownchargepainter.cpp \
+    Video/fragmentinfo.cpp \
+    Video/frame.cpp \
+    Video/videocontrolsform.cpp \
+    Video/videofilereader.cpp \
+    Video/videofilewriter.cpp \
+    Video/videoplayer.cpp \
+    Video/videosettings.cpp \
     WidgetFileTree/filetree.cpp \
     WidgetFileTree/filetreedialog.cpp \
     WidgetFileTree/treeitem.cpp \
     WidgetFileTree/treemodel.cpp \
-    ReportCreator/htmlbuilder.cpp \
-    ReportCreator/htmltemplatebuilder.cpp \
-    ReportCreator/reportdialog.cpp \
-    testanalysiswidget.cpp \
-    crowncharge.cpp \
-    UVGraphicsView/qrectbuilder.cpp \
-    UVGraphicsView/uvgraphicsview.cpp \
-    contour.cpp \
-    crownchargedetector.cpp \
-    suspectcrowncharge.cpp \
-    videocontrolsform.cpp \
-    videoplayer.cpp \
-    frame.cpp \
-    crownchargepainter.cpp
+    addfragmentcommentdialog.cpp \
+    excelhelper.cpp \
+    excelreportcreator.cpp \
+    ktime.cpp \
+    labelevent.cpp \
+    main.cpp \
+    mainwindow.cpp
 
 HEADERS += \
-        mainwindow.h \
-    videofilereader.h \
-    ktime.h \
-    labelevent.h \
-    analysisform.h \
-    addfragmentcommentdialog.h \
-    fragmentinfo.h \
-    fragmentmodel.h \
-    videofilewriter.h \
-    videosettings.h \
-    fragmentsaver.h \
-    excelhelper.h \
-    excelreportcreator.h \
+    Analysis/analysisform.h \
+    Analysis/brancheselector.h \
+    Analysis/contour.h \
+    Analysis/crowncharge.h \
+    Analysis/crownchargedetector.h \
+    Analysis/fragmentmodel.h \
+    Analysis/fragmentsaver.h \
+    Analysis/suspectcrowncharge.h \
+    Analysis/testanalysiswidget.h \
+    ReportCreator/htmlbuilder.h \
+    ReportCreator/htmltemplatebuilder.h \
+    ReportCreator/reportdialog.h \
+    UVGraphicsView/qrectbuilder.h \
+    UVGraphicsView/uvgraphicsview.h \
+    Video/crownchargepainter.h \
+    Video/fragmentinfo.h \
+    Video/frame.h \
+    Video/videocontrolsform.h \
+    Video/videofilereader.h \
+    Video/videofilewriter.h \
+    Video/videoplayer.h \
+    Video/videosettings.h \
     WidgetFileTree/filetree.h \
     WidgetFileTree/filetreedialog.h \
     WidgetFileTree/treeitem.h \
     WidgetFileTree/treemodel.h \
-    ReportCreator/htmlbuilder.h \
-    ReportCreator/htmltemplatebuilder.h \
-    ReportCreator/reportdialog.h \
-    testanalysiswidget.h \
-    crowncharge.h \
-    UVGraphicsView/qrectbuilder.h \
-    UVGraphicsView/uvgraphicsview.h \
-    contour.h \
-    crownchargedetector.h \
-    suspectcrowncharge.h \
-    videocontrolsform.h \
-    videoplayer.h \
-    frame.h \
-    crownchargepainter.h
+    addfragmentcommentdialog.h \
+    excelhelper.h \
+    excelreportcreator.h \
+    ktime.h \
+    labelevent.h \
+    mainwindow.h
 
 FORMS += \
-        mainwindow.ui \
-    analysisform.ui \
-    addfragmentcommentdialog.ui \
+    Analysis/analysisform.ui \
+    Analysis/testanalysiswidget.ui \
+    ReportCreator/reportdialog.ui \
+    Video/videocontrolsform.ui \
+    Video/videoplayer.ui \
     WidgetFileTree/filetree.ui \
     WidgetFileTree/filetreedialog.ui \
-    ReportCreator/reportdialog.ui \
-    testanalysiswidget.ui \
-    videoplayer.ui \
-    videocontrolsform.ui
+    addfragmentcommentdialog.ui \
+    mainwindow.ui
 
 INCLUDEPATH += C:/OpenCV-4.0.1/include \
                 $$PWD/WidgetFileTree \
                 $$PWD/ReportCreator \
-                $$PWD/UVGraphicsView
+                $$PWD/UVGraphicsView \
+                $$PWD/Analysis \
+                $$PWD/Video
 
 CONFIG (debug, debug|release) {
     #debug

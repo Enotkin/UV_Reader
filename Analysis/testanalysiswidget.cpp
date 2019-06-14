@@ -43,7 +43,8 @@ void TestAnalysisWidget::superAnalysis()
         videoCapture->read(src);
         auto monochromeFrame = binarization(src);
         auto contours = searchContours(frameNumber, monochromeFrame);
-        detector.searchCrownCharges(std::list<Contour>(contours.begin(), contours.end()));
+        std::list<Contour> contoursList(contours.begin(), contours.end());
+        detector.searchCrownCharges(contoursList);
         qDebug()<<"Время поиска контуров на кадре:" << t.elapsed();
     }
     detector.clearBuffer();    

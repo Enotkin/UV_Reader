@@ -6,8 +6,9 @@ CrownChargeDetector::CrownChargeDetector()
 }
 
 
-void CrownChargeDetector::searchCrownCharges(const std::list<Contour> &contours)
+void CrownChargeDetector::searchCrownCharges(std::list<Contour> &contours)
 {
+    contours.sort();
     if (suspectCrownCharges.empty()){
         for(const auto &contour : contours){
             suspectCrownCharges.emplace_back(contour, suspetctSettings);
@@ -21,6 +22,7 @@ void CrownChargeDetector::searchCrownCharges(const std::list<Contour> &contours)
         suspectCrownCharges.remove_if([](const auto &suspectCrownCharge){
             return suspectCrownCharge.isNoise() || suspectCrownCharge.isConfirmedCharge();
         });
+        suspectCrownCharges.sort();
     }
 }
 
@@ -29,15 +31,15 @@ void CrownChargeDetector::insertContours(const std::list<Contour> &contours)
 {
     std::list<Contour> contourWithoutPair;
 
-    for (const auto &contour : contours) {
-        bool pairFound = false;
-        for (auto &suspectCrownCharge : suspectCrownCharges) {
-            if (suspectCrownCharge.checkCompatibility(contour)){
-                suspectCrownCharge.addContour(contour);
-                pairFound = true;
-            }
-        }
-    }
+//    for (const auto &contour : contours) {
+//        bool pairFound = false;
+//        for (auto &suspectCrownCharge : suspectCrownCharges) {
+//            if (suspectCrownCharge.checkCompatibility(contour)){
+//                suspectCrownCharge.addContour(contour);
+//                pairFound = true;
+//            }
+//        }
+//    }
 
     for (auto const &contour : contours) {
         bool pairFound = false;
