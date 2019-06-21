@@ -23,6 +23,7 @@ VideoFileReader::~VideoFileReader()
 
 bool VideoFileReader::isOpen() const
 {
+
     return videoCapture->isOpened();
 }
 

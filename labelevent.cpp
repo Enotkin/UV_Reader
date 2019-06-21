@@ -36,6 +36,7 @@ const QImage &LabelEvent::image() const
 void LabelEvent::setImage(const QImage &image)
 {
     m_image = image;
+
     if (image.isNull())
     {
         clear();
@@ -47,6 +48,7 @@ void LabelEvent::setImage(const QImage &image)
 void LabelEvent::resizeEvent(QResizeEvent *event)
 {
     Q_UNUSED(event)
+
 
     if (!m_image.isNull())
     {

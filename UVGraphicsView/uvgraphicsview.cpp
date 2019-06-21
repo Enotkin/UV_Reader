@@ -46,8 +46,8 @@ void UvGraphicsView::mouseReleaseEvent(QMouseEvent *event)
 
 void UvGraphicsView::paintEvent(QPaintEvent *event)
 {
-    if(resizeMode)
-        this->fitInView(scene.sceneRect(), Qt::KeepAspectRatio);
+//    if (resizeMode)
+//        this->fitInView(scene.sceneRect(), Qt::KeepAspectRatio);
     QGraphicsView::paintEvent(event);
 }
 
@@ -64,6 +64,7 @@ bool UvGraphicsView::getResizeMode() const
 void UvGraphicsView::setImage(const QImage &image)
 {
     imageItem->setPixmap(QPixmap::fromImage(image));
+    this->fitInView(scene.sceneRect(), Qt::KeepAspectRatio);
 }
 
 QList<QRect> UvGraphicsView::getMaskRect() const

@@ -5,6 +5,7 @@
 #include <QGraphicsView>
 #include <QMouseEvent>
 #include <QDebug>
+#include <QTime>
 
 #include <forward_list>
 #include <memory>

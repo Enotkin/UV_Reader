@@ -33,7 +33,6 @@ void VideoPlayer::setFragment(const FragmentInfo &fragment)
 
 void VideoPlayer::setFrame(int frameNumber)
 {
-
     if (!videoFileReader)
         return;
     if (frameNumber != stopFrame){
@@ -50,15 +49,12 @@ void VideoPlayer::setFrame(int frameNumber)
 
 void VideoPlayer::timerOut()
 {
-    qDebug()<<"timerOut"<< QTime::currentTime();
     setFrame(videoFileReader->getCurrentFrameNumber());
 }
 
 QImage VideoPlayer::getFrame(int number)
 {
     CrownChargePainter p(currentFragment);
-    qDebug()<<"Фрагмент"<< currentFragment.getFrameRange().first << currentFragment.getFrameRange().second;
-
     return p.getImage(videoFileReader->getMatFrame(number), number);
 }
 

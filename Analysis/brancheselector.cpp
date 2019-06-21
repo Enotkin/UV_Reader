@@ -1,4 +1,5 @@
 #include "brancheselector.h"
+#include <QtDebug>
 
 BrancheSelector::BrancheSelector(const Contour &contour) : contour(contour)
 {
@@ -21,8 +22,6 @@ void BrancheSelector::selectionBranch()
     }
 }
 
-
-
 void BrancheSelector::brancheSort()
 {
     auto cmpBrancheArea = [](const BrancheRef &l, const BrancheRef &r){
@@ -38,6 +37,11 @@ void BrancheSelector::brancheSort()
 bool BrancheSelector::isSelectingEnd() const
 {
     return selectingEnd;
+}
+
+std::list<BrancheRef> BrancheSelector::getBranches() const
+{
+    return branches;
 }
 
 Contour BrancheSelector::getContour() const

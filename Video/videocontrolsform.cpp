@@ -16,6 +16,7 @@ VideoControlsForm::~VideoControlsForm()
 
 void VideoControlsForm::setupMediaControlsToolBar()
 {
+
     auto toolbar = new QToolBar(ui->controlButtonWidget);
     toolbar->setIconSize(QSize(24, 24));
     toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
@@ -33,12 +34,14 @@ void VideoControlsForm::setupMediaControlsToolBar()
 
 QString VideoControlsForm::msecToStr(const double value)
 {
+
     KTime time(0, 0, 0, static_cast<int>(value));
     return time.toString();
 }
 
 void VideoControlsForm::on_actionPlayPause_triggered(bool checked)
 {
+    Q_UNUSED(checked)
     if (videoPlayer->isPlayBackActive())  {
         updateAction(ui->actionPlayPause, QIcon(":/mediaIcons/play.png"), "Play");
         videoPlayer->pause();

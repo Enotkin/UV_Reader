@@ -19,6 +19,7 @@
 #include <QKeyEvent>
 #include <QImage>
 #include <QDebug>
+#include <QTime>
 
 
 // [QImage -> QLabel] expand problem

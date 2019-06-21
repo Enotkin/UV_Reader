@@ -30,11 +30,9 @@ public:
                        size_t chargeSize = SuspectCrownChargeDefaultParameters::DefaultChargeSize);
     SuspectCrownCharge (const Contour &startContour, const SuspectCrownChargeSettings &settings);
     bool tryAddContour(const Contour &newContour);
+
     bool checkCompatibility(const Contour& newContour) const;
-
     void addContour(const Contour &newContour);
-
-    void setSettings(SuspectCrownChargeSettings settings);
 
     CrownCharge getCrownCharge() const;
     int getSize() const;
@@ -44,10 +42,13 @@ public:
 
     void endRound();
 
+
     friend bool operator<(const SuspectCrownCharge& l, const SuspectCrownCharge& r){
         return l.getSize() < r.getSize();
     }
     bool isPairFound() const;
+
+    cv::Point getLastPoint() const;
 
 private:
     std::list<Contour> contours;
@@ -58,6 +59,7 @@ private:
     int countToDie = lifeTime;
     double distanceBetweenPoints(const cv::Point &first, const cv::Point &second) const;
     bool pairFound = false;
+    cv::Point lastPoint;
 
 };
 

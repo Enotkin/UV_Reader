@@ -17,6 +17,8 @@ public:
 
     bool isSelectingEnd() const;
 
+    std::list<BrancheRef> getBranches() const;
+
 private:
     Contour contour;
     std::list<BrancheRef> branches;

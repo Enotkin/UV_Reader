@@ -4,6 +4,8 @@ Contour::Contour(int frameNumber, const std::vector<cv::Point> &contour) : conto
 {
     moments = cv::moments(contour);
     contourArea = cv::contourArea(contour);
+    centerMass = cv::Point(static_cast<int>(moments.m10/moments.m00),
+                           static_cast<int>(moments.m01/moments.m00));
 }
 
 std::vector<cv::Point> Contour::getContour() const
@@ -24,8 +26,7 @@ QPoint Contour::getQPointCenterMass() const
 
 cv::Point Contour::getCenterMass() const
 {
-    return cv::Point(static_cast<int>(moments.m10/moments.m00),
-                     static_cast<int>(moments.m01/moments.m00));
+    return centerMass;
 }
 
 int Contour::getFrameNumber() const

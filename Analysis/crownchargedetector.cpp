@@ -1,115 +1,74 @@
 #include "crownchargedetector.h"
+#include <QDebug>
 
 CrownChargeDetector::CrownChargeDetector()
 {
 
 }
 
-
-void CrownChargeDetector::searchCrownCharges(std::list<Contour> &contours)
+CrownChargeDetector::~CrownChargeDetector()
 {
-    contours.sort([](const Contour &a, const Contour &b){ return a.getArea() > b.getArea();});
-    if (suspectCrownCharges.empty()){
-        for(const auto &contour : contours){
-            suspectCrownCharges.emplace_back(contour, suspetctSettings);
-        }
-    } else {
-        insertContours(contours);
-        for (const auto &suspectCrownCharge : suspectCrownCharges) {
-            if (suspectCrownCharge.isConfirmedCharge())
-                detectedCharges.push_back(suspectCrownCharge.getCrownCharge());
-        }
-        suspectCrownCharges.remove_if([](const auto &suspectCrownCharge){
-            return suspectCrownCharge.isNoise() || suspectCrownCharge.isConfirmedCharge();
-        });
-        suspectCrownCharges.sort([](const SuspectCrownCharge &a, const SuspectCrownCharge &b){ return a.getSize() > b.getSize();});
-    }
+    if (!suspectCrownCharges.empty())
+        suspectCrownCharges.clear();
 }
 
 void CrownChargeDetector::findCrownCharges(std::list<Contour> &contours)
 {
     contours.sort([](const Contour &a, const Contour &b){ return a.getArea() > b.getArea();});
+
+    //Если нет веток, то все контура это начало новых веток
     if (suspectCrownCharges.empty()){
         for(const auto &contour : contours)
             suspectCrownCharges.emplace_back(contour, suspetctSettings);
         return;
     }
+
+    //Создание селекторов
     std::list<BrancheSelector> selectors;
     for (auto &contour : contours) {
         selectors.emplace_back(contour);
     }
+
+    //Распределение веток для селекторов
     for (auto &selector : selectors)
         for (auto &suspectCrownCharge : suspectCrownCharges)
             if(suspectCrownCharge.checkCompatibility(selector.getContour()))
                 selector.addBranche(suspectCrownCharge);
+
+    //Выбор веток селекторами
     for (auto &selector : selectors) {
         selector.selectionBranch();
-
     }
 
+    //Конец раунда, уменьшение времени жизни обездоленых
     for (auto &suspectCrownCharge : suspectCrownCharges) {
         suspectCrownCharge.endRound();
     }
 
+    //Копирование подтверждённых зарядов
+    for (const auto &suspectCrownCharge : suspectCrownCharges) {
+        if (suspectCrownCharge.isConfirmedCharge()){
+            detectedCharges.push_back(suspectCrownCharge.getCrownCharge());
+        }
+    }
+
+    //Удаление шумовых разрядов из общей кучи веток
     suspectCrownCharges.remove_if([](const auto &suspectCrownCharge){
-        return suspectCrownCharge.isNoise() || suspectCrownCharge.isConfirmedCharge();
+        return suspectCrownCharge.isNoise();
     });
 
+    suspectCrownCharges.remove_if([](const auto &suspectCrownCharge){
+        return suspectCrownCharge.isConfirmedCharge();
+    });
+
+    //Дополнение веток, селекторами без пар
     for (auto &selector : selectors){
         if (!selector.isSelectingEnd())
             suspectCrownCharges.emplace_back(selector.getContour(), suspetctSettings);
     }
 
-     suspectCrownCharges.sort([](const SuspectCrownCharge &a, const SuspectCrownCharge &b){ return a.getSize() > b.getSize();});
-
-
-}
-
-
-void CrownChargeDetector::insertContours(const std::list<Contour> &contours)
-{
-    std::list<Contour> contourWithoutPair;
-
-//    for (const auto &contour : contours) {
-//        bool pairFound = false;
-//        for (auto &suspectCrownCharge : suspectCrownCharges) {
-//            if (suspectCrownCharge.checkCompatibility(contour)){
-//                suspectCrownCharge.addContour(contour);
-//                pairFound = true;
-//            }
-//        }
-//    }
-
-    for (auto const &contour : contours) {
-        bool pairFound = false;
-        for (auto &suspectCrownCharge : suspectCrownCharges)
-            pairFound |= suspectCrownCharge.tryAddContour(contour);
-        if (!pairFound){
-            contourWithoutPair.push_back(contour);
-        }
-    }
-
-    for (auto &suspectCrownCharge : suspectCrownCharges) {
-        suspectCrownCharge.endRound();
-    }
-
-    for (const auto &contour : contourWithoutPair){
-        suspectCrownCharges.emplace_back(contour, suspetctSettings);
-    }
-}
-
-void CrownChargeDetector::nextRound()
-{
-//    for (auto &suspectCrownCharge : suspectCrownCharges) {
-//        suspectCrownCharge.endRound();
-//    }
-}
-
-void CrownChargeDetector::clearBuffer()
-{
-    if (!suspectCrownCharges.empty()){
-        suspectCrownCharges.clear();
-    }
+    //Сортировка веток
+    suspectCrownCharges.sort([](const SuspectCrownCharge &a, const SuspectCrownCharge &b){ return a.getSize() > b.getSize();});
 }
 
 std::list<CrownCharge> CrownChargeDetector::getDetectedCharges() const

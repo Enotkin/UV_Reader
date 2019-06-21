@@ -9,7 +9,9 @@ AnalysisForm::AnalysisForm(QWidget *parent) :
     ui->infoPanel->setVisible(false);
     setupUI();
 
+
     model = std::make_unique<FragmentModel>();
+    model->addFragment(FragmentInfo(FrameRange{51,85},PillarRange{QString(),QString()}, TimeRange{QTime(), QTime()}, QString()));
     connect(model.get(), &FragmentModel::rowsInserted, this, &AnalysisForm::buttomEnableSwitcher);
     connect(model.get(), &FragmentModel::rowsRemoved, this, &AnalysisForm::buttomEnableSwitcher);
 

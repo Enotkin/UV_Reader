@@ -27,6 +27,7 @@ public:
 private:
     std::vector<cv::Point> contour;
     cv::Moments moments;
+    cv::Point centerMass;
     double contourArea;
     size_t frameNumber;
 };

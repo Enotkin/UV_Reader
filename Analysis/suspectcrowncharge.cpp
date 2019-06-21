@@ -26,13 +26,7 @@ void SuspectCrownCharge::addContour(const Contour &newContour)
 {
     pairFound = true;
     contours.push_back(newContour);
-}
-
-void SuspectCrownCharge::setSettings(SuspectCrownChargeSettings settings)
-{
-    lifeTime = settings.lifeTime;
-    delta = settings.delta;
-    realChargeSize = settings.size;
+    lastPoint = newContour.getCenterMass();
 }
 
 CrownCharge SuspectCrownCharge::getCrownCharge() const
@@ -62,20 +56,22 @@ bool SuspectCrownCharge::isNoise() const
 
 void SuspectCrownCharge::endRound()
 {
-    if (!tempContours.empty()){
-        auto maxContour = *std::max_element(std::begin(tempContours), std::end(tempContours), [](const auto &first, const auto &second){
-                             return first.getArea() < second.getArea();});
-        contours.push_back(maxContour);
+    if (pairFound){
         countToDie = lifeTime;
     } else {
        countToDie--;
     }
-    tempContours.clear();
+    pairFound = false;
 }
 
 double SuspectCrownCharge::distanceBetweenPoints(const cv::Point &first, const cv::Point &second) const
 {
     return cv::norm(first - second);
+}
+
+cv::Point SuspectCrownCharge::getLastPoint() const
+{
+    return lastPoint;
 }
 
 bool SuspectCrownCharge::isPairFound() const
