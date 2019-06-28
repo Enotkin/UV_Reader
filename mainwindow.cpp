@@ -62,6 +62,7 @@ void MainWindow::openVideoFile(const QString &pathToFile)
     fileInfo.setFile(pathToFile);
     ui->analysisWidget->setFileInfo(fileInfo);
     ui->videoControls->setSourceVideoFile(fileInfo);
+    ui->graphicsView->resizeImage();
 
     settings->setValue(SettingTitles::DefaultPathSettingsTitle,
                        fileTreeDialog.getRootDir());
@@ -77,7 +78,7 @@ void MainWindow::openVideoFile(const QString &pathToFile)
 
 void MainWindow::on_toggleVideoZoomingAction_triggered()
 {
-    ui->graphicsView->setResizeMode(!ui->graphicsView->getResizeMode());
+    ui->graphicsView->setResizeMode(ui->toggleVideoZoomingAction->isChecked());
 }
 
 void MainWindow::on_actionTestMaskCreate_triggered(bool checked)

@@ -39,7 +39,9 @@ void VideoPlayer::setFrame(int frameNumber)
         emit updateFrame(getFrame(frameNumber), videoFileReader->getTime(), frameNumber);
     } else {
         if (repeatFragment){
-            emit updateFrame(getFrame(startFrame), videoFileReader->getTime(), startFrame);
+            if(timer.isActive()){
+                emit updateFrame(getFrame(startFrame), videoFileReader->getTime(), startFrame);
+            }else{}
         } else {
             emit updateFrame(getFrame(stopFrame), videoFileReader->getTime(), stopFrame);
             pause();

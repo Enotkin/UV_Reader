@@ -31,6 +31,8 @@ public:
 
     void clearMasks();
 
+    void resizeImage();
+
 protected:
     void mousePressEvent(QMouseEvent *event) override final;
     void mouseMoveEvent(QMouseEvent *event) override final;
@@ -53,7 +55,6 @@ private:
     QPoint bottomRight;
 
     bool sceneBorderCheck(const QPoint &point) const;
-
 };
 
 #endif // UVGRAPHICSVIEW_H

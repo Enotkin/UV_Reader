@@ -266,7 +266,10 @@
   </action>
   <action name="toggleVideoZoomingAction">
    <property name="checkable">
-    <bool>false</bool>
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
    </property>
    <property name="enabled">
     <bool>true</bool>

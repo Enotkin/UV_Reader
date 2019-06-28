@@ -97,7 +97,6 @@ void VideoControlsForm::setView(const ViewMethod &value)
 
 void VideoControlsForm::updateFrame(QImage image, double time, int frame)
 {
-    qDebug()<<frame;
     if (displayFrame){
         displayFrame(image);
         if (videoPlayer){
@@ -165,7 +164,7 @@ void VideoControlsForm::setSourceVideoFile(const QFileInfo &value)
 void VideoControlsForm::setFragment(const FragmentInfo &fragment)
 {
     if (videoPlayer){
-        updateSlider(fragment.getFrameRange().first - 10, fragment.getFrameRange().second + 10); //NOTE: Допуск для слайдера
+//        updateSlider(fragment.getFrameRange().first - 10, fragment.getFrameRange().second + 10); //NOTE: Допуск для слайдера
         videoPlayer->setFragment(fragment);
     }
 }

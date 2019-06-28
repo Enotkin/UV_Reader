@@ -64,7 +64,6 @@ bool UvGraphicsView::getResizeMode() const
 void UvGraphicsView::setImage(const QImage &image)
 {
     imageItem->setPixmap(QPixmap::fromImage(image));
-    this->fitInView(scene.sceneRect(), Qt::KeepAspectRatio);
 }
 
 QList<QRect> UvGraphicsView::getMaskRect() const
@@ -73,7 +72,6 @@ QList<QRect> UvGraphicsView::getMaskRect() const
     for (const auto rectItem : rectItems) {
         rects.append(rectItem->rect().toRect());
     }
-
     return rects;
 }
 
@@ -97,11 +95,15 @@ void UvGraphicsView::setEditMode(bool value)
 void UvGraphicsView::setResizeMode(bool value)
 {
     resizeMode = value;
-    if (resizeMode == true)
-        this->fitInView(scene.sceneRect(), Qt::KeepAspectRatio);
-    else {
+    resizeImage();
+}
 
+void UvGraphicsView::resizeImage()
+{
+    if (resizeMode){
+        fitInView(scene.sceneRect(), Qt::KeepAspectRatio);
+    } else {
+        resetMatrix();
     }
-    this->repaint();
 }
 
