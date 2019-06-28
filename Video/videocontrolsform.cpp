@@ -97,6 +97,7 @@ void VideoControlsForm::setView(const ViewMethod &value)
 
 void VideoControlsForm::updateFrame(QImage image, double time, int frame)
 {
+    qDebug()<<frame;
     if (displayFrame){
         displayFrame(image);
         if (videoPlayer){
@@ -154,11 +155,11 @@ void VideoControlsForm::setSourceVideoFile(const QFileInfo &value)
     sourceVideoFile = value;
     videoPlayer = std::make_unique<VideoPlayer>(value);
     videoSettings = std::make_unique<VideoSettings>(value);
+    connect(videoPlayer.get(), &VideoPlayer::updateFrame, this, &VideoControlsForm::updateFrame);
+    connect(ui->horizontalSlider, &QSlider::valueChanged, videoPlayer.get(), &VideoPlayer::setFrame);
     auto sourceFragment = createSourceFragment();
     videoPlayer->setFragment(sourceFragment);
     updateSlider(0, videoSettings->getCountFrames());
-    connect(videoPlayer.get(), &VideoPlayer::updateFrame, this, &VideoControlsForm::updateFrame);
-    connect(ui->horizontalSlider, &QSlider::valueChanged, videoPlayer.get(), &VideoPlayer::setFrame);
 }
 
 void VideoControlsForm::setFragment(const FragmentInfo &fragment)

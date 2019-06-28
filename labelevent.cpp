@@ -34,6 +34,7 @@ const QImage &LabelEvent::image() const
 }
 
 void LabelEvent::setImage(const QImage &image)
+
 {
     m_image = image;
 
