@@ -9,7 +9,6 @@ AnalysisForm::AnalysisForm(QWidget *parent) :
     ui->infoPanel->setVisible(false);
     setupUI();
 
-
     model = std::make_unique<FragmentModel>();
     model->addFragment(FragmentInfo(FrameRange{51,85},PillarRange{QString(),QString()}, TimeRange{QTime(), QTime()}, QString()));
     connect(model.get(), &FragmentModel::rowsInserted, this, &AnalysisForm::buttomEnableSwitcher);
@@ -247,20 +246,17 @@ void AnalysisForm::on_actionPlay_triggered()
 
 void AnalysisForm::on_pushButtonStartAnalysis_clicked()
 {
-    auto analysis = new TestAnalysisWidget();
-
+    auto analysis = new Analyzer(fileInfo);
 
     SuspectCrownChargeSettings settings;
     settings.size = ui->spinBoxMinSizeCrownCharge->value();
     settings.lifeTime = ui->spinBoxLifeTime->value();
     settings.delta = ui->spinBox->value();
 
-    analysis->setSuspectSettings(settings);
-    analysis->setSourceFile(fileInfo);
-    analysis->setMaskRects(mask);
-    analysis->superAnalysis();
-    auto fragments = analysis->getFragments();
-    for (const auto &fragment : fragments){
+    analysis->setSettings(settings);
+    analysis->setMask(mask);
+    analysis->analyze();
+    for (const auto &fragment : analysis->getFragments()){
         model->addFragment(fragment);
     }
 }

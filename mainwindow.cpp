@@ -75,7 +75,6 @@ void MainWindow::openVideoFile(const QString &pathToFile)
     ui->analysisMenu->setEnabled(true);
 }
 
-
 void MainWindow::on_toggleVideoZoomingAction_triggered()
 {
     ui->graphicsView->setResizeMode(ui->toggleVideoZoomingAction->isChecked());

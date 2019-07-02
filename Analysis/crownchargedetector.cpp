@@ -1,10 +1,9 @@
 #include "crownchargedetector.h"
 #include <QDebug>
 
-CrownChargeDetector::CrownChargeDetector()
-{
+CrownChargeDetector::CrownChargeDetector() {}
 
-}
+CrownChargeDetector::CrownChargeDetector(const SuspectCrownChargeSettings &settings) : suspetctSettings(settings) {}
 
 CrownChargeDetector::~CrownChargeDetector()
 {

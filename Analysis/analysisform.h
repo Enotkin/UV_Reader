@@ -12,7 +12,7 @@
 
 
 #include "addfragmentcommentdialog.h"
-#include "testanalysiswidget.h"
+#include "analyzer.h"
 #include "fragmentinfo.h"
 #include "fragmentmodel.h"
 #include "fragmentsaver.h"

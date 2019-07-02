@@ -12,6 +12,7 @@ class CrownChargeDetector
 {
 public:
     CrownChargeDetector();
+    CrownChargeDetector(const SuspectCrownChargeSettings &settings);
     ~CrownChargeDetector();
 
     void findCrownCharges(std::list<Contour> &contours);

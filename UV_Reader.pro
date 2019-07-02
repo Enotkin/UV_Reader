@@ -60,7 +60,8 @@ SOURCES += \
     ktime.cpp \
     labelevent.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    Analysis/analyzer.cpp
 
 HEADERS += \
     Analysis/analysisform.h \
@@ -94,7 +95,8 @@ HEADERS += \
     excelreportcreator.h \
     ktime.h \
     labelevent.h \
-    mainwindow.h
+    mainwindow.h \
+    Analysis/analyzer.h
 
 FORMS += \
     Analysis/analysisform.ui \

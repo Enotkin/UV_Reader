@@ -27,11 +27,9 @@ public:
     explicit TestAnalysisWidget(QWidget *parent = nullptr);
     ~TestAnalysisWidget();
     void setSourceFile(const QFileInfo &value);
-    void setMaskRects(const QList<QRect> &value);
-    void superAnalysis();
-    QList<FragmentInfo> getFragments();
     void setFrame(int frame);
-    void setSuspectSettings(SuspectCrownChargeSettings settings);
+    void setRectsList(const QList<QRect> &value);
+    void setMaskRects(QList<QRect> rects);
 
 private slots:
     void on_horizontalSliderFrame_valueChanged(int value);
@@ -40,9 +38,6 @@ private:
     Ui::TestAnalysisWidget *ui;
     QFileInfo sourceFile;
     QList<QRect> rectsList;
-    std::list<FragmentInfo> fragmetsInfo;
-    std::list<CrownCharge> crownCharges;
-    SuspectCrownChargeSettings settingss;
     std::map<int, std::vector<Contour>> countersAtFrames;
     std::unique_ptr<VideoFileReader> dataReader;
     std::unique_ptr<cv::VideoCapture> videoCapture;
@@ -51,10 +46,8 @@ private:
 
     cv::Mat binarization(const cv::Mat &scr);
     void thresholdMagic();
-    void applyMask(cv::Mat &img);
     void fillListView(const std::vector<Contour> &contours);
-    std::vector<Contour> searchContours(size_t frameNumber, const cv::Mat &img);
-
+    void applyMask(cv::Mat &src);
 };
 
 #endif // TESTANALYSISWIDGET_H
