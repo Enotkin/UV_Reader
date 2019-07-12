@@ -18,7 +18,6 @@ void TestAnalysisWidget::setSourceFile(const QFileInfo &value)
 {
     sourceFile = value;
     dataReader = std::make_unique<VideoFileReader>(sourceFile.absoluteFilePath());
-    videoCapture = std::make_unique<cv::VideoCapture>(sourceFile.absoluteFilePath().toStdString());
     ui->horizontalSliderFrame->setRange(0, dataReader->getSettings().getCountFrames()-1);
 }
 
@@ -78,7 +77,7 @@ void TestAnalysisWidget::setRectsList(const QList<QRect> &value)
 
 void TestAnalysisWidget::setMaskRects(QList<QRect> rects)
 {
-    rectsList   = rects;
+    rectsList  = rects;
 }
 
 void TestAnalysisWidget::setFrame(int frame)
@@ -88,16 +87,24 @@ void TestAnalysisWidget::setFrame(int frame)
 
 void TestAnalysisWidget::thresholdMagic()
 {
-    cv::Mat src;
-    fillListView(countersAtFrames.at(currentFrame));
-    videoCapture->set(cv::CAP_PROP_POS_FRAMES, currentFrame);
-    videoCapture->read(src);
+    cv::Mat src = dataReader->getCvImage(currentFrame);
     QImage sourceImg(static_cast<uchar*>(src.data), src.cols, src.rows, QImage::Format_RGB888);
+
     auto binImg = binarization(src);
     QImage image(static_cast<uchar*>(binImg.data), binImg.cols, binImg.rows, QImage::Format_RGB888);
     ui->label_3->setImage(image);
+
     cv::Mat openMat, closeMat;
-//    cv::morphologyEx(src, openMat, )
+    int morph_size = 1;
+    cv::Mat element = cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(2*morph_size + 1, 2*morph_size+1), cv::Point(morph_size, morph_size));
+
+    cv::morphologyEx(src, openMat, cv::MORPH_OPEN, element);
+    QImage openImage(static_cast<uchar*>(openMat.data), openMat.cols, openMat.rows, QImage::Format_RGB888);
+    ui->label_4->setImage(openImage);
+
+    cv::morphologyEx(src, closeMat, cv::MORPH_CLOSE, element);
+    QImage closeImage(static_cast<uchar*>(closeMat.data), closeMat.cols, closeMat.rows, QImage::Format_RGB888);
+    ui->label_5->setImage(closeImage);
 }
 
 //    std::vector<cv::Moments> moments;

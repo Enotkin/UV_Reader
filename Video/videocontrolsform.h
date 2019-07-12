@@ -12,6 +12,7 @@
 
 #include <videoplayer.h>
 #include <ktime.h>
+#include <frame.h>
 
 namespace Ui {
 class VideoControlsForm;
@@ -34,7 +35,7 @@ public:
     void setView(const ViewMethod &value);
 
 public slots:
-    void updateFrame(QImage image, double time, int frame);
+    void updateFrame(Frame frame);
 
 private slots:
     void on_actionPlayPause_triggered(bool checked);

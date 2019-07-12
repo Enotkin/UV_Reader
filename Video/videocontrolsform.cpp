@@ -95,14 +95,14 @@ void VideoControlsForm::setView(const ViewMethod &value)
         displayFrame = value;
 }
 
-void VideoControlsForm::updateFrame(QImage image, double time, int frame)
+void VideoControlsForm::updateFrame(Frame frame)
 {
     if (displayFrame){
-        displayFrame(image);
+        displayFrame(frame.getQImage());
         if (videoPlayer){
-            updateLabel(ui->frameLabel, QString::number(frame), QString::number(videoSettings->getCountFrames()));
-            updateLabel(ui->timeLabel, msecToStr(time), msecToStr(videoSettings->getDuration()));
-            updateSlider(frame);
+            updateLabel(ui->frameLabel, QString::number(frame.number), QString::number(videoSettings->getCountFrames()));
+            updateLabel(ui->timeLabel, msecToStr(frame.time), msecToStr(videoSettings->getDuration()));
+            updateSlider(frame.number);
         } else {
             updateLabel(ui->frameLabel, "-", "-");
             updateLabel(ui->timeLabel, "-", "-");
@@ -164,7 +164,6 @@ void VideoControlsForm::setSourceVideoFile(const QFileInfo &value)
 void VideoControlsForm::setFragment(const FragmentInfo &fragment)
 {
     if (videoPlayer){
-//        updateSlider(fragment.getFrameRange().first - 10, fragment.getFrameRange().second + 10); //NOTE: Допуск для слайдера
         videoPlayer->setFragment(fragment);
     }
 }

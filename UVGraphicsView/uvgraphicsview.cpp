@@ -6,7 +6,6 @@ UvGraphicsView::UvGraphicsView(QWidget *parent)
     this->setScene(&scene);
     imageItem = std::make_unique<QGraphicsPixmapItem>();
     scene.addItem(imageItem.get());
-//    this->fitInView(scene.sceneRect(), Qt::KeepAspectRatio);
 }
 
 UvGraphicsView::~UvGraphicsView()
@@ -15,50 +14,52 @@ UvGraphicsView::~UvGraphicsView()
     imageItem.release();
 }
 
+// ========================= Mouse Events =================================
 //TODO добавить проверку на вхождение прямоугольника в область изображения
 void UvGraphicsView::mousePressEvent(QMouseEvent *event)
 {
-    if (editMode && event->button() == Qt::LeftButton){
-        rectBuilder.setStartPoint(this->mapToScene(event->pos()).toPoint());
-        currentRectItem = new QGraphicsRectItem();
-        currentRectItem->setBrush(QBrush(QColor(0, 0, 255), Qt::Dense6Pattern));
-        scene.addItem(currentRectItem);
+    if (event->button() == Qt::LeftButton){
+        if (editMode){
+            rectItemBuilder.emplace(this->mapToScene(event->pos()));
+            scene.addItem(rectItemBuilder->getItem());
+        } else {
+            selectGraphicsItem(this->mapToScene(event->pos()));
+        }
     }
 }
 
 void UvGraphicsView::mouseMoveEvent(QMouseEvent *event)
 {
-    if (editMode && currentRectItem) {
-        rectBuilder.setPoint(this->mapToScene(event->pos()).toPoint());
-        currentRectItem->setRect(rectBuilder.getRect());
+    if (editMode && rectItemBuilder) {
+        rectItemBuilder->setPoint(this->mapToScene(event->pos()).toPoint());
     }
 }
 
 void UvGraphicsView::mouseReleaseEvent(QMouseEvent *event)
 {
-    if (editMode && event->button() == Qt::LeftButton){
-        rectBuilder.setPoint(this->mapToScene(event->pos()).toPoint());
-        rectItems.append(currentRectItem);
-        currentRectItem = nullptr;
-        rectBuilder.clear();
+    if (event->button() == Qt::LeftButton){
+        if (editMode && rectItemBuilder){
+            rectItemBuilder->setPoint(this->mapToScene(event->pos()));
+            rectItems.append(rectItemBuilder->getItem());
+            emit addRect(rectItemBuilder->getItem()->rect());
+        }
+        rectItemBuilder = std::nullopt;
     }
 }
 
-void UvGraphicsView::paintEvent(QPaintEvent *event)
-{
-//    if (resizeMode)
-//        this->fitInView(scene.sceneRect(), Qt::KeepAspectRatio);
-    QGraphicsView::paintEvent(event);
-}
+// ======================================================================
 
 bool UvGraphicsView::sceneBorderCheck(const QPoint &point) const
 {
     return this->sceneRect().contains(point);
 }
 
-bool UvGraphicsView::getResizeMode() const
+QBrush UvGraphicsView::getBrush(const BrushColor color)
 {
-    return resizeMode;
+    switch (color) {
+    case BrushColor::Default: return QBrush(QColor(0, 0, 255), Qt::Dense6Pattern);
+    case BrushColor::Selected: return QBrush(QColor(127, 255, 0), Qt::Dense6Pattern);
+    }
 }
 
 void UvGraphicsView::setImage(const QImage &image)
@@ -83,7 +84,7 @@ void UvGraphicsView::clearMasks()
     rectItems.clear();
 }
 
-void UvGraphicsView::setEditMode(bool value)
+void UvGraphicsView::setEditMaskMode(bool value)
 {
     editMode = value;
     for (const auto rectItem : rectItems) {
@@ -100,10 +101,55 @@ void UvGraphicsView::setResizeMode(bool value)
 
 void UvGraphicsView::resizeImage()
 {
+    resetMatrix();
     if (resizeMode){
         fitInView(scene.sceneRect(), Qt::KeepAspectRatio);
-    } else {
-        resetMatrix();
     }
 }
+
+// ======================== Slots ========================
+void UvGraphicsView::removeItemRect(QRectF rect)
+{
+    QGraphicsRectItem *removeItem = nullptr;
+    for (auto item : rectItems){
+        if (item->rect() == rect)
+            removeItem = item;
+    }
+    if (removeItem){
+        rectItems.removeOne(removeItem);
+        scene.removeItem(removeItem);
+        delete removeItem;
+    }
+}
+
+void UvGraphicsView::selectItemRect(QRectF rect)
+{
+    for (auto item : rectItems) {
+       item->rect() == rect ? selectItem(item) : unselectItem(item);
+    }
+}
+// ========================================================
+
+// ===================== Select items group =========================
+void UvGraphicsView::selectGraphicsItem(QPointF point)
+{
+    for (auto item : rectItems) {
+        item->contains(point) ? selectItem(item) : unselectItem(item);
+    }
+}
+
+void UvGraphicsView::selectItem(QGraphicsRectItem *rectItem)
+{
+    rectItem->setSelected(true);
+    rectItem->setBrush(getBrush(BrushColor::Selected));
+    emit rectSelected(rectItem->rect());
+}
+
+void UvGraphicsView::unselectItem(QGraphicsRectItem *rectItem)
+{
+    rectItem->setSelected(false);
+    rectItem->setBrush(getBrush(BrushColor::Default));
+}
+//====================================================================
+
 

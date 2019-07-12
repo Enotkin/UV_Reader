@@ -7,8 +7,8 @@ CrownChargeDetector::CrownChargeDetector(const SuspectCrownChargeSettings &setti
 
 CrownChargeDetector::~CrownChargeDetector()
 {
-    if (!suspectCrownCharges.empty())
-        suspectCrownCharges.clear();
+    if (!branches.empty())
+        branches.clear();
 }
 
 void CrownChargeDetector::findCrownCharges(std::list<Contour> &contours)
@@ -16,9 +16,9 @@ void CrownChargeDetector::findCrownCharges(std::list<Contour> &contours)
     contours.sort([](const Contour &a, const Contour &b){ return a.getArea() > b.getArea();});
 
     //Если нет веток, то все контура это начало новых веток
-    if (suspectCrownCharges.empty()){
+    if (branches.empty()){
         for(const auto &contour : contours)
-            suspectCrownCharges.emplace_back(contour, suspetctSettings);
+            branches.emplace_back(contour, suspetctSettings);
         return;
     }
 
@@ -30,44 +30,37 @@ void CrownChargeDetector::findCrownCharges(std::list<Contour> &contours)
 
     //Распределение веток для селекторов
     for (auto &selector : selectors)
-        for (auto &suspectCrownCharge : suspectCrownCharges)
-            if(suspectCrownCharge.checkCompatibility(selector.getContour()))
-                selector.addBranche(suspectCrownCharge);
+        for (auto &branche : branches)
+            if(branche.checkCompatibility(selector.getContour()))
+                selector.addBranche(branche);
 
     //Выбор веток селекторами
-    for (auto &selector : selectors) {
-        selector.selectionBranch();
-    }
+    std::for_each(selectors.begin(), selectors.end(), [](auto &selector){selector.selectionBranch();});
 
     //Конец раунда, уменьшение времени жизни обездоленых
-    for (auto &suspectCrownCharge : suspectCrownCharges) {
-        suspectCrownCharge.endRound();
-    }
+    std::for_each(branches.begin(), branches.end(), [](auto &branche){branche.endRound();});
 
     //Копирование подтверждённых зарядов
-    for (const auto &suspectCrownCharge : suspectCrownCharges) {
-        if (suspectCrownCharge.isConfirmedCharge()){
-            detectedCharges.push_back(suspectCrownCharge.getCrownCharge());
-        }
+    for (const auto &branche : branches){
+        if (branche.isConfirmedCharge())
+            detectedCharges.push_back(branche.getCrownCharge());
     }
 
     //Удаление шумовых разрядов из общей кучи веток
-    suspectCrownCharges.remove_if([](const auto &suspectCrownCharge){
-        return suspectCrownCharge.isNoise();
-    });
+    branches.remove_if([](const auto &suspectCrownCharge){
+        return suspectCrownCharge.isNoise();});
 
-    suspectCrownCharges.remove_if([](const auto &suspectCrownCharge){
-        return suspectCrownCharge.isConfirmedCharge();
-    });
+    branches.remove_if([](const auto &suspectCrownCharge){
+        return suspectCrownCharge.isConfirmedCharge();});
 
     //Дополнение веток, селекторами без пар
     for (auto &selector : selectors){
         if (!selector.isSelectingEnd())
-            suspectCrownCharges.emplace_back(selector.getContour(), suspetctSettings);
+            branches.emplace_back(selector.getContour(), suspetctSettings);
     }
 
     //Сортировка веток
-    suspectCrownCharges.sort([](const SuspectCrownCharge &a, const SuspectCrownCharge &b){ return a.getSize() > b.getSize();});
+    branches.sort([](const SuspectCrownCharge &a, const SuspectCrownCharge &b){ return a.getSize() > b.getSize();});
 }
 
 std::list<CrownCharge> CrownChargeDetector::getDetectedCharges() const

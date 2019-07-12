@@ -9,20 +9,19 @@ CrownChargePainter::CrownChargePainter(const FragmentInfo &fragment) : fragment(
     }
 }
 
-QImage CrownChargePainter::getImage(cv::Mat imageMat, int number)
+Frame CrownChargePainter::getTrackFrame(const Frame &frame)
 {
-    auto contours = fragment.getCrownCharge().getContours(number);
+    auto trackframe = frame;
+    auto contours = fragment.getCrownCharge().getContours(trackframe.number);
     if (!contours.empty()) {
         for (auto &contour : contours) {
             auto minRect = cv::boundingRect(contour.getContour());
-            cv::rectangle(imageMat, cv::Point(minRect.x, minRect.y),
+            cv::rectangle(trackframe.image, cv::Point(minRect.x, minRect.y),
                           cv::Point((minRect.x+minRect.width),(minRect.y+minRect.height)), cv::Scalar(0, 0, 255));
         }
     }
-    drawTrack(imageMat);
-    //cv::imshow("Lelelele", imageMat);
-    QImage image(static_cast<uchar*>(imageMat.data), imageMat.cols, imageMat.rows, QImage::Format_RGB888);
-    return image.copy();
+    drawTrack(trackframe.image);
+    return trackframe;
 }
 
 void CrownChargePainter::drawTrack(cv::Mat &imageMat)

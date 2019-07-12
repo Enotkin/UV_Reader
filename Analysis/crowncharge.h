@@ -19,6 +19,7 @@ public:
     QPair<int, int> getRange();
     std::vector<Contour> getContours(int number);
     std::vector<Contour> getContours();
+    int getFirstFrameNumber();
     //TODO ХОЧУ ЧТОБЫ ДИАПАЗОН БЫЛ ИТЕРАБЕЛЬНЫМ
     
 private:

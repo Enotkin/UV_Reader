@@ -9,6 +9,7 @@
 #include <memory>
 #include <QDebug>
 #include <QTimer>
+#include "frame.h"
 #include "opencv2/highgui.hpp"
 #include "opencv2/video.hpp"
 #include "videosettings.h"
@@ -22,26 +23,16 @@ public:
     explicit VideoFileReader(const QFileInfo &fileInfo, QObject *parent = nullptr);
     ~VideoFileReader();
 
-    QImage getFrame(int numberFrame);
-    cv::Mat getMatFrame(int numberFrame);
-    bool isOpen() const;
-    int getCurrentFrameNumber() const;
-    double getTime() const;
-    void setCurrentFrameNumber(int value);
+    QImage getQImage(int numberFrame);
+    cv::Mat getCvImage(int numberFrame);
+    Frame getFrame(int numberFrame);
 
     VideoSettings getSettings() const;
 
-    cv::VideoCapture *getVideoCapture() const;
-
-    QFileInfo getP_fileInfo() const;
-
 private:
-    std::unique_ptr<cv::VideoCapture> videoCapture;
+    cv::VideoCapture videoCapture;
     QFileInfo p_fileInfo;
     VideoSettings settings;
-
-    QImage getImage();
-    bool openDataFile(const QString &pathToFile);
 };
 
 #endif // VIDEODATA_H

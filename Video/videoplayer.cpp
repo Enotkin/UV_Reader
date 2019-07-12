@@ -12,6 +12,7 @@ void VideoPlayer::setFragment(const FragmentInfo &fragment)
 {
     pause();
     currentFragment = fragment;
+    crownChargePainter = std::make_unique<CrownChargePainter>(currentFragment);
 
     if (fragment.getFrameRange().second <= videoFileReader->getSettings().getCountFrames())
         stopFrame = fragment.getFrameRange().second;
@@ -36,14 +37,14 @@ void VideoPlayer::setFrame(int frameNumber)
     if (!videoFileReader)
         return;
     if (frameNumber != stopFrame){
-        emit updateFrame(getFrame(frameNumber), videoFileReader->getTime(), frameNumber);
+        emit updateFrame(getFrame(frameNumber));
     } else {
         if (repeatFragment){
             if(timer.isActive()){
-                emit updateFrame(getFrame(startFrame), videoFileReader->getTime(), startFrame);
+                emit updateFrame(getFrame(startFrame));
             }else{}
         } else {
-            emit updateFrame(getFrame(stopFrame), videoFileReader->getTime(), stopFrame);
+            emit updateFrame(getFrame(stopFrame));
             pause();
         }
     }
@@ -51,13 +52,12 @@ void VideoPlayer::setFrame(int frameNumber)
 
 void VideoPlayer::timerOut()
 {
-    setFrame(videoFileReader->getCurrentFrameNumber());
+    setFrame(++currentFrameNumber);
 }
 
-QImage VideoPlayer::getFrame(int number)
+Frame VideoPlayer::getFrame(int number)
 {
-    CrownChargePainter p(currentFragment);
-    return p.getImage(videoFileReader->getMatFrame(number), number);
+    return crownChargePainter->getTrackFrame(videoFileReader->getFrame(number));
 }
 
 void VideoPlayer::play()
@@ -80,26 +80,26 @@ void VideoPlayer::stop()
 
 void VideoPlayer::begin()
 {
-    videoFileReader->setCurrentFrameNumber(startFrame);
+    currentFrameNumber = startFrame;
     setFrame(startFrame);
 }
 
 void VideoPlayer::end()
 {
-    videoFileReader->setCurrentFrameNumber(stopFrame);
+    currentFrameNumber = stopFrame;
     setFrame(stopFrame);
 }
 
 void VideoPlayer::nextFrame()
 {
-    int frame = videoFileReader->getCurrentFrameNumber();
-    setFrame(frame);
+    currentFrameNumber++;
+    setFrame(currentFrameNumber);
 }
 
 void VideoPlayer::prevFrame()
 {
-    int frame = videoFileReader->getCurrentFrameNumber() - 2;
-    setFrame(frame);
+    currentFrameNumber--;
+    setFrame(currentFrameNumber);
 }
 
 void VideoPlayer::setRepeatMode(bool repeat)

@@ -20,6 +20,7 @@
 #include "WidgetFileTree/filetreedialog.h"
 #include "fragmentinfo.h"
 #include "testanalysiswidget.h"
+#include "maskcreateform.h"
 
 namespace Ui {
 class MainWindow;
@@ -76,6 +77,8 @@ private:
     QTimer timer;
     QFileInfo fileInfo;
     int timerSpeed = 40;
+
+    void connectMaskCreaterToGraphicsView();
 
 };
 

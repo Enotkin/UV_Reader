@@ -2,8 +2,7 @@
 #define CROWNCHARGEPAINTER_H
 
 #include "fragmentinfo.h"
-#include "opencv2/highgui.hpp"
-#include "opencv2/video.hpp"
+#include "frame.h"
 #include <QImage>
 
 class CrownChargePainter
@@ -11,7 +10,7 @@ class CrownChargePainter
 public:
     CrownChargePainter(const FragmentInfo &fragment);
 
-    QImage getImage(cv::Mat imageMat, int number);
+    Frame getTrackFrame(const Frame &frame);
 
 
 private:

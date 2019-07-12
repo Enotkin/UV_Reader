@@ -14,70 +14,113 @@
    <string>UV_Reader</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_5">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
     <item>
-     <widget class="QWidget" name="videoWidget" native="true">
-      <layout class="QVBoxLayout" name="verticalLayout_3">
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
-       <item>
-        <widget class="UvGraphicsView" name="graphicsView">
-         <property name="verticalScrollBarPolicy">
-          <enum>Qt::ScrollBarAlwaysOff</enum>
-         </property>
-         <property name="horizontalScrollBarPolicy">
-          <enum>Qt::ScrollBarAlwaysOff</enum>
-         </property>
-         <property name="sizeAdjustPolicy">
-          <enum>QAbstractScrollArea::AdjustToContents</enum>
-         </property>
-         <property name="backgroundBrush">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>172</red>
-            <green>172</green>
-            <blue>172</blue>
-           </color>
-          </brush>
-         </property>
-         <property name="renderHints">
-          <set>QPainter::SmoothPixmapTransform</set>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="VideoControlsForm" name="videoControls" native="true"/>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item>
-     <widget class="TestAnalysisWidget" name="testAnalisysWidget" native="true"/>
-    </item>
-    <item>
-     <widget class="AnalysisForm" name="analysisWidget" native="true">
+     <widget class="MaskCreateForm" name="maskCreateForm" native="true">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="minimumSize">
        <size>
-        <width>450</width>
-        <height>0</height>
+        <width>0</width>
+        <height>100</height>
        </size>
       </property>
       <property name="maximumSize">
        <size>
-        <width>450</width>
-        <height>16777215</height>
+        <width>16777215</width>
+        <height>90</height>
        </size>
       </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QWidget" name="widget" native="true">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QWidget" name="videoWidget" native="true">
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="UvGraphicsView" name="graphicsView">
+            <property name="verticalScrollBarPolicy">
+             <enum>Qt::ScrollBarAlwaysOff</enum>
+            </property>
+            <property name="horizontalScrollBarPolicy">
+             <enum>Qt::ScrollBarAlwaysOff</enum>
+            </property>
+            <property name="sizeAdjustPolicy">
+             <enum>QAbstractScrollArea::AdjustToContents</enum>
+            </property>
+            <property name="backgroundBrush">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>172</red>
+               <green>172</green>
+               <blue>172</blue>
+              </color>
+             </brush>
+            </property>
+            <property name="renderHints">
+             <set>QPainter::SmoothPixmapTransform</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="VideoControlsForm" name="videoControls" native="true"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="AnalysisForm" name="analysisWidget" native="true">
+         <property name="minimumSize">
+          <size>
+           <width>450</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>450</width>
+           <height>16777215</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="TestAnalysisWidget" name="testAnalisysWidget" native="true"/>
+       </item>
+      </layout>
      </widget>
     </item>
    </layout>
@@ -362,6 +405,12 @@
    <class>VideoControlsForm</class>
    <extends>QWidget</extends>
    <header>videocontrolsform.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>MaskCreateForm</class>
+   <extends>QWidget</extends>
+   <header>maskcreateform.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

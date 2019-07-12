@@ -2,67 +2,27 @@
 
 VideoFileReader::VideoFileReader(const QString &pathToSample, QObject *parent):
     QObject(parent),
+    videoCapture(pathToSample.toStdString()),
     p_fileInfo(pathToSample) ,
-    settings(p_fileInfo)
-{
-    openDataFile(p_fileInfo.absoluteFilePath());
-}
+    settings(p_fileInfo) {}
 
 VideoFileReader::VideoFileReader(const QFileInfo &fileInfo, QObject *parent):
     QObject(parent),
+    videoCapture(fileInfo.absoluteFilePath().toStdString()),
     p_fileInfo(fileInfo),
-    settings(p_fileInfo)
-{
-    openDataFile(p_fileInfo.absoluteFilePath());
-}
+    settings(p_fileInfo) {}
 
 VideoFileReader::~VideoFileReader()
 {
-    videoCapture->release();
+    videoCapture.release();
 }
 
-bool VideoFileReader::isOpen() const
-{
-
-    return videoCapture->isOpened();
-}
-
-int VideoFileReader::getCurrentFrameNumber() const
-{
-    return static_cast<int>(videoCapture->get(cv::CAP_PROP_POS_FRAMES));
-}
-
-void VideoFileReader::setCurrentFrameNumber(int value)
-{
-    videoCapture->set(cv::CAP_PROP_POS_FRAMES, value);
-}
-
-double VideoFileReader::getTime() const
-{
-    return  static_cast<double>(videoCapture->get(cv::CAP_PROP_POS_MSEC));
-}
-
-VideoSettings VideoFileReader::getSettings() const
-{
-    return settings;
-}
-
-cv::VideoCapture *VideoFileReader::getVideoCapture() const
-{
-    return videoCapture.get();
-}
-
-QFileInfo VideoFileReader::getP_fileInfo() const
-{
-    return p_fileInfo;
-}
-
-QImage VideoFileReader::getFrame(int numberFrame)
+QImage VideoFileReader::getQImage(int numberFrame)
 {
     if (numberFrame <= settings.getCountFrames()){
-        videoCapture->set(cv::CAP_PROP_POS_FRAMES, static_cast<double>(numberFrame));
+        videoCapture.set(cv::CAP_PROP_POS_FRAMES, static_cast<double>(numberFrame));
         cv::Mat frame;
-        videoCapture->read(frame);
+        videoCapture.read(frame);
         if (frame.empty()) {
             return QImage();
         }
@@ -74,12 +34,12 @@ QImage VideoFileReader::getFrame(int numberFrame)
     }
 }
 
-cv::Mat VideoFileReader::getMatFrame(int numberFrame)
+cv::Mat VideoFileReader::getCvImage(int numberFrame)
 {
     if (numberFrame <= settings.getCountFrames()){
-        videoCapture->set(cv::CAP_PROP_POS_FRAMES, static_cast<double>(numberFrame));
+        videoCapture.set(cv::CAP_PROP_POS_FRAMES, static_cast<double>(numberFrame));
         cv::Mat frame;
-        videoCapture->read(frame);
+        videoCapture.read(frame);
         if (frame.empty()) {
             return cv::Mat();
         }
@@ -89,22 +49,15 @@ cv::Mat VideoFileReader::getMatFrame(int numberFrame)
     }
 }
 
-QImage VideoFileReader::getImage()
+Frame VideoFileReader::getFrame(int numberFrame)
 {
-    cv::Mat frame;
-    videoCapture->read(frame);
-    if (frame.empty()) {
-        return QImage();
-    }
-    QImage image(static_cast<uchar*>(frame.data),
-                 frame.cols, frame.rows, QImage::Format_RGB888);
-    return image;
+    return Frame(getCvImage(numberFrame), numberFrame, static_cast<double>(videoCapture.get(cv::CAP_PROP_POS_MSEC)));
 }
 
-bool VideoFileReader::openDataFile(const QString &pathToFile)
+VideoSettings VideoFileReader::getSettings() const
 {
-    videoCapture = std::make_unique<cv::VideoCapture>(pathToFile.toStdString());
-    videoCapture->set(cv::CAP_PROP_POS_AVI_RATIO, 0.0);
-    return videoCapture->isOpened();
+    return settings;
 }
+
+
 

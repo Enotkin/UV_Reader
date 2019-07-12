@@ -40,11 +40,9 @@ SOURCES += \
     ReportCreator/htmlbuilder.cpp \
     ReportCreator/htmltemplatebuilder.cpp \
     ReportCreator/reportdialog.cpp \
-    UVGraphicsView/qrectbuilder.cpp \
     UVGraphicsView/uvgraphicsview.cpp \
     Video/crownchargepainter.cpp \
     Video/fragmentinfo.cpp \
-    Video/frame.cpp \
     Video/videocontrolsform.cpp \
     Video/videofilereader.cpp \
     Video/videofilewriter.cpp \
@@ -61,7 +59,9 @@ SOURCES += \
     labelevent.cpp \
     main.cpp \
     mainwindow.cpp \
-    Analysis/analyzer.cpp
+    Analysis/analyzer.cpp \
+    maskcreateform.cpp \
+    UVGraphicsView/rectitembuilder.cpp
 
 HEADERS += \
     Analysis/analysisform.h \
@@ -76,11 +76,9 @@ HEADERS += \
     ReportCreator/htmlbuilder.h \
     ReportCreator/htmltemplatebuilder.h \
     ReportCreator/reportdialog.h \
-    UVGraphicsView/qrectbuilder.h \
     UVGraphicsView/uvgraphicsview.h \
     Video/crownchargepainter.h \
     Video/fragmentinfo.h \
-    Video/frame.h \
     Video/videocontrolsform.h \
     Video/videofilereader.h \
     Video/videofilewriter.h \
@@ -96,7 +94,11 @@ HEADERS += \
     ktime.h \
     labelevent.h \
     mainwindow.h \
-    Analysis/analyzer.h
+    Analysis/analyzer.h \
+    Video/asmOpenCV.h \
+    Video/frame.h \
+    maskcreateform.h \
+    UVGraphicsView/rectitembuilder.h
 
 FORMS += \
     Analysis/analysisform.ui \
@@ -107,7 +109,8 @@ FORMS += \
     WidgetFileTree/filetree.ui \
     WidgetFileTree/filetreedialog.ui \
     addfragmentcommentdialog.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    maskcreateform.ui
 
 INCLUDEPATH += C:/OpenCV-4.0.1/include \
                 $$PWD/WidgetFileTree \

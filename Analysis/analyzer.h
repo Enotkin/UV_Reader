@@ -10,6 +10,7 @@
 #include "crownchargedetector.h"
 #include "crowncharge.h"
 #include "fragmentinfo.h"
+#include "videofilereader.h"
 
 class Analyzer
 {
@@ -21,16 +22,16 @@ public:
     std::list<FragmentInfo> getFragments();
 
 private:
-    std::unique_ptr<cv::VideoCapture> videoCapture;
+    std::unique_ptr<VideoFileReader> videoFileReader;
     std::list<CrownCharge> crownCharges;
     std::list<QRect> masks;
     std::filesystem::path sourceFile;
-    std::vector<Contour> searchContours(size_t frameNumber, const cv::Mat &img);
+    std::list<Contour> searchContours(int frameNumber, const cv::Mat &img);
     SuspectCrownChargeSettings settings;
     double thresholdValue = 225;
 
     cv::Mat binarization(const cv::Mat &src);
-    void applyMask(cv::Mat &src);
+    cv::Mat applyMask(const cv::Mat &src);
 
 };
 

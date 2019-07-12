@@ -9,8 +9,11 @@
 
 #include <forward_list>
 #include <memory>
+#include <optional>
 
-#include "qrectbuilder.h"
+#include "rectitembuilder.h"
+
+enum class BrushColor {Default, Selected};
 
 class UvGraphicsView : public QGraphicsView
 {
@@ -21,40 +24,43 @@ public:
 
     void setResizeMode(bool value);
 
-    void setEditMode(bool value);
-
-    bool getResizeMode() const;
+    void setShowMaskMode(bool value);
 
     void setImage(const QImage &image);
 
     QList<QRect> getMaskRect() const;
 
-    void clearMasks();
-
     void resizeImage();
+
+signals:
+    void rectSelected(QRectF rect);
+    void addRect(QRectF rect);
+
+public slots:
+    void setEditMaskMode(bool value);
+    void removeItemRect(QRectF rect);
+    void selectItemRect(QRectF rect);
+    void clearMasks();
 
 protected:
     void mousePressEvent(QMouseEvent *event) override final;
     void mouseMoveEvent(QMouseEvent *event) override final;
     void mouseReleaseEvent(QMouseEvent *event) override final;
-    void paintEvent(QPaintEvent *event) override final;
 
 private:
-//    QList<QRect> rects;
-    QList<QGraphicsRectItem*> rectItems;
-    QGraphicsRectItem *currentRectItem = nullptr;
-    std::unique_ptr<QGraphicsPixmapItem> imageItem;
-    QRectBuilder rectBuilder;
     QGraphicsScene scene;
+    QList<QGraphicsRectItem*> rectItems;
+    std::unique_ptr<QGraphicsPixmapItem> imageItem;
+    std::optional<RectItemBuilder> rectItemBuilder;
+    bool showMaskMode = false;
     bool editMode = false;
     bool resizeMode = true;
 
-
-    QSize size = {0, 0};
-    QPoint topLeft;
-    QPoint bottomRight;
-
     bool sceneBorderCheck(const QPoint &point) const;
+    void selectItem(QGraphicsRectItem* rectItem);
+    void unselectItem(QGraphicsRectItem* rectItem);
+    QBrush getBrush(const BrushColor color);
+    void selectGraphicsItem(QPointF point);
 };
 
 #endif // UVGRAPHICSVIEW_H

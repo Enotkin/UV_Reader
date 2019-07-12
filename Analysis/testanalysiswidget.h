@@ -40,7 +40,6 @@ private:
     QList<QRect> rectsList;
     std::map<int, std::vector<Contour>> countersAtFrames;
     std::unique_ptr<VideoFileReader> dataReader;
-    std::unique_ptr<cv::VideoCapture> videoCapture;
     double thresholdValue = 225;
     int currentFrame = 0;
 

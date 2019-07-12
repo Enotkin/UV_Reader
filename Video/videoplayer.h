@@ -45,20 +45,22 @@ private slots:
     void timerOut();
 
 signals:
-    void updateFrame(QImage, double, int);
+    void updateFrame(Frame);
 
 private:
     int timerSpeed = 40;
     int stopFrame = 0;
     int startFrame = 0;
+    int currentFrameNumber = 0;
     bool repeatFragment = false;
     QTimer timer;
+    std::unique_ptr<CrownChargePainter> crownChargePainter;
     std::unique_ptr<VideoFileReader> videoFileReader;
     std::function<void(const QImage&)> displayFrame;
     FragmentInfo currentFragment;
     QFileInfo soureceVideoFile;
 
-    QImage getFrame(int number);
+    Frame getFrame(int number);
 
 };
 

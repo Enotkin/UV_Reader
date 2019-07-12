@@ -21,7 +21,7 @@ public:
     
 private:
     std::list<CrownCharge> detectedCharges;
-    std::list<SuspectCrownCharge> suspectCrownCharges;
+    std::list<SuspectCrownCharge> branches;
     SuspectCrownChargeSettings suspetctSettings;
 };
 

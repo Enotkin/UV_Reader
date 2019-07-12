@@ -1,54 +1,48 @@
-#include "qrectbuilder.h"
+#include "rectitembuilder.h"
 
-QRectBuilder::QRectBuilder(QPoint startPoint) : startPoint(startPoint)
+RectItemBuilder::RectItemBuilder(QPointF startPoint) : startPoint(startPoint)
 {
-
+    item = new QGraphicsRectItem();
 }
 
-void QRectBuilder::setPoint(const QPoint &point)
+void RectItemBuilder::setPoint(const QPointF &point)
 {
     QRect newRect;
     if (!isXLower(point) && !isYlower(point)) { //4 четверть
-        newRect.setTopLeft(startPoint);
-        newRect.setBottomRight(point);
+        newRect.setTopLeft(startPoint.toPoint());
+        newRect.setBottomRight(point.toPoint());
     }
     if (isXLower(point) && isYlower(point)) { //2 четверть
-        newRect.setTopLeft(point);
-        newRect.setBottomRight(startPoint);
+        newRect.setTopLeft(point.toPoint());
+        newRect.setBottomRight(startPoint.toPoint());
     }
     if (!isXLower(point) && isYlower(point)) { //1 четверть
-        newRect.setTopRight(point);
-        newRect.setBottomLeft(startPoint);
+        newRect.setTopRight(point.toPoint());
+        newRect.setBottomLeft(startPoint.toPoint());
     }
     if (isXLower(point) && !isYlower(point)) { //3 четверть
-        newRect.setTopRight(startPoint);
-        newRect.setBottomLeft(point);
+        newRect.setTopRight(startPoint.toPoint());
+        newRect.setBottomLeft(point.toPoint());
     }
-    rect = newRect;
+    item->setRect(newRect);
 }
 
-void QRectBuilder::setStartPoint(const QPoint &point)
+QRectF RectItemBuilder::getRectF() const
 {
-    startPoint = point;
+    return item->rect();
 }
 
-void QRectBuilder::clear()
+QGraphicsRectItem *RectItemBuilder::getItem() const
 {
-    startPoint = QPoint();
-    rect = QRect();
+    return item;
 }
 
-QRect QRectBuilder::getRect() const
-{
-    return rect;
-}
-
-bool QRectBuilder::isXLower(const QPoint &point) const
+bool RectItemBuilder::isXLower(const QPointF &point) const
 {
     return point.x() < startPoint.x() ? true : false;
 }
 
-bool QRectBuilder::isYlower(const QPoint &point) const
+bool RectItemBuilder::isYlower(const QPointF &point) const
 {
     return point.y() < startPoint.y() ? true : false;
 }

@@ -3,24 +3,23 @@
 
 #include <QRect>
 #include <QPoint>
+#include <QGraphicsRectItem>
 
 
-class QRectBuilder
+class RectItemBuilder
 {
 public:
-    QRectBuilder(QPoint startPoint = QPoint());
-    void setPoint(const QPoint &point);
-    void setStartPoint(const QPoint &point);
-    void clear();
-    QRect getRect() const;
-
+    RectItemBuilder(QPointF startPoint = QPointF());
+    void setPoint(const QPointF &point);
+    QRectF getRectF() const;
+    QGraphicsRectItem *getItem() const;
 
 private:
-    QPoint startPoint;
-    QRect rect;
+    QPointF startPoint;
+    QGraphicsRectItem *item = nullptr;
 
-    bool isXLower(const QPoint &point) const;
-    bool isYlower(const QPoint &point) const;
+    bool isXLower(const QPointF &point) const;
+    bool isYlower(const QPointF &point) const;
 };
 
 #endif // QRECTBUILDER_H

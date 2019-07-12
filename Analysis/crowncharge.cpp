@@ -35,4 +35,9 @@ std::vector<Contour> CrownCharge::getContours()
     return std::vector<Contour>{std::begin(contours), std::end(contours)};
 }
 
+int CrownCharge::getFirstFrameNumber()
+{
+    return contours.front().getFrameNumber();
+}
+
 

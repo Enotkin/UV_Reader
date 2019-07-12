@@ -114,26 +114,20 @@ void AnalysisForm::setupUI()
     toolbar->addAction(ui->actionHideAnalysisPanel);
     ui->groupBox->layout()->addWidget(toolbar);
     this->setVideoControlButtomEnabled(false);
-
-//    auto analysisTools = new QToolBar(ui->groupBox_3);
-//    analysisTools->setOrientation(Qt::Horizontal);
-//    analysisTools->setToolButtonStyle(Qt::ToolButtonTextOnly);
-//    analysisTools->addAction(ui->actionAnalysis);
-//    ui->groupBox_3->layout()->addWidget(analysisTools);
 }
 
 void AnalysisForm::on_actionSaveVideoFragment_triggered()
 {
-    FragmentSaver saver(QFileDialog::getExistingDirectory(this, tr("Выбор директории для сохранений фрагментов")),
-                        videoData->getP_fileInfo().absoluteFilePath() );
-    auto fragments = model->getSelectedFragments();
-    for (auto fragment : fragments){
-        if (fragment.isVideoFragment())
-            saver.saveVideoFragment(fragment);
-        else
-            saver.saveFrameFragment(fragment);
+//    FragmentSaver saver(QFileDialog::getExistingDirectory(this, tr("Выбор директории для сохранений фрагментов")),
+//                        videoData->getP_fileInfo().absoluteFilePath() );
+//    auto fragments = model->getSelectedFragments();
+//    for (auto fragment : fragments){
+//        if (fragment.isVideoFragment())
+//            saver.saveVideoFragment(fragment);
+//        else
+//            saver.saveFrameFragment(fragment);
 
-    }
+//    }
 }
 
 void AnalysisForm::setVideoData(const std::shared_ptr<VideoFileReader> &value)
@@ -150,7 +144,7 @@ void AnalysisForm::on_actionExcelExport_triggered()
 {
     ExcelHelper excel(true);
     QDir dir(QFileDialog::getExistingDirectory(this, tr("Выбор директории для сохранения отчёта")),
-          videoData->getP_fileInfo().absoluteFilePath());
+          fileInfo.absoluteFilePath());
     int numTrip = 0;
     while(dir.entryList(QDir::NoDotAndDotDot | QDir::Dirs).contains(QString("Отчёт участок name%1").arg(numTrip)))
         numTrip++;
@@ -222,7 +216,8 @@ void AnalysisForm::on_actionExcelExport_triggered()
         imageNumber++;
 
         QString imageFileName = QString("Рисунок %1.png").arg(imageNumber);
-        videoData->getFrame(fragment.getFrameNumberReport()).save(dir.absoluteFilePath(imageFileName));
+
+        videoData->getQImage(fragment.getFrameNumberReport()).save(dir.absoluteFilePath(imageFileName));
         excel.SetCellValue(imageRowNumber, 1, QString("См. рис. %1").arg(imageNumber));
 
         QString range = QString("A%1:H%1").arg(imageRowNumber+1);
