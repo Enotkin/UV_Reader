@@ -76,6 +76,11 @@ QList<QRect> UvGraphicsView::getMaskRect() const
     return rects;
 }
 
+void UvGraphicsView::setFileName(QString value)
+{
+    fileName = value;
+}
+
 void UvGraphicsView::clearMasks()
 {
     for (const auto maskRectItem : rectItems) {
@@ -92,9 +97,35 @@ void UvGraphicsView::setEditMaskMode(bool value)
 void UvGraphicsView::setShowMaskMode(bool value)
 {
     showMaskMode = value;
+    showMaskMode ? loadMask() : saveMask();
+
     for (const auto rectItem : rectItems) {
         rectItem->setVisible(showMaskMode);
     }
+}
+
+void UvGraphicsView::loadMask()
+{
+    MaskSaver saver;
+    auto saverRects = saver.loadMasks(fileName);
+    if (saverRects)
+        for (auto rect : saverRects.value()){
+            QGraphicsRectItem *item = new QGraphicsRectItem(rect);
+            item->setBrush(getBrush(BrushColor::Default));
+            scene.addItem(item);
+            rectItems.append(item);
+            emit addRect(item->rect());
+        }
+}
+
+void UvGraphicsView::saveMask()
+{
+    QVector<QRectF> rects;
+    for (auto item : rectItems) {
+        rects.append(item->rect());
+    }
+    MaskSaver maskSaver;
+    maskSaver.saveMasks(fileName, rects);
 }
 
 //TODO Починить сделать возможность переключения маштабирования

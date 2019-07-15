@@ -67,6 +67,7 @@ void MainWindow::openVideoFile(const QString &pathToFile)
 
     settings->setValue(SettingTitles::DefaultPathSettingsTitle,
                        fileTreeDialog.getRootDir());
+    ui->graphicsView->setFileName(fileInfo.baseName());
 
     ui->statusBar->showMessage(fileInfo.absoluteFilePath());
     videoData = std::make_shared<VideoFileReader>(fileInfo);

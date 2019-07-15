@@ -41,6 +41,11 @@ void MaskCreateForm::removeItem(QRectF rect)
     emit itemRemoved(rect);
 }
 
+void MaskCreateForm::saveMask()
+{
+
+}
+
 void MaskCreateForm::on_listWidgetDeathAreas_itemClicked(QListWidgetItem *item)
 {
     selectedRect = getRectF(item);

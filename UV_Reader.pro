@@ -61,7 +61,8 @@ SOURCES += \
     mainwindow.cpp \
     Analysis/analyzer.cpp \
     maskcreateform.cpp \
-    UVGraphicsView/rectitembuilder.cpp
+    UVGraphicsView/rectitembuilder.cpp \
+    masksaver.cpp
 
 HEADERS += \
     Analysis/analysisform.h \
@@ -98,7 +99,8 @@ HEADERS += \
     Video/asmOpenCV.h \
     Video/frame.h \
     maskcreateform.h \
-    UVGraphicsView/rectitembuilder.h
+    UVGraphicsView/rectitembuilder.h \
+    masksaver.h
 
 FORMS += \
     Analysis/analysisform.ui \

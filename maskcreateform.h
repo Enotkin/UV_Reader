@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QListWidgetItem>
 #include <QDebug>
+#include <QSettings>
+#include <optional>
 using RerctItem = QPair<QRectF, QListWidgetItem*>;
 
 namespace Ui {
@@ -42,10 +44,12 @@ private:
     QRectF selectedRect = QRectF();
     QList <RerctItem> areas;
 
+
     QString rect2String(const QRectF &rect) const;
     QListWidgetItem *getListItem (const QRectF &rect) const;
     QRectF getRectF(const QListWidgetItem *item) const;
     void removeItem(QRectF rect);
+    void saveMask();
 };
 
 #endif // MASKCREATEFORM_H

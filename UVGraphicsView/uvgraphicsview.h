@@ -5,12 +5,14 @@
 #include <QGraphicsView>
 #include <QMouseEvent>
 #include <QDebug>
+#include <QSettings>
 #include <QTime>
 
 #include <forward_list>
 #include <memory>
 #include <optional>
 
+#include "masksaver.h"
 #include "rectitembuilder.h"
 
 enum class BrushColor {Default, Selected};
@@ -29,6 +31,8 @@ public:
     void setImage(const QImage &image);
 
     QList<QRect> getMaskRect() const;
+
+    void setFileName(QString value);
 
     void resizeImage();
 
@@ -50,8 +54,10 @@ protected:
 private:
     QGraphicsScene scene;
     QList<QGraphicsRectItem*> rectItems;
+    QString fileName;
     std::unique_ptr<QGraphicsPixmapItem> imageItem;
     std::optional<RectItemBuilder> rectItemBuilder;
+    std::optional<QSettings> settings;
     bool showMaskMode = false;
     bool editMaskMode = false;
     bool resizeMode = true;
@@ -61,6 +67,8 @@ private:
     void unselectItem(QGraphicsRectItem* rectItem);
     QBrush getBrush(const BrushColor color);
     void selectGraphicsItem(QPointF point);
+    void loadMask();
+    void saveMask();
 };
 
 #endif // UVGRAPHICSVIEW_H

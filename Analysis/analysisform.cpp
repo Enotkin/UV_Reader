@@ -118,16 +118,16 @@ void AnalysisForm::setupUI()
 
 void AnalysisForm::on_actionSaveVideoFragment_triggered()
 {
-//    FragmentSaver saver(QFileDialog::getExistingDirectory(this, tr("Выбор директории для сохранений фрагментов")),
-//                        videoData->getP_fileInfo().absoluteFilePath() );
-//    auto fragments = model->getSelectedFragments();
-//    for (auto fragment : fragments){
-//        if (fragment.isVideoFragment())
-//            saver.saveVideoFragment(fragment);
-//        else
-//            saver.saveFrameFragment(fragment);
+    FragmentSaver saver(QFileDialog::getExistingDirectory(this, tr("Выбор директории для сохранений фрагментов")),
+                        fileInfo.absoluteFilePath());
+    auto fragments = model->getSelectedFragments();
+    for (auto fragment : fragments){
+        if (fragment.isVideoFragment())
+            saver.saveVideoFragment(fragment);
+        else
+            saver.saveFrameFragment(fragment);
 
-//    }
+    }
 }
 
 void AnalysisForm::setVideoData(const std::shared_ptr<VideoFileReader> &value)
