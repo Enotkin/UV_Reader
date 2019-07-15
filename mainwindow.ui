@@ -378,7 +378,7 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>ТЕСТ_Режим_создания_маски</string>
+    <string>Режим создания маски</string>
    </property>
   </action>
  </widget>

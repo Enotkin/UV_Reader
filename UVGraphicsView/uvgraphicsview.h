@@ -53,7 +53,7 @@ private:
     std::unique_ptr<QGraphicsPixmapItem> imageItem;
     std::optional<RectItemBuilder> rectItemBuilder;
     bool showMaskMode = false;
-    bool editMode = false;
+    bool editMaskMode = false;
     bool resizeMode = true;
 
     bool sceneBorderCheck(const QPoint &point) const;

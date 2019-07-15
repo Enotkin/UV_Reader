@@ -85,10 +85,10 @@ void MainWindow::on_actionTestMaskCreate_triggered(bool checked)
 {
     if (checked){
         ui->maskCreateForm->setVisible(true);
-        ui->graphicsView->setEditMaskMode(true);
+        ui->graphicsView->setShowMaskMode(true);
     }else {
         ui->maskCreateForm->setVisible(false);
-        ui->graphicsView->setEditMaskMode(false);
+        ui->graphicsView->setShowMaskMode(false);
         ui->analysisWidget->setMask(ui->graphicsView->getMaskRect());
     }
     ui->graphicsView->resizeImage();

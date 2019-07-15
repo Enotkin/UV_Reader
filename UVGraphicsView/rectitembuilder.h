@@ -4,6 +4,8 @@
 #include <QRect>
 #include <QPoint>
 #include <QGraphicsRectItem>
+#include <QBrush>
+#include <QColor>
 
 
 class RectItemBuilder

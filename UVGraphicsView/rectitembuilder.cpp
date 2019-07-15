@@ -3,6 +3,7 @@
 RectItemBuilder::RectItemBuilder(QPointF startPoint) : startPoint(startPoint)
 {
     item = new QGraphicsRectItem();
+    item->setBrush(QBrush(QColor(0, 0, 255), Qt::Dense6Pattern));
 }
 
 void RectItemBuilder::setPoint(const QPointF &point)

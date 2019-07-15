@@ -19,7 +19,7 @@ UvGraphicsView::~UvGraphicsView()
 void UvGraphicsView::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton){
-        if (editMode){
+        if (editMaskMode){
             rectItemBuilder.emplace(this->mapToScene(event->pos()));
             scene.addItem(rectItemBuilder->getItem());
         } else {
@@ -30,7 +30,7 @@ void UvGraphicsView::mousePressEvent(QMouseEvent *event)
 
 void UvGraphicsView::mouseMoveEvent(QMouseEvent *event)
 {
-    if (editMode && rectItemBuilder) {
+    if (editMaskMode && rectItemBuilder) {
         rectItemBuilder->setPoint(this->mapToScene(event->pos()).toPoint());
     }
 }
@@ -38,7 +38,7 @@ void UvGraphicsView::mouseMoveEvent(QMouseEvent *event)
 void UvGraphicsView::mouseReleaseEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton){
-        if (editMode && rectItemBuilder){
+        if (editMaskMode && rectItemBuilder){
             rectItemBuilder->setPoint(this->mapToScene(event->pos()));
             rectItems.append(rectItemBuilder->getItem());
             emit addRect(rectItemBuilder->getItem()->rect());
@@ -86,9 +86,14 @@ void UvGraphicsView::clearMasks()
 
 void UvGraphicsView::setEditMaskMode(bool value)
 {
-    editMode = value;
+    editMaskMode = value;
+}
+
+void UvGraphicsView::setShowMaskMode(bool value)
+{
+    showMaskMode = value;
     for (const auto rectItem : rectItems) {
-        rectItem->setVisible(value);
+        rectItem->setVisible(showMaskMode);
     }
 }
 

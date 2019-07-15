@@ -90,3 +90,8 @@ QString MaskCreateForm::rect2String(const QRectF &rect) const
             .arg(QString::number(rect.toRect().topLeft().x() + rect.toRect().width()))
             .arg(QString::number(rect.toRect().topLeft().y() + rect.toRect().width()));
 }
+
+void MaskCreateForm::on_pushButtonAddDeathArea_clicked(bool checked)
+{
+    emit setEditMode(checked);
+}

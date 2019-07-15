@@ -35,6 +35,8 @@ private slots:
 
     void on_pushButtonClearDeathArea_clicked();
 
+    void on_pushButtonAddDeathArea_clicked(bool checked);
+
 private:
     Ui::maskCreateForm *ui;
     QRectF selectedRect = QRectF();
