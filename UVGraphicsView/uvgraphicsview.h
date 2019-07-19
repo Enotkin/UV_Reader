@@ -14,6 +14,7 @@
 
 #include "masksaver.h"
 #include "rectitembuilder.h"
+#include "settingkeeper.h"
 
 enum class BrushColor {Default, Selected};
 
@@ -26,8 +27,6 @@ public:
 
     void setResizeMode(bool value);
 
-    void setShowMaskMode(bool value);
-
     void setImage(const QImage &image);
 
     QList<QRect> getMaskRect() const;
@@ -39,9 +38,12 @@ public:
 signals:
     void rectSelected(QRectF rect);
     void addRect(QRectF rect);
+    void colorSelected(QColor);
 
 public slots:
     void setEditMaskMode(bool value);
+    void setShowMaskMode(bool value);
+    void setColorSelectionMode(bool value);
     void removeItemRect(QRectF rect);
     void selectItemRect(QRectF rect);
     void clearMasks();
@@ -60,6 +62,7 @@ private:
     std::optional<QSettings> settings;
     bool showMaskMode = false;
     bool editMaskMode = false;
+    bool colorSelectionMode = false;
     bool resizeMode = true;
 
     bool sceneBorderCheck(const QPoint &point) const;
@@ -69,6 +72,8 @@ private:
     void selectGraphicsItem(QPointF point);
     void loadMask();
     void saveMask();
+    void maskActions(QPointF pos);
+    void colorActions(QPointF pos);
 };
 
 #endif // UVGRAPHICSVIEW_H

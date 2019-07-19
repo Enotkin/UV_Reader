@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SettingsBox</class>
+ <widget class="QWidget" name="SettingsBox">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1037</width>
+    <height>128</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="tabPosition">
+      <enum>QTabWidget::North</enum>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="MaskCreateForm" name="maskCreateTab">
+      <attribute name="title">
+       <string>Анализируемое поле изображения</string>
+      </attribute>
+     </widget>
+     <widget class="ColorSelectionForm" name="colorSelectionTab">
+      <attribute name="title">
+       <string>Режим обнаружителя</string>
+      </attribute>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MaskCreateForm</class>
+   <extends>QWidget</extends>
+   <header>maskcreateform.h</header>
+   <container>1</container>
+   <slots>
+    <signal>itemSelected(QRectF)</signal>
+    <signal>itemRemoved(QRectF)</signal>
+    <signal>setEditMode(bool)</signal>
+    <signal>clearAll()</signal>
+    <slot>addItem(QRectF)</slot>
+    <slot>selectItem(QRectF)</slot>
+   </slots>
+  </customwidget>
+  <customwidget>
+   <class>ColorSelectionForm</class>
+   <extends>QWidget</extends>
+   <header>colorselectionform.h</header>
+   <container>1</container>
+   <slots>
+    <signal>turnOnColorSelection(bool)</signal>
+    <slot>setColor(QColor)</slot>
+   </slots>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

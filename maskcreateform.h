@@ -6,24 +6,28 @@
 #include <QDebug>
 #include <QSettings>
 #include <optional>
+#include "abstractsettingstab.h"
+
 using RerctItem = QPair<QRectF, QListWidgetItem*>;
 
 namespace Ui {
 class maskCreateForm;
 }
 
-class MaskCreateForm : public QWidget
+class MaskCreateForm : public AbstractSettingsTab
 {
     Q_OBJECT
 
 public:
     explicit MaskCreateForm(QWidget *parent = nullptr);
-    ~MaskCreateForm();
+    ~MaskCreateForm() override;
+    void setWorkState(bool state) override final;
 
 signals:
     void itemSelected(QRectF);
     void itemRemoved(QRectF);
     void setEditMode(bool);
+    void setShowMode(bool);
     void clearAll();
 
 public slots:
@@ -43,7 +47,6 @@ private:
     Ui::maskCreateForm *ui;
     QRectF selectedRect = QRectF();
     QList <RerctItem> areas;
-
 
     QString rect2String(const QRectF &rect) const;
     QListWidgetItem *getListItem (const QRectF &rect) const;

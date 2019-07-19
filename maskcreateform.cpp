@@ -2,7 +2,7 @@
 #include "ui_maskcreateform.h"
 
 MaskCreateForm::MaskCreateForm(QWidget *parent) :
-    QWidget(parent),
+    AbstractSettingsTab(parent),
     ui(new Ui::maskCreateForm)
 {
     ui->setupUi(this);
@@ -12,6 +12,11 @@ MaskCreateForm::MaskCreateForm(QWidget *parent) :
 MaskCreateForm::~MaskCreateForm()
 {
     delete ui;
+}
+
+void MaskCreateForm::setWorkState(bool state)
+{
+    emit setShowMode(state);
 }
 
 void MaskCreateForm::addItem(QRectF rect)

@@ -27,6 +27,7 @@ private:
 
     std::list<BranchSelector> createSelectors(const std::list<Contour> &contours);
     void branchDistribution(std::list<BranchSelector> &selectorList, std::list<Branch> &branchList);
+    bool is
 };
 
 #endif // CROWNCHARGEDETECTOR_H

@@ -5,15 +5,16 @@
 #include <QRectF>
 #include <optional>
 
+using Masks = QVector<QRectF>;
+
 class MaskSaver
 {
 public:
-    MaskSaver();
-    void saveMasks(QString fileName, QVector<QRectF> rects);
-    std::optional<QVector<QRectF>> loadMasks(QString fileName);
+    MaskSaver(QString mainFileName);
+    void saveMasks(QString fileName, Masks rects);
+    std::optional<Masks> loadMasks(QString fileName);
 
 private:
-    const QString masksFileName = "Saved_mask.ini";
     QSettings settings;
 
     void clearGroup(QString groupName);

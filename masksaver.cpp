@@ -1,11 +1,11 @@
 #include "masksaver.h"
 
-MaskSaver::MaskSaver() : settings(masksFileName, QSettings::IniFormat)
+MaskSaver::MaskSaver(QString mainFileName) : settings(mainFileName, QSettings::IniFormat)
 {
 
 }
 
-void MaskSaver::saveMasks(QString fileName, QVector<QRectF> rects)
+void MaskSaver::saveMasks(QString fileName, Masks rects)
 {
     if (settings.childGroups().contains(fileName))
         clearGroup(fileName);
@@ -19,7 +19,7 @@ void MaskSaver::saveMasks(QString fileName, QVector<QRectF> rects)
     settings.sync();
 }
 
-std::optional<QVector<QRectF>> MaskSaver::loadMasks(QString fileName)
+std::optional<Masks> MaskSaver::loadMasks(QString fileName)
 {
     if (!settings.childGroups().contains(fileName)) {
         return std::nullopt;

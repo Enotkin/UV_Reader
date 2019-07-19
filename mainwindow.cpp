@@ -10,9 +10,9 @@ MainWindow::MainWindow(QWidget *parent) :
     this->showMaximized();
     ui->analysisWidget->hide();
     connectMaskCreaterToGraphicsView();
+    connectColorSelectionForm();
     connect(&fileTreeDialog, &FileTreeDialog::signalSelectedFile, this, &MainWindow::openVideoFile);
     connect(ui->analysisWidget, &AnalysisForm::playFragmet, this, &MainWindow::playFragment);
-    settings = std::make_unique<QSettings>("settings.ini", QSettings::IniFormat);
 
     auto view = ui->graphicsView;
     auto viewMethod = [view](const QImage &image) mutable {view->setImage(image);};
@@ -32,17 +32,17 @@ void MainWindow::playFragment(FragmentInfo fragment)
 void MainWindow::on_openFileAction_triggered()
 {
     fileTreeDialog.show();
-    bool defaultPathIsExist = !settings->value(SettingTitles::DefaultPathSettingsTitle).toString().isNull();
-    if (defaultPathIsExist)
-        fileTreeDialog.setRootDir(settings->value(SettingTitles::DefaultPathSettingsTitle).toString());
+    auto defaultPath = SettingKeeper::getInstance()->loadDefaultPath();
+    if (defaultPath)
+        fileTreeDialog.setRootDir(defaultPath.value());
 }
 
 void MainWindow::on_closeFileAction_triggered()
 {
-        ui->statusBar->showMessage("");
-        ui->analysisWidget->clear();
-        ui->videoPlaybackMenu->setEnabled(false);
-        ui->analysisMenu->setEnabled(false);
+    ui->statusBar->showMessage("");
+    ui->analysisWidget->clear();
+    ui->videoPlaybackMenu->setEnabled(false);
+    ui->analysisMenu->setEnabled(false);
 }
 
 void MainWindow::on_closeAppAction_triggered()
@@ -65,8 +65,7 @@ void MainWindow::openVideoFile(const QString &pathToFile)
     ui->videoControls->setSourceVideoFile(fileInfo);
     ui->graphicsView->resizeImage();
 
-    settings->setValue(SettingTitles::DefaultPathSettingsTitle,
-                       fileTreeDialog.getRootDir());
+    SettingKeeper::getInstance()->setCurrentFile(fileInfo);
     ui->graphicsView->setFileName(fileInfo.baseName());
 
     ui->statusBar->showMessage(fileInfo.absoluteFilePath());
@@ -85,12 +84,9 @@ void MainWindow::on_toggleVideoZoomingAction_triggered()
 void MainWindow::on_actionTestMaskCreate_triggered(bool checked)
 {
     if (checked){
-        ui->maskCreateForm->setVisible(true);
-        ui->graphicsView->setShowMaskMode(true);
-    }else {
-        ui->maskCreateForm->setVisible(false);
-        ui->graphicsView->setShowMaskMode(false);
-        ui->analysisWidget->setMask(ui->graphicsView->getMaskRect());
+        ui->settingsWidget->showTabs(SettingsMode::MaskMode);
+    } else {
+        ui->settingsWidget->hideTabs();
     }
     ui->graphicsView->resizeImage();
 }
@@ -110,11 +106,27 @@ void MainWindow::on_analysisPanelAction_triggered(bool checked)
 
 void MainWindow::connectMaskCreaterToGraphicsView()
 {
-    connect(ui->graphicsView, &UvGraphicsView::addRect, ui->maskCreateForm, &MaskCreateForm::addItem);
-    connect(ui->graphicsView, &UvGraphicsView::rectSelected, ui->maskCreateForm, &MaskCreateForm::selectItem);
+    auto maskForm = ui->settingsWidget->getMaskWidget();
 
-    connect(ui->maskCreateForm, &MaskCreateForm::itemSelected, ui->graphicsView, &UvGraphicsView::selectItemRect);
-    connect(ui->maskCreateForm, &MaskCreateForm::itemRemoved, ui->graphicsView, &UvGraphicsView::removeItemRect);
-    connect(ui->maskCreateForm, &MaskCreateForm::setEditMode, ui->graphicsView, &UvGraphicsView::setEditMaskMode);
-    connect(ui->maskCreateForm, &MaskCreateForm::clearAll, ui->graphicsView, &UvGraphicsView::clearMasks);
+    connect(ui->graphicsView, &UvGraphicsView::addRect, maskForm, &MaskCreateForm::addItem);
+    connect(ui->graphicsView, &UvGraphicsView::rectSelected, maskForm, &MaskCreateForm::selectItem);
+
+    connect(maskForm, &MaskCreateForm::itemSelected, ui->graphicsView, &UvGraphicsView::selectItemRect);
+    connect(maskForm, &MaskCreateForm::itemRemoved, ui->graphicsView, &UvGraphicsView::removeItemRect);
+    connect(maskForm, &MaskCreateForm::setEditMode, ui->graphicsView, &UvGraphicsView::setEditMaskMode);
+    connect(maskForm, &MaskCreateForm::setShowMode, ui->graphicsView, &UvGraphicsView::setShowMaskMode);
+    connect(maskForm, &MaskCreateForm::clearAll, ui->graphicsView, &UvGraphicsView::clearMasks);
+}
+
+void MainWindow::connectColorSelectionForm()
+{
+    auto colorForm = ui->settingsWidget->getColorWidget();
+
+    connect(colorForm, &ColorSelectionForm::turnOnColorSelection, ui->graphicsView, &UvGraphicsView::setColorSelectionMode);
+    connect(ui->graphicsView, &UvGraphicsView::colorSelected, colorForm, &ColorSelectionForm::setColor);
+}
+
+void MainWindow::on_actionSettings_triggered()
+{
+    ui->settingsWidget->show();
 }

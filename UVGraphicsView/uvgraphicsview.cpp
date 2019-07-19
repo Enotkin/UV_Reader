@@ -19,12 +19,10 @@ UvGraphicsView::~UvGraphicsView()
 void UvGraphicsView::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton){
-        if (editMaskMode){
-            rectItemBuilder.emplace(this->mapToScene(event->pos()));
-            scene.addItem(rectItemBuilder->getItem());
-        } else {
-            selectGraphicsItem(this->mapToScene(event->pos()));
-        }
+        if (showMaskMode)
+            maskActions(this->mapToScene(event->pos()));
+        if (colorSelectionMode)
+            colorActions(this->mapToScene(event->pos()));
     }
 }
 
@@ -45,6 +43,21 @@ void UvGraphicsView::mouseReleaseEvent(QMouseEvent *event)
         }
         rectItemBuilder = std::nullopt;
     }
+}
+
+void UvGraphicsView::maskActions(QPointF pos)
+{
+    if (editMaskMode){
+        rectItemBuilder.emplace(pos);
+        scene.addItem(rectItemBuilder->getItem());
+    } else {
+        selectGraphicsItem(pos);
+    }
+}
+
+void UvGraphicsView::colorActions(QPointF pos)
+{
+    emit colorSelected(imageItem->pixmap().toImage().pixelColor(pos.toPoint()));
 }
 
 // ======================================================================
@@ -89,9 +102,23 @@ void UvGraphicsView::clearMasks()
     rectItems.clear();
 }
 
+void UvGraphicsView::setColorSelectionMode(bool value)
+{
+    colorSelectionMode = value;
+
+    if (colorSelectionMode && (showMaskMode || editMaskMode)){
+        setEditMaskMode(false);
+        setShowMaskMode(false);
+    }
+}
+
 void UvGraphicsView::setEditMaskMode(bool value)
 {
     editMaskMode = value;
+
+    if (!editMaskMode)
+        for (auto rectItem : rectItems)
+            unselectItem(rectItem);
 }
 
 void UvGraphicsView::setShowMaskMode(bool value)
@@ -106,9 +133,8 @@ void UvGraphicsView::setShowMaskMode(bool value)
 
 void UvGraphicsView::loadMask()
 {
-    MaskSaver saver;
-    auto saverRects = saver.loadMasks(fileName);
-    if (saverRects)
+    auto saverRects = SettingKeeper::getInstance()->loadMask();
+    if (saverRects && rectItems.isEmpty())
         for (auto rect : saverRects.value()){
             QGraphicsRectItem *item = new QGraphicsRectItem(rect);
             item->setBrush(getBrush(BrushColor::Default));
@@ -124,9 +150,10 @@ void UvGraphicsView::saveMask()
     for (auto item : rectItems) {
         rects.append(item->rect());
     }
-    MaskSaver maskSaver;
-    maskSaver.saveMasks(fileName, rects);
+    SettingKeeper::getInstance()->saveMasks(rects);
 }
+
+
 
 //TODO Починить сделать возможность переключения маштабирования
 void UvGraphicsView::setResizeMode(bool value)
@@ -160,18 +187,16 @@ void UvGraphicsView::removeItemRect(QRectF rect)
 
 void UvGraphicsView::selectItemRect(QRectF rect)
 {
-    for (auto item : rectItems) {
+    for (auto item : rectItems)
        item->rect() == rect ? selectItem(item) : unselectItem(item);
-    }
 }
 // ========================================================
 
 // ===================== Select items group =========================
 void UvGraphicsView::selectGraphicsItem(QPointF point)
 {
-    for (auto item : rectItems) {
+    for (auto item : rectItems)
         item->contains(point) ? selectItem(item) : unselectItem(item);
-    }
 }
 
 void UvGraphicsView::selectItem(QGraphicsRectItem *rectItem)

@@ -10,6 +10,14 @@ FragmentSaver::~FragmentSaver()
     videoInput->release();
 }
 
+void FragmentSaver::saveFragment(const FragmentInfo &fragmentInfo, const QString &fileName)
+{
+    if (fragmentInfo.isVideoFragment())
+        saveVideoFragment(fragmentInfo);
+    else
+        saveFrameFragment(fragmentInfo);
+}
+
 void FragmentSaver::saveFrameFragment(const FragmentInfo &fragmentInfo, const QString &fileName)
 {
     QImage image;

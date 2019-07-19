@@ -3,14 +3,14 @@
 #include <functional>
 
 #include "contour.h"
-#include "suspectcrowncharge.h"
+#include "branch.h"
 
-using BrancheRef = std::reference_wrapper<SuspectCrownCharge>;
+using BrancheRef = std::reference_wrapper<Branch>;
 
-class BrancheSelector
+class BranchSelector
 {
 public:
-    BrancheSelector(const Contour &contour);
+    BranchSelector(const Contour &contour);
     void addBranche(BrancheRef newBranche);
     void selectionBranch();
     Contour getContour() const;
@@ -22,12 +22,12 @@ public:
 private:
     Contour contour;
     std::list<BrancheRef> branches;
-    void brancheSort();
+    void branchSort();
     bool selectingEnd = false;
     template<class Comparator>
     constexpr auto branchesCmp(Comparator cmp){
         return [cmp](const BrancheRef &l, const BrancheRef &r){
-            return cmp(l.get().getSize(), r.get().getSize());
+            return cmp(l.get().length(), r.get().length());
         };
     }
 

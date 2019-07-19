@@ -1,18 +1,15 @@
 #include "analyzer.h"
 #include "QDebug"
 Analyzer::Analyzer(const QFileInfo &sourceFileInfo) :
-    sourceFile(sourceFileInfo.absoluteFilePath().toStdString())
-{
-    videoFileReader = std::make_unique<VideoFileReader>(sourceFileInfo);
-}
+    videoFileReader(sourceFileInfo) {}
 
 void Analyzer::analyze()
 {
-    auto countFrame = videoFileReader->getSettings().getCountFrames();
+    auto countFrame = videoFileReader.getSettings().getCountFrames();
     CrownChargeDetector detector(settings);
     for(int frameNumber = 0; frameNumber < countFrame; frameNumber++){
-        cv::Mat src = videoFileReader->getCvImage(frameNumber);
-        auto monochromeFrame = binarization(src);
+        cv::Mat src = videoFileReader.getCvImage(frameNumber);
+        auto monochromeFrame = countorSelection(src);
         auto maskedFrame = applyMask(monochromeFrame);
         auto contours = searchContours(frameNumber, maskedFrame);
         detector.findCrownCharges(contours);
@@ -21,12 +18,7 @@ void Analyzer::analyze()
     crownCharges.sort([](CrownCharge &first, CrownCharge &second){return first.getFirstFrameNumber() < second.getFirstFrameNumber();});
 }
 
-void Analyzer::setMask(QList<QRect> value)
-{
-    masks = value.toStdList();
-}
-
-void Analyzer::setSettings(const SuspectCrownChargeSettings &value)
+void Analyzer::setSettings(const BranchSettings &value)
 {
     settings = value;
 }
@@ -65,13 +57,45 @@ cv::Mat Analyzer::binarization(const cv::Mat &src)
     return dst;
 }
 
+cv::Mat Analyzer::binarizationHSV(const cv::Mat &src)
+{
+    cv::Mat dst, srcGray;
+    auto color = contourFilterSetings.color.toHsv();
+    cv::cvtColor(src, srcGray, cv::COLOR_BGR2HSV);
+    cv::inRange(srcGray, cv::Scalar(color.hue(), color.saturation(), color.value()),
+                cv::Scalar(color.hue(), color.saturation(), color.value()), dst);
+    return dst;
+}
+
+cv::Mat Analyzer::countorSelection(const cv::Mat &src)
+{
+    switch (contourFilterSetings.mode) {
+    case ContourFilterSettings::FilterContourMode::Normal:
+        return binarization(src);
+    case ContourFilterSettings::FilterContourMode::Colorfull:
+        return binarizationHSV(src);
+    }
+}
+
+void Analyzer::loadContourFilterSettings()
+{
+    auto filterSettings = SettingKeeper::getInstance()->loadContourFilterSettings();
+    if (filterSettings)
+        contourFilterSetings = filterSettings.value();
+}
+
 cv::Mat Analyzer::applyMask(const cv::Mat &src)
 {
+    auto mask = SettingKeeper::getInstance()->loadMask();
+    if (!mask)
+        return src;
+
     cv::Mat dst = src;
-    for (const auto &rect : masks)
-        cv::rectangle(dst, cv::Point(rect.topLeft().x(), rect.topLeft().y()),
-                      cv::Point(rect.topLeft().x() + rect.width(), rect.topLeft().y() + rect.height()),
+    for (const auto &rect : mask.value())
+        cv::rectangle(dst, cv::Point(rect.toRect().topLeft().x(), rect.toRect().topLeft().y()),
+                      cv::Point(rect.toRect().topLeft().x() + rect.toRect().width(), rect.toRect().topLeft().y() + rect.toRect().height()),
                       cv::Scalar(0, 0, 0), cv::FILLED);
     return dst;
 }
+
 

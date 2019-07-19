@@ -19,6 +19,7 @@ class FragmentSaver
 public:
     FragmentSaver(const QString saveDirectoryPathconst, QString sourceFilePath);
     ~FragmentSaver();
+    void saveFragment(const FragmentInfo &fragmentInfo, const QString &fileName = "");
     void saveFrameFragment(const FragmentInfo &fragmentInfo, const QString &fileName = "");
     void saveVideoFragment(const FragmentInfo &fragmentInfo, const QString &fileName = "");
 

@@ -94,6 +94,8 @@ void AnalysisForm::setDeleteButtomEnabeled(const bool &state)
     ui->actionExcelExport->setEnabled(state);
 }
 
+
+
 void AnalysisForm::setupUI()
 {
     auto toolbar = new QToolBar(ui->groupBox);
@@ -122,11 +124,7 @@ void AnalysisForm::on_actionSaveVideoFragment_triggered()
                         fileInfo.absoluteFilePath());
     auto fragments = model->getSelectedFragments();
     for (auto fragment : fragments){
-        if (fragment.isVideoFragment())
-            saver.saveVideoFragment(fragment);
-        else
-            saver.saveFrameFragment(fragment);
-
+         saver.saveFragment(fragment);
     }
 }
 
@@ -242,14 +240,9 @@ void AnalysisForm::on_actionPlay_triggered()
 void AnalysisForm::on_pushButtonStartAnalysis_clicked()
 {
     auto analysis = new Analyzer(fileInfo);
-
-    SuspectCrownChargeSettings settings;
-    settings.size = ui->spinBoxMinSizeCrownCharge->value();
-    settings.lifeTime = ui->spinBoxLifeTime->value();
-    settings.delta = ui->spinBox->value();
+    auto settings = assemblyBranchSettings();
 
     analysis->setSettings(settings);
-    analysis->setMask(mask);
     analysis->analyze();
     for (const auto &fragment : analysis->getFragments()){
         model->addFragment(fragment);
@@ -259,4 +252,13 @@ void AnalysisForm::on_pushButtonStartAnalysis_clicked()
 void AnalysisForm::on_spinBoxDistanceBetweenCenterMass_valueChanged(int arg1)
 {
 
+}
+
+BranchSettings AnalysisForm::assemblyBranchSettings()
+{
+    BranchSettings settings;
+    settings.size = ui->spinBoxMinSizeCrownCharge->value();
+    settings.lifeTime = ui->spinBoxLifeTime->value();
+    settings.delta = ui->spinBox->value();
+    return settings;
 }

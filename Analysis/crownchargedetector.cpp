@@ -3,7 +3,7 @@
 
 CrownChargeDetector::CrownChargeDetector() {}
 
-CrownChargeDetector::CrownChargeDetector(const SuspectCrownChargeSettings &settings) : suspetctSettings(settings) {}
+CrownChargeDetector::CrownChargeDetector(const BranchSettings &settings) : suspetctSettings(settings) {}
 
 CrownChargeDetector::~CrownChargeDetector()
 {
@@ -23,16 +23,10 @@ void CrownChargeDetector::findCrownCharges(std::list<Contour> &contours)
     }
 
     //Создание селекторов
-    std::list<BrancheSelector> selectors;
-    for (auto &contour : contours) {
-        selectors.emplace_back(contour);
-    }
+    auto selectors = createSelectors(contours);
 
     //Распределение веток для селекторов
-    for (auto &selector : selectors)
-        for (auto &branche : branches)
-            if(branche.checkCompatibility(selector.getContour()))
-                selector.addBranche(branche);
+    branchDistribution(selectors, branches);
 
     //Выбор веток селекторами
     std::for_each(selectors.begin(), selectors.end(), [](auto &selector){selector.selectionBranch();});
@@ -60,7 +54,7 @@ void CrownChargeDetector::findCrownCharges(std::list<Contour> &contours)
     }
 
     //Сортировка веток
-    branches.sort([](const SuspectCrownCharge &a, const SuspectCrownCharge &b){ return a.getSize() > b.getSize();});
+    branches.sort([](const Branch &a, const Branch &b){ return a.length() > b.length();});
 }
 
 std::list<CrownCharge> CrownChargeDetector::getDetectedCharges() const
@@ -68,7 +62,24 @@ std::list<CrownCharge> CrownChargeDetector::getDetectedCharges() const
     return detectedCharges;
 }
 
-void CrownChargeDetector::setSettings(SuspectCrownChargeSettings settings)
+void CrownChargeDetector::setSettings(BranchSettings settings)
 {
     suspetctSettings = settings;
+}
+
+std::list<BranchSelector> CrownChargeDetector::createSelectors(const std::list<Contour> &contours)
+{
+    std::list<BranchSelector> selectors;
+    for (auto &contour : contours) {
+        selectors.emplace_back(contour);
+    }
+    return selectors;
+}
+
+void CrownChargeDetector::branchDistribution(std::list<BranchSelector> &selectorList, std::list<Branch> &branchList)
+{
+    for (auto &selector : selectorList)
+        for (auto &branche : branchList)
+            if(branche.checkCompatibility(selector.getContour()))
+                selector.addBranche(branche);
 }

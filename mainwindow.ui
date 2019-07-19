@@ -31,25 +31,14 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="MaskCreateForm" name="maskCreateForm" native="true">
+     <widget class="SettingsBox" name="settingsWidget" native="true">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>100</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>90</height>
-       </size>
-      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_2"/>
      </widget>
     </item>
     <item>
@@ -170,6 +159,7 @@
     <addaction name="analysisPanelAction"/>
     <addaction name="actionTestAnalysis"/>
     <addaction name="actionTestMaskCreate"/>
+    <addaction name="actionSettings"/>
    </widget>
    <addaction name="fileMenu"/>
    <addaction name="videoPlaybackMenu"/>
@@ -381,6 +371,11 @@
     <string>Режим создания маски</string>
    </property>
   </action>
+  <action name="actionSettings">
+   <property name="text">
+    <string>Настройки</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -394,6 +389,17 @@
    <class>UvGraphicsView</class>
    <extends>QGraphicsView</extends>
    <header>uvgraphicsview.h</header>
+   <slots>
+    <signal>colorSelected(QColor)</signal>
+    <signal>addRect(QRectF)</signal>
+    <signal>rectSelected(QRectF)</signal>
+    <slot>selectItemRect(QRectF)</slot>
+    <slot>setEditMaskMode(bool)</slot>
+    <slot>setShowMaskMode(bool)</slot>
+    <slot>setColorSelectionMode(bool)</slot>
+    <slot>removeItemRect(QRectF)</slot>
+    <slot>clearMasks()</slot>
+   </slots>
   </customwidget>
   <customwidget>
    <class>TestAnalysisWidget</class>
@@ -408,9 +414,9 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>MaskCreateForm</class>
+   <class>SettingsBox</class>
    <extends>QWidget</extends>
-   <header>maskcreateform.h</header>
+   <header>settingsbox.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

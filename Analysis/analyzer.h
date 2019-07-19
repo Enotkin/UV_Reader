@@ -11,28 +11,30 @@
 #include "crowncharge.h"
 #include "fragmentinfo.h"
 #include "videofilereader.h"
+#include "settingkeeper.h"
+#include "contourfiltersettings.h"
 
 class Analyzer
 {
 public:
     Analyzer(const QFileInfo &sourceFileInfo);
     void analyze();
-    void setMask(QList<QRect> value);
-    void setSettings(const SuspectCrownChargeSettings &value);
+    void setSettings(const BranchSettings &value);
     std::list<FragmentInfo> getFragments();
 
 private:
-    std::unique_ptr<VideoFileReader> videoFileReader;
+    VideoFileReader videoFileReader;
     std::list<CrownCharge> crownCharges;
-    std::list<QRect> masks;
-    std::filesystem::path sourceFile;
     std::list<Contour> searchContours(int frameNumber, const cv::Mat &img);
-    SuspectCrownChargeSettings settings;
+    BranchSettings settings;
+    ContourFilterSettings contourFilterSetings;
     double thresholdValue = 225;
 
     cv::Mat binarization(const cv::Mat &src);
     cv::Mat applyMask(const cv::Mat &src);
-
+    cv::Mat binarizationHSV(const cv::Mat &src);
+    cv::Mat countorSelection(const cv::Mat &src);
+    void loadContourFilterSettings();
 };
 
 #endif // ANALYZER_H

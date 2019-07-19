@@ -1,18 +1,18 @@
-#include "brancheselector.h"
+#include "branchselector.h"
 #include <QtDebug>
 
-BrancheSelector::BrancheSelector(const Contour &contour) : contour(contour)
+BranchSelector::BranchSelector(const Contour &contour) : contour(contour)
 {
 }
 
-void BrancheSelector::addBranche(BrancheRef newBranche)
+void BranchSelector::addBranche(BrancheRef newBranche)
 {
     branches.push_back(newBranche);
 }
 
-void BrancheSelector::selectionBranch()
+void BranchSelector::selectionBranch()
 {
-    brancheSort();
+    branchSort();
     for (auto &branche : branches) {
         if(!branche.get().isPairFound()){
             branche.get().addContour(contour);
@@ -22,7 +22,7 @@ void BrancheSelector::selectionBranch()
     }
 }
 
-void BrancheSelector::brancheSort()
+void BranchSelector::branchSort()
 {
     auto cmpBrancheArea = [](const BrancheRef &l, const BrancheRef &r){
         return l.get().getAverageArea() > r.get().getAverageArea();};
@@ -34,17 +34,17 @@ void BrancheSelector::brancheSort()
     }
 }
 
-bool BrancheSelector::isSelectingEnd() const
+bool BranchSelector::isSelectingEnd() const
 {
     return selectingEnd;
 }
 
-std::list<BrancheRef> BrancheSelector::getBranches() const
+std::list<BrancheRef> BranchSelector::getBranches() const
 {
     return branches;
 }
 
-Contour BrancheSelector::getContour() const
+Contour BranchSelector::getContour() const
 {
     return contour;
 }

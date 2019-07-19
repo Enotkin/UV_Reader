@@ -29,13 +29,11 @@ CONFIG += c++17
 
 SOURCES += \
     Analysis/analysisform.cpp \
-    Analysis/brancheselector.cpp \
     Analysis/contour.cpp \
     Analysis/crowncharge.cpp \
     Analysis/crownchargedetector.cpp \
     Analysis/fragmentmodel.cpp \
     Analysis/fragmentsaver.cpp \
-    Analysis/suspectcrowncharge.cpp \
     Analysis/testanalysiswidget.cpp \
     ReportCreator/htmlbuilder.cpp \
     ReportCreator/htmltemplatebuilder.cpp \
@@ -62,17 +60,20 @@ SOURCES += \
     Analysis/analyzer.cpp \
     maskcreateform.cpp \
     UVGraphicsView/rectitembuilder.cpp \
-    masksaver.cpp
+    masksaver.cpp \
+    colorselectionform.cpp \
+    settingsbox.cpp \
+    settingkeeper.cpp \
+    Analysis/branch.cpp \
+    Analysis/branchselector.cpp
 
 HEADERS += \
     Analysis/analysisform.h \
-    Analysis/brancheselector.h \
     Analysis/contour.h \
     Analysis/crowncharge.h \
     Analysis/crownchargedetector.h \
     Analysis/fragmentmodel.h \
     Analysis/fragmentsaver.h \
-    Analysis/suspectcrowncharge.h \
     Analysis/testanalysiswidget.h \
     ReportCreator/htmlbuilder.h \
     ReportCreator/htmltemplatebuilder.h \
@@ -100,7 +101,15 @@ HEADERS += \
     Video/frame.h \
     maskcreateform.h \
     UVGraphicsView/rectitembuilder.h \
-    masksaver.h
+    masksaver.h \
+    colorselectionform.h \
+    settingsbox.h \
+    settingkeeper.h \
+    abstractsettingstab.h \
+    contourfiltersettings.h \
+    Analysis/branch.h \
+    Analysis/branchsettings.h \
+    Analysis/branchselector.h
 
 FORMS += \
     Analysis/analysisform.ui \
@@ -112,7 +121,9 @@ FORMS += \
     WidgetFileTree/filetreedialog.ui \
     addfragmentcommentdialog.ui \
     mainwindow.ui \
-    maskcreateform.ui
+    maskcreateform.ui \
+    colorselectionform.ui \
+    settingsbox.ui
 
 INCLUDEPATH += C:/OpenCV-4.0.1/include \
                 $$PWD/WidgetFileTree \

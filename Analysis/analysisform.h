@@ -76,6 +76,7 @@ private:
     void setupUI();
     void setVideoControlButtomEnabled(const bool &state);
     void setDeleteButtomEnabeled(const bool &state);
+    BranchSettings assemblyBranchSettings();
 };
 
 #endif // ANALYSISFORM_H
