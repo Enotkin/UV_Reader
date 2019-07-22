@@ -19,18 +19,19 @@ void MaskSaver::saveMasks(QString fileName, Masks rects)
     settings.sync();
 }
 
-std::optional<Masks> MaskSaver::loadMasks(QString fileName)
+Masks MaskSaver::loadMasks(QString fileName)
 {
+    QVector<QRectF> rectss;
     if (!settings.childGroups().contains(fileName)) {
-        return std::nullopt;
+        return rectss;
     }
     settings.beginGroup(fileName);
-    QVector<QRectF> rectss;
+
     for (auto key : settings.childKeys()) {
         auto ss = settings.value(key).toRectF();
         rectss.append(ss);
     }
-    return std::optional<QVector<QRectF>>(rectss);
+    return rectss;
 }
 
 void MaskSaver::clearGroup(QString groupName)

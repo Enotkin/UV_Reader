@@ -24,7 +24,7 @@ public:
     std::optional<QFileInfo> getCurrentFile() const;
 
     void saveMasks(Masks rects);
-    std::optional<Masks> loadMask();
+    Masks loadMask();
 
     void saveContourFilterSettings(ContourFilterSettings settings);
     std::optional<ContourFilterSettings> loadContourFilterSettings();

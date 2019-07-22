@@ -1,7 +1,10 @@
 #include "analyzer.h"
 #include "QDebug"
 Analyzer::Analyzer(const QFileInfo &sourceFileInfo) :
-    videoFileReader(sourceFileInfo) {}
+    videoFileReader(sourceFileInfo)
+{
+    masks = SettingKeeper::getInstance()->loadMask();
+}
 
 void Analyzer::analyze()
 {
@@ -86,15 +89,15 @@ void Analyzer::loadContourFilterSettings()
 
 cv::Mat Analyzer::applyMask(const cv::Mat &src)
 {
-    auto mask = SettingKeeper::getInstance()->loadMask();
-    if (!mask)
+    if (masks.empty())
         return src;
-
-    cv::Mat dst = src;
-    for (const auto &rect : mask.value())
-        cv::rectangle(dst, cv::Point(rect.toRect().topLeft().x(), rect.toRect().topLeft().y()),
-                      cv::Point(rect.toRect().topLeft().x() + rect.toRect().width(), rect.toRect().topLeft().y() + rect.toRect().height()),
-                      cv::Scalar(0, 0, 0), cv::FILLED);
+    cv::Mat dst;
+    src.copyTo(dst);
+    for (const auto &rect : masks){
+        cv::Point topLeft(rect.toRect().topLeft().x(), rect.toRect().topLeft().y());
+        cv::Point bottomRight(rect.toRect().topLeft().x() + rect.toRect().width(), rect.toRect().topLeft().y() + rect.toRect().height());
+        cv::rectangle(dst, topLeft,bottomRight, cv::Scalar(0, 0, 0), cv::FILLED);
+    }
     return dst;
 }
 

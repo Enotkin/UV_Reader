@@ -22,7 +22,7 @@ CrownCharge Branch::getCrownCharge() const
 
 int Branch::length() const
 {
-    return contours.size();
+    return static_cast<int>(contours.size());
 }
 
 double Branch::getAverageArea() const
@@ -65,4 +65,9 @@ double Branch::distanceBetweenPoints(const cv::Point &first, const cv::Point &se
 cv::Point Branch::getLastPoint() const
 {
     return lastPoint;
+}
+
+cv::Point Branch::getFistPoint() const
+{
+    return contours.front().getCenterMass();
 }

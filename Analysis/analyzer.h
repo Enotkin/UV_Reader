@@ -26,7 +26,9 @@ private:
     VideoFileReader videoFileReader;
     std::list<CrownCharge> crownCharges;
     std::list<Contour> searchContours(int frameNumber, const cv::Mat &img);
+    Masks masks;
     BranchSettings settings;
+
     ContourFilterSettings contourFilterSetings;
     double thresholdValue = 225;
 

@@ -134,8 +134,8 @@ void UvGraphicsView::setShowMaskMode(bool value)
 void UvGraphicsView::loadMask()
 {
     auto saverRects = SettingKeeper::getInstance()->loadMask();
-    if (saverRects && rectItems.isEmpty())
-        for (auto rect : saverRects.value()){
+    if (!saverRects.empty() && rectItems.isEmpty())
+        for (auto rect : saverRects){
             QGraphicsRectItem *item = new QGraphicsRectItem(rect);
             item->setBrush(getBrush(BrushColor::Default));
             scene.addItem(item);

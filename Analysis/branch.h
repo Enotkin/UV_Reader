@@ -32,6 +32,7 @@ public:
     }
 
     cv::Point getLastPoint() const;
+    cv::Point getFistPoint() const;
 
 private:
     std::list<Contour> contours;

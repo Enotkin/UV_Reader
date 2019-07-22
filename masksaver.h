@@ -12,7 +12,7 @@ class MaskSaver
 public:
     MaskSaver(QString mainFileName);
     void saveMasks(QString fileName, Masks rects);
-    std::optional<Masks> loadMasks(QString fileName);
+    Masks loadMasks(QString fileName);
 
 private:
     QSettings settings;

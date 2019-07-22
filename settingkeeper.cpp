@@ -22,9 +22,10 @@ void SettingKeeper::saveMasks(Masks rects)
     maskSettings.saveMasks(currentFile->baseName(), rects);
 }
 
-std::optional<Masks> SettingKeeper::loadMask()
+Masks SettingKeeper::loadMask()
 {
-    return maskSettings.loadMasks(currentFile->baseName());
+    auto ss = maskSettings.loadMasks(currentFile->baseName());
+    return ss;
 }
 
 void SettingKeeper::saveContourFilterSettings(ContourFilterSettings settings)
