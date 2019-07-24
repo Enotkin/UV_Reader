@@ -35,10 +35,7 @@ void CrownChargeDetector::findCrownCharges(std::list<Contour> &contours)
     std::for_each(branches.begin(), branches.end(), [](auto &branche){branche.endRound();});
 
     //Копирование подтверждённых зарядов
-    for (const auto &branche : branches){
-        if (branche.isConfirmedCharge())
-            detectedCharges.push_back(branche.getCrownCharge());
-    }
+    copyConfirmedCharges(branches);
 
     //Удаление шумовых разрядов из общей кучи веток
     branches.remove_if([](const auto &suspectCrownCharge){
@@ -57,16 +54,6 @@ void CrownChargeDetector::findCrownCharges(std::list<Contour> &contours)
     branches.sort([](const Branch &a, const Branch &b){ return a.length() > b.length();});
 }
 
-std::list<CrownCharge> CrownChargeDetector::getDetectedCharges() const
-{
-    return detectedCharges;
-}
-
-void CrownChargeDetector::setSettings(BranchSettings settings)
-{
-    suspetctSettings = settings;
-}
-
 std::list<BranchSelector> CrownChargeDetector::createSelectors(const std::list<Contour> &contours)
 {
     std::list<BranchSelector> selectors;
@@ -82,4 +69,34 @@ void CrownChargeDetector::branchDistribution(std::list<BranchSelector> &selector
         for (auto &branche : branchList)
             if(branche.checkCompatibility(selector.getContour()))
                 selector.addBranche(branche);
+}
+
+void CrownChargeDetector::copyConfirmedCharges(const std::list<Branch> &branches)
+{
+    lastDetectedCharges.clear();
+    for (const auto &branche : branches){
+        if (branche.isConfirmedCharge())
+            lastDetectedCharges.push_back(branche.getCrownCharge());
+    }
+    std::copy(lastDetectedCharges.begin(), lastDetectedCharges.end(), std::back_inserter(detectedCharges));
+}
+
+std::list<CrownCharge> CrownChargeDetector::getDetectedCharges() const
+{
+    return detectedCharges;
+}
+
+void CrownChargeDetector::setSettings(BranchSettings settings)
+{
+    suspetctSettings = settings;
+}
+
+std::list<CrownCharge> CrownChargeDetector::getLastDetectedCharges() const
+{
+    return lastDetectedCharges;
+}
+
+bool CrownChargeDetector::isConfirmed(const Branch &branch)
+{
+    return branch.isConfirmedCharge();
 }

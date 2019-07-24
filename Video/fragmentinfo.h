@@ -38,6 +38,7 @@ public:
     QString getTimeString() const;
 
     QString getStatus() const;
+    void setStatus(const QString &value);
 
     int getFrameNumberReport() const;
 

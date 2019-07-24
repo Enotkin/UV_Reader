@@ -181,7 +181,7 @@
   </layout>
   <action name="actionPlayPause">
    <property name="icon">
-    <iconset resource="icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/mediaIcons/play.png</normaloff>:/mediaIcons/play.png</iconset>
    </property>
    <property name="text">
@@ -190,7 +190,7 @@
   </action>
   <action name="actionStop">
    <property name="icon">
-    <iconset resource="icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/mediaIcons/stop.png</normaloff>:/mediaIcons/stop.png</iconset>
    </property>
    <property name="text">
@@ -199,7 +199,7 @@
   </action>
   <action name="actionNextFrame">
    <property name="icon">
-    <iconset resource="icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/mediaIcons/right1.png</normaloff>:/mediaIcons/right1.png</iconset>
    </property>
    <property name="text">
@@ -208,7 +208,7 @@
   </action>
   <action name="actionPrevFrame">
    <property name="icon">
-    <iconset resource="icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/mediaIcons/left1.png</normaloff>:/mediaIcons/left1.png</iconset>
    </property>
    <property name="text">
@@ -217,7 +217,7 @@
   </action>
   <action name="actionEndVideo">
    <property name="icon">
-    <iconset resource="icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/mediaIcons/right.png</normaloff>:/mediaIcons/right.png</iconset>
    </property>
    <property name="text">
@@ -226,7 +226,7 @@
   </action>
   <action name="actionBeginVideo">
    <property name="icon">
-    <iconset resource="icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/mediaIcons/left.png</normaloff>:/mediaIcons/left.png</iconset>
    </property>
    <property name="text">
@@ -235,7 +235,7 @@
   </action>
   <action name="actionReset">
    <property name="icon">
-    <iconset resource="icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/mediaIcons/return.png</normaloff>:/mediaIcons/return.png</iconset>
    </property>
    <property name="text">
@@ -250,7 +250,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/mediaIcons/repeat.png</normaloff>:/mediaIcons/repeat.png</iconset>
    </property>
    <property name="text">
@@ -259,7 +259,7 @@
   </action>
  </widget>
  <resources>
-  <include location="icons.qrc"/>
+  <include location="../icons.qrc"/>
  </resources>
  <connections/>
 </ui>

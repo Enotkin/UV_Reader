@@ -65,7 +65,8 @@ SOURCES += \
     settingsbox.cpp \
     settingkeeper.cpp \
     Analysis/branch.cpp \
-    Analysis/branchselector.cpp
+    Analysis/branchselector.cpp \
+    percentkeeper.cpp
 
 HEADERS += \
     Analysis/analysisform.h \
@@ -109,14 +110,14 @@ HEADERS += \
     contourfiltersettings.h \
     Analysis/branch.h \
     Analysis/branchsettings.h \
-    Analysis/branchselector.h
+    Analysis/branchselector.h \
+    percentkeeper.h
 
 FORMS += \
     Analysis/analysisform.ui \
     Analysis/testanalysiswidget.ui \
     ReportCreator/reportdialog.ui \
     Video/videocontrolsform.ui \
-    Video/videoplayer.ui \
     WidgetFileTree/filetree.ui \
     WidgetFileTree/filetreedialog.ui \
     addfragmentcommentdialog.ui \

@@ -54,6 +54,10 @@ private slots:
 
     void on_actionRepeatFragment_triggered(bool checked);
 
+    void on_changeFrameSpinBox_valueChanged(int arg1);
+
+    void on_horizontalSlider_valueChanged(int value);
+
 private:
     Ui::VideoControlsForm *ui;
     QFileInfo sourceVideoFile;

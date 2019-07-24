@@ -10,18 +10,18 @@ CrownCharge::CrownCharge(const std::list<Contour> &contours) : contours(contours
 
 }
 
-bool CrownCharge::isEmpty()
+bool CrownCharge::isEmpty() const
 {
     return contours.empty();
 }
 
-QPair<int, int> CrownCharge::getRange()
+QPair<int, int> CrownCharge::getRange() const
 {
     return QPair<int, int>(contours.front().getFrameNumber(),
                            contours.back().getFrameNumber());
 }
 
-std::vector<Contour> CrownCharge::getContours(int frame)
+std::vector<Contour> CrownCharge::getContours(int frame) const
 {
     std::vector<Contour> result;
     std::copy_if(std::begin(contours), std::end(contours), std::back_inserter(result), [frame](const Contour &value){
@@ -30,7 +30,7 @@ std::vector<Contour> CrownCharge::getContours(int frame)
     return result;
 }
 
-std::vector<Contour> CrownCharge::getContours()
+std::vector<Contour> CrownCharge::getContours() const
 {
     return std::vector<Contour>{std::begin(contours), std::end(contours)};
 }

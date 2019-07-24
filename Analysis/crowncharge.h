@@ -15,11 +15,12 @@ class CrownCharge
 public:
     CrownCharge();
     CrownCharge(const std::list<Contour> &contours);
-    bool isEmpty();
-    QPair<int, int> getRange();
-    std::vector<Contour> getContours(int number);
-    std::vector<Contour> getContours();
+    bool isEmpty() const;
+    QPair<int, int> getRange() const;
+    std::vector<Contour> getContours(int number) const;
+    std::vector<Contour> getContours() const;
     int getFirstFrameNumber();
+
     //TODO ХОЧУ ЧТОБЫ ДИАПАЗОН БЫЛ ИТЕРАБЕЛЬНЫМ
     
 private:

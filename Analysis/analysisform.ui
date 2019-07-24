@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>532</width>
-    <height>701</height>
+    <width>301</width>
+    <height>739</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -92,19 +92,6 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
-       <widget class="QPushButton" name="pushButtonStartAnalysis">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Начать анализ</string>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="1">
        <widget class="QSpinBox" name="spinBox">
         <property name="sizePolicy">
@@ -124,154 +111,39 @@
         </property>
        </widget>
       </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QWidget" name="infoPanel" native="true">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <layout class="QGridLayout" name="infoPanelLayout">
-      <item row="1" column="1">
-       <widget class="QSpinBox" name="totalDurationSpinBox">
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="buttonSymbols">
-         <enum>QAbstractSpinBox::NoButtons</enum>
-        </property>
-        <property name="specialValueText">
-         <string>—</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QSpinBox" name="totalIntervalsSpinBox">
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="buttonSymbols">
-         <enum>QAbstractSpinBox::NoButtons</enum>
-        </property>
-        <property name="specialValueText">
-         <string>—</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="totalDurationLabel">
-        <property name="text">
-         <string>Длительность</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QLabel" name="currentIntervalDurationLabel">
-        <property name="text">
-         <string>Длительность</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="2">
-       <widget class="QLabel" name="currentIntervalFrameLabel">
-        <property name="text">
-         <string>Кадр</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <widget class="QLabel" name="currentIntervalLabel">
-        <property name="text">
-         <string>Текущий интервал</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="totalFrameLabel">
-        <property name="text">
-         <string>Кадр</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QSpinBox" name="totaltFrameSpinBox">
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="buttonSymbols">
-         <enum>QAbstractSpinBox::NoButtons</enum>
-        </property>
-        <property name="specialValueText">
-         <string>—</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="totalIntervalsLabel">
-        <property name="text">
-         <string>Всего интервалов</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3">
-       <widget class="QSpinBox" name="currentIntervalSpinBox">
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="buttonSymbols">
-         <enum>QAbstractSpinBox::NoButtons</enum>
-        </property>
-        <property name="specialValueText">
-         <string>—</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="3">
-       <widget class="QSpinBox" name="currentIntervalDurationSpinBox">
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="buttonSymbols">
-         <enum>QAbstractSpinBox::NoButtons</enum>
-        </property>
-        <property name="specialValueText">
-         <string>—</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="3">
-       <widget class="QSpinBox" name="currentIntervalFrameSpinBox">
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="buttonSymbols">
-         <enum>QAbstractSpinBox::NoButtons</enum>
-        </property>
-        <property name="specialValueText">
-         <string>—</string>
-        </property>
+      <item row="4" column="0" colspan="2">
+       <widget class="QWidget" name="buttomAndProgressBarWidget" native="true">
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <property name="spacing">
+          <number>9</number>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QPushButton" name="pushButtonStartAnalysis">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Начать анализ</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QProgressBar" name="progressBar">
+           <property name="value">
+            <number>0</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
      </layout>
@@ -417,7 +289,7 @@
   </layout>
   <action name="actionHideAnalysisPanel">
    <property name="icon">
-    <iconset resource="icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/AnalysisPanelButton/exitPAnel.png</normaloff>:/AnalysisPanelButton/exitPAnel.png</iconset>
    </property>
    <property name="text">
@@ -429,7 +301,7 @@
   </action>
   <action name="actionAddIntervalComment">
    <property name="icon">
-    <iconset resource="icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/AnalysisPanelButton/addNewPart.png</normaloff>:/AnalysisPanelButton/addNewPart.png</iconset>
    </property>
    <property name="text">
@@ -441,7 +313,7 @@
   </action>
   <action name="actionSaveVideoFragment">
    <property name="icon">
-    <iconset resource="icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/AnalysisPanelButton/savevid.png</normaloff>:/AnalysisPanelButton/savevid.png</iconset>
    </property>
    <property name="text">
@@ -453,7 +325,7 @@
   </action>
   <action name="actionExcelExport">
    <property name="icon">
-    <iconset resource="icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/AnalysisPanelButton/excel.png</normaloff>:/AnalysisPanelButton/excel.png</iconset>
    </property>
    <property name="text">
@@ -462,7 +334,7 @@
   </action>
   <action name="actionClear">
    <property name="icon">
-    <iconset resource="icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/AnalysisPanelButton/clear.png</normaloff>:/AnalysisPanelButton/clear.png</iconset>
    </property>
    <property name="text">
@@ -474,7 +346,7 @@
   </action>
   <action name="actionDelete">
    <property name="icon">
-    <iconset resource="icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/AnalysisPanelButton/delete.png</normaloff>:/AnalysisPanelButton/delete.png</iconset>
    </property>
    <property name="text">
@@ -483,7 +355,7 @@
   </action>
   <action name="actionDeleteAndPlayNext">
    <property name="icon">
-    <iconset resource="icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/AnalysisPanelButton/playvperedAndDel.png</normaloff>:/AnalysisPanelButton/playvperedAndDel.png</iconset>
    </property>
    <property name="text">
@@ -492,7 +364,7 @@
   </action>
   <action name="actionPlayNext">
    <property name="icon">
-    <iconset resource="icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/AnalysisPanelButton/playvpered.png</normaloff>:/AnalysisPanelButton/playvpered.png</iconset>
    </property>
    <property name="text">
@@ -501,7 +373,7 @@
   </action>
   <action name="actionPlay">
    <property name="icon">
-    <iconset resource="icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/AnalysisPanelButton/play.png</normaloff>:/AnalysisPanelButton/play.png</iconset>
    </property>
    <property name="text">
@@ -510,7 +382,7 @@
   </action>
   <action name="actionStop">
    <property name="icon">
-    <iconset resource="icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/AnalysisPanelButton/stop.png</normaloff>:/AnalysisPanelButton/stop.png</iconset>
    </property>
    <property name="text">
@@ -519,7 +391,7 @@
   </action>
   <action name="actionPlayPrev">
    <property name="icon">
-    <iconset resource="icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/AnalysisPanelButton/playback.png</normaloff>:/AnalysisPanelButton/playback.png</iconset>
    </property>
    <property name="text">
@@ -528,7 +400,7 @@
   </action>
   <action name="actionDisplayFrame">
    <property name="icon">
-    <iconset resource="icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/AnalysisPanelButton/sm.png</normaloff>:/AnalysisPanelButton/sm.png</iconset>
    </property>
    <property name="text">
@@ -542,7 +414,7 @@
   </action>
  </widget>
  <resources>
-  <include location="icons.qrc"/>
+  <include location="../icons.qrc"/>
  </resources>
  <connections/>
 </ui>

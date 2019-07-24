@@ -105,6 +105,11 @@ void FragmentInfo::setCrownCharge(const CrownCharge &value)
     }
 }
 
+void FragmentInfo::setStatus(const QString &value)
+{
+    status = value;
+}
+
 int FragmentInfo::average(FrameRange range)
 {
     return static_cast<int>((range.first + range.second)/2);

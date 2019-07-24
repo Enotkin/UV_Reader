@@ -155,7 +155,7 @@ void VideoControlsForm::setSourceVideoFile(const QFileInfo &value)
     videoPlayer = std::make_unique<VideoPlayer>(value);
     videoSettings = std::make_unique<VideoSettings>(value);
     connect(videoPlayer.get(), &VideoPlayer::updateFrame, this, &VideoControlsForm::updateFrame);
-    connect(ui->horizontalSlider, &QSlider::valueChanged, videoPlayer.get(), &VideoPlayer::setFrame);
+    ui->changeFrameSpinBox->setRange(0, videoSettings->getCountFrames()-1);
     auto sourceFragment = createSourceFragment();
     videoPlayer->setFragment(sourceFragment);
     updateSlider(0, videoSettings->getCountFrames());
@@ -166,4 +166,14 @@ void VideoControlsForm::setFragment(const FragmentInfo &fragment)
     if (videoPlayer){
         videoPlayer->setFragment(fragment);
     }
+}
+
+void VideoControlsForm::on_changeFrameSpinBox_valueChanged(int arg1)
+{
+    videoPlayer->setFrame(arg1);
+}
+
+void VideoControlsForm::on_horizontalSlider_valueChanged(int value)
+{
+    videoPlayer->setFrame(value);
 }

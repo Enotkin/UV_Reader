@@ -6,7 +6,6 @@ AnalysisForm::AnalysisForm(QWidget *parent) :
     ui(new Ui::analysisForm)
 {
     ui->setupUi(this);
-    ui->infoPanel->setVisible(false);
     setupUI();
 
     model = std::make_unique<FragmentModel>();
@@ -238,12 +237,17 @@ void AnalysisForm::on_actionPlay_triggered()
 }
 
 void AnalysisForm::on_pushButtonStartAnalysis_clicked()
-{
+{   
     auto analysis = new Analyzer(fileInfo);
     auto settings = assemblyBranchSettings();
-
+    connect(analysis, &Analyzer::progresPercent, ui->progressBar, &QProgressBar::setValue);
     analysis->setSettings(settings);
+
+    QTime t;
+    t.start();
     analysis->analyze();
+    qDebug() << "Анализ полностью:" << t.elapsed();
+
     for (const auto &fragment : analysis->getFragments()){
         model->addFragment(fragment);
     }
