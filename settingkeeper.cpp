@@ -31,22 +31,27 @@ Masks SettingKeeper::loadMask()
 void SettingKeeper::saveContourFilterSettings(ContourFilterSettings settings)
 {
     mainSettings.beginGroup("Contour_Filter_Settings");
+
     mainSettings.setValue("Filter_mode", static_cast<int>(settings.mode));
-    mainSettings.setValue("Color", settings.color);
+    mainSettings.setValue("Color", settings.color.rgb());
     mainSettings.endGroup();
 }
 
-std::optional<ContourFilterSettings> SettingKeeper::loadContourFilterSettings()
+ContourFilterSettings SettingKeeper::loadContourFilterSettings()
 {
-    if (!mainSettings.childGroups().contains("Contour_Filter_Settings"))
-        return std::nullopt;
     ContourFilterSettings settings;
+    if (!mainSettings.childGroups().contains("Contour_Filter_Settings"))
+        return settings;
+
     mainSettings.beginGroup("Contour_Filter_Settings");
+
     settings.mode =static_cast<ContourFilterSettings::FilterContourMode>(mainSettings.value("Filter_mode").toInt());
-    auto variantColor = mainSettings.value("Color");
-    settings.color = variantColor.value<QColor>();
-    std::optional<ContourFilterSettings> result = settings;
-    return result;
+    auto variantRgb = mainSettings.value("Color");
+    auto rgb = variantRgb.toUInt();
+    settings.color = QColor::fromRgb(rgb);
+
+    mainSettings.endGroup();
+    return settings;
 }
 
 void SettingKeeper::saveDefaultPath(QString path)

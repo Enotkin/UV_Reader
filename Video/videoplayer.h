@@ -61,6 +61,7 @@ private:
     QFileInfo soureceVideoFile;
 
     Frame getFrame(int number);
+    void setCurrentFrame (int number);
 
 };
 

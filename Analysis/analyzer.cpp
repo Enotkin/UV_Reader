@@ -98,9 +98,7 @@ cv::Mat Analyzer::countorSelection(const cv::Mat &src)
 
 void Analyzer::loadContourFilterSettings()
 {
-    auto filterSettings = SettingKeeper::getInstance()->loadContourFilterSettings();
-    if (filterSettings)
-        contourFilterSetings = filterSettings.value();
+    contourFilterSetings = SettingKeeper::getInstance()->loadContourFilterSettings();
 }
 
 bool Analyzer::isFullTrack(const CrownCharge &crownCharge)

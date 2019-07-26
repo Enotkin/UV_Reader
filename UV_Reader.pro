@@ -61,12 +61,15 @@ SOURCES += \
     maskcreateform.cpp \
     UVGraphicsView/rectitembuilder.cpp \
     masksaver.cpp \
-    colorselectionform.cpp \
     settingsbox.cpp \
     settingkeeper.cpp \
     Analysis/branch.cpp \
     Analysis/branchselector.cpp \
-    percentkeeper.cpp
+    percentkeeper.cpp \
+    ColorSelectingSettings/colorselectionform.cpp \
+    ColorSelectingSettings/colorselector.cpp \
+    ColorSelectingSettings/colorselectorhsv.cpp \
+    ColorSelectingSettings/colorselectorrgb.cpp
 
 HEADERS += \
     Analysis/analysisform.h \
@@ -103,7 +106,6 @@ HEADERS += \
     maskcreateform.h \
     UVGraphicsView/rectitembuilder.h \
     masksaver.h \
-    colorselectionform.h \
     settingsbox.h \
     settingkeeper.h \
     abstractsettingstab.h \
@@ -111,7 +113,11 @@ HEADERS += \
     Analysis/branch.h \
     Analysis/branchsettings.h \
     Analysis/branchselector.h \
-    percentkeeper.h
+    percentkeeper.h \
+    ColorSelectingSettings/colorselectionform.h \
+    ColorSelectingSettings/colorselector.h \
+    ColorSelectingSettings/colorselectorhsv.h \
+    ColorSelectingSettings/colorselectorrgb.h
 
 FORMS += \
     Analysis/analysisform.ui \
@@ -123,15 +129,17 @@ FORMS += \
     addfragmentcommentdialog.ui \
     mainwindow.ui \
     maskcreateform.ui \
-    colorselectionform.ui \
-    settingsbox.ui
+    settingsbox.ui \
+    ColorSelectingSettings/colorselectionform.ui \
+    ColorSelectingSettings/colorselector.ui
 
 INCLUDEPATH += C:/OpenCV-4.0.1/include \
                 $$PWD/WidgetFileTree \
                 $$PWD/ReportCreator \
                 $$PWD/UVGraphicsView \
                 $$PWD/Analysis \
-                $$PWD/Video
+                $$PWD/Video \
+                $$PWD/ColorSelectingSettings
 
 CONFIG (debug, debug|release) {
     #debug

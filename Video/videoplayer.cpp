@@ -28,7 +28,7 @@ void VideoPlayer::setFragment(const FragmentInfo &fragment)
         setRepeatMode(false);
     } else {
         setRepeatMode(true);
-//        play(); //Воспроизвеение по умолчанию
+        //        play(); //Воспроизвеение по умолчанию
     }
 }
 
@@ -39,29 +39,27 @@ void VideoPlayer::setFrame(int frameNumber)
         return;
 
     if (frameNumber <= stopFrame && frameNumber >= startFrame){
-        currentFrameNumber = frameNumber;
-        emit updateFrame(getFrame(frameNumber));
-        return;
+        setCurrentFrame(frameNumber);
     }
 
     if (frameNumber < startFrame){
-        currentFrameNumber = startFrame;
-        emit updateFrame(getFrame(startFrame));
-        return;
+        setCurrentFrame(startFrame);
     }
 
     if (frameNumber > stopFrame){
         if (repeatMode){
-            currentFrameNumber = startFrame;
-            emit updateFrame(getFrame(startFrame));
-            return;
+            setCurrentFrame(startFrame);
         }else {
-            currentFrameNumber = stopFrame;
-            emit updateFrame(getFrame(stopFrame));
             pause();
-            return;
+            setCurrentFrame(stopFrame);
         }
     }
+}
+
+void VideoPlayer::setCurrentFrame(int number)
+{
+    currentFrameNumber = number;
+    emit updateFrame(getFrame(currentFrameNumber));
 }
 
 void VideoPlayer::timerOut()

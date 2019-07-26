@@ -5,6 +5,7 @@
 #include <QFileInfo>
 #include <QColor>
 #include <optional>
+#include <QDebug>
 
 #include <masksaver.h>
 #include <contourfiltersettings.h>
@@ -27,7 +28,7 @@ public:
     Masks loadMask();
 
     void saveContourFilterSettings(ContourFilterSettings settings);
-    std::optional<ContourFilterSettings> loadContourFilterSettings();
+    ContourFilterSettings loadContourFilterSettings();
 
     void saveDefaultPath(QString path);
     std::optional<QString> loadDefaultPath();
