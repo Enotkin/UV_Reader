@@ -35,8 +35,8 @@ void ColorSelectionForm::activate()
 
 void ColorSelectionForm::deactivate()
 {
-    ContourFilterSettings settings{currentColor,
-                static_cast<ContourFilterSettings::FilterContourMode>(ui->comboBoxFilterType->currentIndex())};
+    FilterSettings settings{currentColor,
+                static_cast<FilterType>(ui->comboBoxFilterType->currentIndex())};
     SettingKeeper::getInstance()->saveContourFilterSettings(settings);
 }
 
@@ -103,7 +103,7 @@ void ColorSelectionForm::on_comboBoxColorSpace_currentIndexChanged(int index)
     ui->layoutColorSelector->addWidget(currentColorSelector);
 }
 
-void ColorSelectionForm::setFilterMode(ColorSelectionForm::FilterType type)
+void ColorSelectionForm::setFilterMode(FilterType type)
 {
     switch (type) {
     case FilterType::Normal: activateNormalMode(); break;

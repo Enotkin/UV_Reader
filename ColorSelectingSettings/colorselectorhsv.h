@@ -8,7 +8,6 @@ class ColorSelectorHsv : public ColorSelector
 {
 public:
     ColorSelectorHsv();
-    void setColor(QColor color);
 
 private:
     QColor assemblyColor(int first, int second, int third) override final;

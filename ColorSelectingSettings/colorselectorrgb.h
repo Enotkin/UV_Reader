@@ -4,7 +4,6 @@
 #include <QColor>
 #include "colorselector.h"
 
-
 class ColorSelectorRgb : public ColorSelector
 {
 public:

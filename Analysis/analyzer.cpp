@@ -1,10 +1,9 @@
 #include "analyzer.h"
 #include "QDebug"
 Analyzer::Analyzer(const QFileInfo &sourceFileInfo) :
-    videoFileReader(sourceFileInfo)
-{
-    masks = SettingKeeper::getInstance()->loadMask();
-}
+    videoFileReader(sourceFileInfo),
+    masks(SettingKeeper::getInstance()->loadMask()),
+    binarizator(SettingKeeper::getInstance()->loadContourFilterSettings()) {}
 
 Analyzer::~Analyzer()
 {
@@ -18,14 +17,15 @@ void Analyzer::analyze()
     emit progresPercent(intPercent);
     CrownChargeDetector detector(settings);
     for(int frameNumber = 0; frameNumber < countFrame; frameNumber++){
+
         auto percent = static_cast<double>(frameNumber) / static_cast<double>(countFrame) * 100;
         if (intPercent != std::ceil(percent)){
             intPercent = std::ceil(percent);
             emit progresPercent(intPercent);
         }
-        qDebug()<< "FrameNumber:" << frameNumber << "Percent:" << percent << "Int percent:" << std::ceil(percent);
+
         cv::Mat src = videoFileReader.getCvImage(frameNumber);
-        auto monochromeFrame = countorSelection(src);
+        auto monochromeFrame = binarizator.getImage(src);
         auto maskedFrame = applyMask(monochromeFrame);
         auto contours = searchContours(frameNumber, maskedFrame);
         detector.findCrownCharges(contours);
@@ -68,39 +68,6 @@ std::list<Contour> Analyzer::searchContours(int frameNumber, const cv::Mat &img)
     return contours;
 }
 
-cv::Mat Analyzer::binarization(const cv::Mat &src)
-{
-    cv::Mat srcGray, temp, temp2, dst;
-    cv::cvtColor(src, srcGray, cv::COLOR_BGR2GRAY);
-    cv::threshold(srcGray, dst, thresholdValue, 255, cv::THRESH_BINARY);
-    return dst;
-}
-
-cv::Mat Analyzer::binarizationHSV(const cv::Mat &src)
-{
-    cv::Mat dst, srcGray;
-    auto color = contourFilterSetings.color.toHsv();
-    cv::cvtColor(src, srcGray, cv::COLOR_BGR2HSV);
-    cv::inRange(srcGray, cv::Scalar(color.hue(), color.saturation(), color.value()),
-                cv::Scalar(color.hue(), color.saturation(), color.value()), dst);
-    return dst;
-}
-
-cv::Mat Analyzer::countorSelection(const cv::Mat &src)
-{
-    switch (contourFilterSetings.mode) {
-    case ContourFilterSettings::FilterContourMode::Normal:
-        return binarization(src);
-    case ContourFilterSettings::FilterContourMode::Colorfull:
-        return binarizationHSV(src);
-    }
-}
-
-void Analyzer::loadContourFilterSettings()
-{
-    contourFilterSetings = SettingKeeper::getInstance()->loadContourFilterSettings();
-}
-
 bool Analyzer::isFullTrack(const CrownCharge &crownCharge)
 {
     auto contours = crownCharge.getContours();
@@ -131,11 +98,6 @@ QPoint Analyzer::cvPoint2QPoint(const cv::Point &point)
 {
     return QPoint(point.x, point.y);
 }
-
-//bool Analyzer::isPointOnEdgeFrame(const QPoint &point)
-//{
-
-//}
 
 cv::Mat Analyzer::applyMask(const cv::Mat &src)
 {

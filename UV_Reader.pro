@@ -69,7 +69,8 @@ SOURCES += \
     ColorSelectingSettings/colorselectionform.cpp \
     ColorSelectingSettings/colorselector.cpp \
     ColorSelectingSettings/colorselectorhsv.cpp \
-    ColorSelectingSettings/colorselectorrgb.cpp
+    ColorSelectingSettings/colorselectorrgb.cpp \
+    Analysis/binarizator.cpp
 
 HEADERS += \
     Analysis/analysisform.h \
@@ -109,7 +110,6 @@ HEADERS += \
     settingsbox.h \
     settingkeeper.h \
     abstractsettingstab.h \
-    contourfiltersettings.h \
     Analysis/branch.h \
     Analysis/branchsettings.h \
     Analysis/branchselector.h \
@@ -117,7 +117,9 @@ HEADERS += \
     ColorSelectingSettings/colorselectionform.h \
     ColorSelectingSettings/colorselector.h \
     ColorSelectingSettings/colorselectorhsv.h \
-    ColorSelectingSettings/colorselectorrgb.h
+    ColorSelectingSettings/colorselectorrgb.h \
+    filtersettings.h \
+    Analysis/binarizator.h
 
 FORMS += \
     Analysis/analysisform.ui \

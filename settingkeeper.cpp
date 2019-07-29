@@ -28,7 +28,7 @@ Masks SettingKeeper::loadMask()
     return ss;
 }
 
-void SettingKeeper::saveContourFilterSettings(ContourFilterSettings settings)
+void SettingKeeper::saveContourFilterSettings(FilterSettings settings)
 {
     mainSettings.beginGroup("Contour_Filter_Settings");
 
@@ -37,15 +37,15 @@ void SettingKeeper::saveContourFilterSettings(ContourFilterSettings settings)
     mainSettings.endGroup();
 }
 
-ContourFilterSettings SettingKeeper::loadContourFilterSettings()
+FilterSettings SettingKeeper::loadContourFilterSettings()
 {
-    ContourFilterSettings settings;
+    FilterSettings settings;
     if (!mainSettings.childGroups().contains("Contour_Filter_Settings"))
         return settings;
 
     mainSettings.beginGroup("Contour_Filter_Settings");
 
-    settings.mode =static_cast<ContourFilterSettings::FilterContourMode>(mainSettings.value("Filter_mode").toInt());
+    settings.mode =static_cast<FilterType>(mainSettings.value("Filter_mode").toInt());
     auto variantRgb = mainSettings.value("Color");
     auto rgb = variantRgb.toUInt();
     settings.color = QColor::fromRgb(rgb);

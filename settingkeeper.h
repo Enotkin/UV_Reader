@@ -8,7 +8,7 @@
 #include <QDebug>
 
 #include <masksaver.h>
-#include <contourfiltersettings.h>
+#include <filtersettings.h>
 
 
 class SettingKeeper
@@ -27,8 +27,8 @@ public:
     void saveMasks(Masks rects);
     Masks loadMask();
 
-    void saveContourFilterSettings(ContourFilterSettings settings);
-    ContourFilterSettings loadContourFilterSettings();
+    void saveContourFilterSettings(FilterSettings settings);
+    FilterSettings loadContourFilterSettings();
 
     void saveDefaultPath(QString path);
     std::optional<QString> loadDefaultPath();

@@ -6,9 +6,10 @@
 #include <optional>
 #include "abstractsettingstab.h"
 #include "settingkeeper.h"
-#include "contourfiltersettings.h"
+#include "filtersettings.h"
 #include "colorselectorhsv.h"
 #include "colorselectorrgb.h"
+
 
 namespace Ui {
 class ColorSelectionForm;
@@ -38,11 +39,6 @@ private slots:
     void on_pushButtonSelectColorOnImage_clicked(bool checked);
 
 private:
-    enum class FilterType{
-      Normal,
-      Colorfull
-    };
-
     enum class ColorMode{
         RGB,
         HSV

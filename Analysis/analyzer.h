@@ -13,7 +13,8 @@
 #include "fragmentinfo.h"
 #include "videofilereader.h"
 #include "settingkeeper.h"
-#include "contourfiltersettings.h"
+#include "filtersettings.h"
+#include "binarizator.h"
 
 class Analyzer : public QObject
 {
@@ -31,23 +32,18 @@ signals:
 
 private:
     VideoFileReader videoFileReader;
+    Masks masks;
+    Binarizator binarizator;
     std::list<CrownCharge> crownCharges;
     std::list<Contour> searchContours(int frameNumber, const cv::Mat &img);
-    Masks masks;
+
     BranchSettings settings;
 
-    ContourFilterSettings contourFilterSetings;
-    double thresholdValue = 225;
-
-    cv::Mat binarization(const cv::Mat &src);
     cv::Mat applyMask(const cv::Mat &src);
-    cv::Mat binarizationHSV(const cv::Mat &src);
-    cv::Mat countorSelection(const cv::Mat &src);
     void loadContourFilterSettings();
 
     bool isFullTrack(const CrownCharge &crownCharge);
     QPoint cvPoint2QPoint(const cv::Point &point);
-//    bool isPointOnEdgeFrame(const QPoint &point);
 };
 
 #endif // ANALYZER_H
