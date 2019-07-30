@@ -18,6 +18,9 @@ private:
 
     cv::Mat binarizationColor(const cv::Mat &src);
     cv::Mat binarizationNormal(const cv::Mat &src);
+
+    std::tuple<cv::Scalar, cv::Scalar> getHsvRanges();
+    std::pair<int, int> getRange(int channel, const QPair<int, int> &range);
 };
 
 #endif // BINARIZATOR_H

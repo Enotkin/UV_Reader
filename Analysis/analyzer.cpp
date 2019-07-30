@@ -3,7 +3,7 @@
 Analyzer::Analyzer(const QFileInfo &sourceFileInfo) :
     videoFileReader(sourceFileInfo),
     masks(SettingKeeper::getInstance()->loadMask()),
-    binarizator(SettingKeeper::getInstance()->loadContourFilterSettings()) {}
+    binarizator(SettingKeeper::getInstance()->loadFilterSettings()) {}
 
 Analyzer::~Analyzer()
 {

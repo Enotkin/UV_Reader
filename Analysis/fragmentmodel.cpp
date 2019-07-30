@@ -1,4 +1,5 @@
 #include "fragmentmodel.h"
+#include <qdebug.h>
 
 FragmentModel::FragmentModel(QObject *parent)
     : QAbstractTableModel(parent)
@@ -85,15 +86,14 @@ void FragmentModel::addFragment(const FragmentInfo &fragment)
     endInsertRows();
 }
 
-void FragmentModel::removeFragment(const QModelIndexList modelIdexesList)
+void FragmentModel::removeFragment(const QModelIndex modelIndex)
 {
-    if (fragments.isEmpty() || modelIdexesList.isEmpty())
+
+    if (fragments.isEmpty() || !modelIndex.isValid())
         return;
-    beginRemoveRows(QModelIndex(), modelIdexesList.first().row(), modelIdexesList.last().row());
-    for (const auto &modelIndex : modelIdexesList){
-        fragments.removeAt(modelIndex.row());
-        fragmentsCheckState.removeAt(modelIndex.row());
-    }
+    beginRemoveRows(QModelIndex(), modelIndex.row(), modelIndex.row());
+    fragments.removeAt(modelIndex.row());
+    fragmentsCheckState.removeAt(modelIndex.row());
     endRemoveRows();
 }
 

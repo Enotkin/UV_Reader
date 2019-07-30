@@ -42,6 +42,7 @@ public:
 
 public slots:
     void playFragment(FragmentInfo fragment);
+    void stopFragment();
 
 private slots:
 
@@ -57,13 +58,11 @@ private slots:
 
     void on_toggleVideoZoomingAction_triggered();
 
-    void on_actionTestMaskCreate_triggered(bool checked);
+    void on_settingsAction_triggered(bool checked);
 
-    void on_actionTestAnalysis_triggered(bool checked);
+    void on_showAnalysisPanelAction_triggered(bool checked);
 
-    void on_analysisPanelAction_triggered(bool checked);
-
-    void on_actionSettings_triggered();
+    void on_startAnalysisAction_triggered();
 
 private:
     Ui::MainWindow *ui;
@@ -77,6 +76,7 @@ private:
 
     void connectMaskCreaterToGraphicsView();
     void connectColorSelectionForm();
+    void setEnadledActions(bool state);
 
 };
 

@@ -9,10 +9,14 @@ MainWindow::MainWindow(QWidget *parent) :
     this->showFullScreen();
     this->showMaximized();
     ui->analysisWidget->hide();
+    setEnadledActions(false);
+
     connectMaskCreaterToGraphicsView();
     connectColorSelectionForm();
     connect(&fileTreeDialog, &FileTreeDialog::signalSelectedFile, this, &MainWindow::openVideoFile);
-    connect(ui->analysisWidget, &AnalysisForm::playFragmet, this, &MainWindow::playFragment);
+
+    connect(ui->analysisWidget, &AnalysisForm::playFragment, this, &MainWindow::playFragment);
+    connect(ui->analysisWidget, &AnalysisForm::stopFragment, this, &MainWindow::stopFragment);
 
     auto view = ui->graphicsView;
     auto viewMethod = [view](const QImage &image) mutable {view->setImage(image);};
@@ -27,6 +31,12 @@ MainWindow::~MainWindow()
 void MainWindow::playFragment(FragmentInfo fragment)
 {
     ui->videoControls->setFragment(fragment);
+    ui->videoControls->play();
+}
+
+void MainWindow::stopFragment()
+{
+    ui->videoControls->stop();
 }
 
 void MainWindow::on_openFileAction_triggered()
@@ -67,7 +77,7 @@ void MainWindow::openVideoFile(const QString &pathToFile)
 
     SettingKeeper::getInstance()->setCurrentFile(fileInfo);
     ui->graphicsView->setFileName(fileInfo.baseName());
-
+    setEnadledActions(true);
     ui->statusBar->showMessage(fileInfo.absoluteFilePath());
     videoData = std::make_shared<VideoFileReader>(fileInfo);
     ui->analysisWidget->setVideoData(videoData);
@@ -81,27 +91,13 @@ void MainWindow::on_toggleVideoZoomingAction_triggered()
     ui->graphicsView->setResizeMode(ui->toggleVideoZoomingAction->isChecked());
 }
 
-void MainWindow::on_actionTestMaskCreate_triggered(bool checked)
+void MainWindow::on_settingsAction_triggered(bool checked)
 {
-    if (checked){
+    if (checked)
         ui->settingsWidget->showTabs(SettingsMode::MaskMode);
-    } else {
+    else
         ui->settingsWidget->hideTabs();
-    }
     ui->graphicsView->resizeImage();
-}
-
-void MainWindow::on_actionTestAnalysis_triggered(bool checked)
-{
-    ui->testAnalisysWidget->setVisible(checked);
-    if (ui->testAnalisysWidget->isVisible()){
-        ui->testAnalisysWidget->setSourceFile(fileInfo);
-    }
-}
-
-void MainWindow::on_analysisPanelAction_triggered(bool checked)
-{
-    ui->analysisWidget->setVisible(checked);
 }
 
 void MainWindow::connectMaskCreaterToGraphicsView()
@@ -126,7 +122,28 @@ void MainWindow::connectColorSelectionForm()
     connect(ui->graphicsView, &UvGraphicsView::colorSelected, colorForm, &ColorSelectionForm::setColor);
 }
 
-void MainWindow::on_actionSettings_triggered()
+void MainWindow::setEnadledActions(bool state)
 {
-    ui->settingsWidget->show();
+    ui->settingsAction->setEnabled(state);
+    ui->showAnalysisPanelAction->setEnabled(state);
+    ui->startAnalysisAction->setEnabled(state);
+}
+
+void MainWindow::on_showAnalysisPanelAction_triggered(bool checked)
+{
+    if (ui->settingsWidget->isVisible()){
+        on_settingsAction_triggered(false);
+        ui->settingsAction->setChecked(false);
+    }
+     ui->analysisWidget->setVisible(checked);
+}
+
+void MainWindow::on_startAnalysisAction_triggered()
+{
+    if (ui->settingsWidget->isVisible()){
+        on_settingsAction_triggered(false);
+        ui->settingsAction->setChecked(false);
+    }
+    ui->analysisWidget->setVisible(true);
+    ui->analysisWidget->startAnalysis();
 }

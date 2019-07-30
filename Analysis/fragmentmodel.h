@@ -24,7 +24,7 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
     void addFragment(const FragmentInfo &fragment);
-    void removeFragment(const QModelIndexList modelIdexesList);
+    void removeFragment(const QModelIndex modelIndex);
     void clearModel();
     QList<FragmentInfo> getSelectedFragments() const;
     QStringList getHeaders() const;

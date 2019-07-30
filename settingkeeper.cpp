@@ -37,7 +37,7 @@ void SettingKeeper::saveContourFilterSettings(FilterSettings settings)
     mainSettings.endGroup();
 }
 
-FilterSettings SettingKeeper::loadContourFilterSettings()
+FilterSettings SettingKeeper::loadFilterSettings()
 {
     FilterSettings settings;
     if (!mainSettings.childGroups().contains("Contour_Filter_Settings"))
@@ -49,6 +49,8 @@ FilterSettings SettingKeeper::loadContourFilterSettings()
     auto variantRgb = mainSettings.value("Color");
     auto rgb = variantRgb.toUInt();
     settings.color = QColor::fromRgb(rgb);
+//    settings.thresholdValue = mainSettings.value("Threshold_Value").toDouble();
+
 
     mainSettings.endGroup();
     return settings;

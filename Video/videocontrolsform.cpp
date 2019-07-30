@@ -95,6 +95,16 @@ void VideoControlsForm::setView(const ViewMethod &value)
         displayFrame = value;
 }
 
+void VideoControlsForm::play()
+{
+    videoPlayer->play();
+}
+
+void VideoControlsForm::stop()
+{
+    videoPlayer->stop();
+}
+
 void VideoControlsForm::updateFrame(Frame frame)
 {
     if (displayFrame){

@@ -34,6 +34,10 @@ public:
 
     void setView(const ViewMethod &value);
 
+    void play();
+
+    void stop();
+
 public slots:
     void updateFrame(Frame frame);
 

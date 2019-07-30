@@ -28,7 +28,7 @@ void ColorSelectionForm::setColor(QColor color)
 
 void ColorSelectionForm::activate()
 {
-    auto settings = SettingKeeper::getInstance()->loadContourFilterSettings();
+    auto settings = SettingKeeper::getInstance()->loadFilterSettings();
     currentColor = settings.color;
     setFilterMode(static_cast<FilterType>(settings.mode));
 }

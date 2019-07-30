@@ -7,6 +7,9 @@
 #include <QToolBar>
 #include <QFileDialog>
 
+#include <QItemSelection>
+#include <QItemSelectionModel>
+
 
 #include <memory>
 
@@ -37,11 +40,13 @@ public:
 
     void setVideoData(const std::shared_ptr<VideoFileReader> &value);
     void setMask(const QList<QRect> &value);
+    void startAnalysis();
 
     void setFileInfo(const QFileInfo &value);
 
 signals:
-    void playFragmet(FragmentInfo fragment);
+    void playFragment(FragmentInfo fragment);
+    void stopFragment();
 
 private slots:
     void buttomEnableSwitcher(const QModelIndex &parent, int first, int last);
@@ -64,14 +69,20 @@ private slots:
 
     void on_pushButtonStartAnalysis_clicked();
 
-    void on_spinBoxDistanceBetweenCenterMass_valueChanged(int arg1);
+    void on_actionPlayPrev_triggered();
+
+    void on_actionStop_triggered();
+
+    void on_actionPlayNext_triggered();
+
+    void on_actionDeleteAndPlayNext_triggered();
 
 private:
     Ui::analysisForm *ui;
     QFileInfo fileInfo;
+    std::unique_ptr<QItemSelectionModel> selectionModel;
     std::unique_ptr<FragmentModel> model;
     std::shared_ptr<VideoFileReader> videoData;
-    QList<QRect> mask;
 
     void setupUI();
     void setVideoControlButtomEnabled(const bool &state);

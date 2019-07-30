@@ -28,7 +28,7 @@ public:
     Masks loadMask();
 
     void saveContourFilterSettings(FilterSettings settings);
-    FilterSettings loadContourFilterSettings();
+    FilterSettings loadFilterSettings();
 
     void saveDefaultPath(QString path);
     std::optional<QString> loadDefaultPath();

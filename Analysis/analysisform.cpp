@@ -7,15 +7,86 @@ AnalysisForm::AnalysisForm(QWidget *parent) :
 {
     ui->setupUi(this);
     setupUI();
-
-    model = std::make_unique<FragmentModel>();
-    model->addFragment(FragmentInfo(FrameRange{51,85},PillarRange{QString(),QString()}, TimeRange{QTime(), QTime()}, QString()));
+    selectionModel.reset(ui->tableView->selectionModel());
+    model = std::make_unique<FragmentModel>(this);
     connect(model.get(), &FragmentModel::rowsInserted, this, &AnalysisForm::buttomEnableSwitcher);
     connect(model.get(), &FragmentModel::rowsRemoved, this, &AnalysisForm::buttomEnableSwitcher);
 
     ui->tableView->setModel(model.get());
     ui->tableView->resizeColumnsToContents();
     buttomEnableSwitcher(QModelIndex(), 0, 0);
+}
+
+void AnalysisForm::on_actionSaveVideoFragment_triggered()
+{
+    FragmentSaver saver(QFileDialog::getExistingDirectory(this, tr("Выбор директории для сохранений фрагментов")),
+                        fileInfo.absoluteFilePath());
+    auto fragments = model->getSelectedFragments();
+    for (auto fragment : fragments){
+         saver.saveFragment(fragment);
+    }
+}
+
+void AnalysisForm::on_actionPlayPrev_triggered()
+{
+    auto index = ui->tableView->selectionModel()->currentIndex();
+    ui->tableView->selectRow(index.row() - 1);
+    index = ui->tableView->selectionModel()->currentIndex();
+    if (index.isValid())
+        emit playFragment(model->getFragment(index));
+}
+
+void AnalysisForm::on_actionPlay_triggered()
+{
+    auto index = ui->tableView->selectionModel()->currentIndex();
+    if (index.isValid())
+        emit playFragment(model->getFragment(index));
+}
+
+void AnalysisForm::on_actionStop_triggered()
+{
+    emit stopFragment();
+}
+
+void AnalysisForm::on_actionPlayNext_triggered()
+{
+    auto index = ui->tableView->selectionModel()->currentIndex();
+    ui->tableView->selectRow(index.row() + 1);
+    index = ui->tableView->selectionModel()->currentIndex();
+    if (index.isValid())
+        emit playFragment(model->getFragment(index));
+}
+
+void AnalysisForm::on_actionDeleteAndPlayNext_triggered()
+{
+    auto index = ui->tableView->selectionModel()->currentIndex();
+    ui->tableView->selectRow(index.row() + 1);
+    model->removeFragment(index);
+    index = ui->tableView->selectionModel()->currentIndex();
+    if (index.isValid())
+        emit playFragment(model->getFragment(index));
+}
+
+void AnalysisForm::on_actionDelete_triggered()
+{
+    auto index = ui->tableView->selectionModel()->currentIndex();
+    if (index.isValid())
+        model->removeFragment(ui->tableView->selectionModel()->currentIndex());
+}
+
+void AnalysisForm::on_actionClear_triggered()
+{
+    model->clearModel();
+}
+
+void AnalysisForm::on_actionAddIntervalComment_triggered()
+{
+    AddFragmentCommentDialog dialog;
+    dialog.setFrameInfo(50, 174);
+    connect(&dialog, &AddFragmentCommentDialog::data, this, [&](FragmentInfo fragmentInfo){
+        model->addFragment(fragmentInfo);
+    });
+    dialog.exec();
 }
 
 void AnalysisForm::addIntervalComment()
@@ -44,31 +115,10 @@ void AnalysisForm::buttomEnableSwitcher(const QModelIndex &parent, int first, in
                      : setDeleteButtomEnabeled(true);
 }
 
-void AnalysisForm::on_actionAddIntervalComment_triggered()
-{
-    AddFragmentCommentDialog dialog;
-    dialog.setFrameInfo(50, 174);
-    connect(&dialog, &AddFragmentCommentDialog::data, this, [&](FragmentInfo fragmentInfo){
-        model->addFragment(fragmentInfo);
-    });
-    dialog.exec();
-}
-
 void AnalysisForm::on_tableView_doubleClicked(const QModelIndex &index)
 {
     auto fragment = model->getFragment(index);
-    qDebug()<<"FragmentInfo in AnalisysForm:"<<fragment.getFrameRange();
-    emit playFragmet(fragment);
-}
-
-void AnalysisForm::on_actionDelete_triggered()
-{
-    model->removeFragment(ui->tableView->selectionModel()->selectedRows());
-}
-
-void AnalysisForm::on_actionClear_triggered()
-{
-    model->clearModel();
+    emit playFragment(fragment);
 }
 
 void AnalysisForm::on_actionHideAnalysisPanel_triggered()
@@ -93,15 +143,13 @@ void AnalysisForm::setDeleteButtomEnabeled(const bool &state)
     ui->actionExcelExport->setEnabled(state);
 }
 
-
-
 void AnalysisForm::setupUI()
 {
     auto toolbar = new QToolBar(ui->groupBox);
     toolbar->setOrientation(Qt::Vertical);
     toolbar->setIconSize(QSize(32, 32));
     toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
-    toolbar->addAction(ui->actionDisplayFrame);
+//    toolbar->addAction(ui->actionDisplayFrame);
     toolbar->addAction(ui->actionPlayPrev);
     toolbar->addAction(ui->actionPlay);
     toolbar->addAction(ui->actionStop);
@@ -117,24 +165,9 @@ void AnalysisForm::setupUI()
     this->setVideoControlButtomEnabled(false);
 }
 
-void AnalysisForm::on_actionSaveVideoFragment_triggered()
-{
-    FragmentSaver saver(QFileDialog::getExistingDirectory(this, tr("Выбор директории для сохранений фрагментов")),
-                        fileInfo.absoluteFilePath());
-    auto fragments = model->getSelectedFragments();
-    for (auto fragment : fragments){
-         saver.saveFragment(fragment);
-    }
-}
-
 void AnalysisForm::setVideoData(const std::shared_ptr<VideoFileReader> &value)
 {
     videoData = value;
-}
-
-void AnalysisForm::setMask(const QList<QRect> &value)
-{
-    mask = value;
 }
 
 void AnalysisForm::on_actionExcelExport_triggered()
@@ -196,7 +229,6 @@ void AnalysisForm::on_actionExcelExport_triggered()
     excel.MergeCells("H7:H8");
     excel.SetCellValue(7, 8, "Примечание");
 
-
     int row = 9;
     int imageNumber = 1;
     int imageRowNumber = model->getFragments().size() + 1 + row;
@@ -231,31 +263,22 @@ void AnalysisForm::setFileInfo(const QFileInfo &value)
     fileInfo = value;
 }
 
-void AnalysisForm::on_actionPlay_triggered()
-{
-
-}
-
 void AnalysisForm::on_pushButtonStartAnalysis_clicked()
 {   
+    startAnalysis();
+}
+
+void AnalysisForm::startAnalysis()
+{
     auto analysis = new Analyzer(fileInfo);
     auto settings = assemblyBranchSettings();
     connect(analysis, &Analyzer::progresPercent, ui->progressBar, &QProgressBar::setValue);
     analysis->setSettings(settings);
 
-    QTime t;
-    t.start();
     analysis->analyze();
-    qDebug() << "Анализ полностью:" << t.elapsed();
-
     for (const auto &fragment : analysis->getFragments()){
         model->addFragment(fragment);
     }
-}
-
-void AnalysisForm::on_spinBoxDistanceBetweenCenterMass_valueChanged(int arg1)
-{
-
 }
 
 BranchSettings AnalysisForm::assemblyBranchSettings()

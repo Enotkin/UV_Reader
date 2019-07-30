@@ -31,6 +31,7 @@ Masks MaskSaver::loadMasks(QString fileName)
         auto ss = settings.value(key).toRectF();
         rectss.append(ss);
     }
+    settings.endGroup();
     return rectss;
 }
 
