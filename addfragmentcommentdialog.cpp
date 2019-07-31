@@ -1,17 +1,13 @@
 #include "addfragmentcommentdialog.h"
 #include "ui_addfragmentcommentdialog.h"
 
-AddFragmentCommentDialog::AddFragmentCommentDialog(QWidget *parent) :
+AddFragmentCommentDialog::AddFragmentCommentDialog(int maxFrame, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::addFragmentCommentDialog)
 {
     ui->setupUi(this);
-}
-
-void AddFragmentCommentDialog::setFrameInfo(int currentFrame, int maxFrame)
-{
-    ui->frameNumberSpinBox->setRange(0, maxFrame);
-    ui->frameNumberSpinBox->setValue(currentFrame);
+    ui->frameNumberMinSpinBox->setRange(0, maxFrame);
+    ui->frameNumberMaxSpinBox->setRange(0, maxFrame);
 }
 
 AddFragmentCommentDialog::~AddFragmentCommentDialog()
@@ -21,10 +17,16 @@ AddFragmentCommentDialog::~AddFragmentCommentDialog()
 
 void AddFragmentCommentDialog::on_addFragmentPushButton_clicked()
 {
-    emit data(FragmentInfo(ui->frameNumberSpinBox->value(),
-                           ui->towerNameLineEdit->text(),
-                           QTime(),
-                           "Добавлено"));
+    int minFrame = ui->frameNumberMinSpinBox->value();
+    int maxFrame = ui->frameNumberMaxSpinBox->value();
+    if (minFrame > maxFrame){
+        QMessageBox::warning(this, tr("Ошибка"), tr("Диапазон задан не правильно"));
+        return;
+    }
+
+    FragmentInfo info(FrameRange(minFrame, maxFrame), PillarRange(), TimeRange(), QString());
+
+    emit data(info);
     this->close();
 }
 

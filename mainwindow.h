@@ -66,7 +66,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    std::shared_ptr<VideoFileReader> videoData;
     FileTreeDialog fileTreeDialog;
 
     QGraphicsPixmapItem pixmapItem;

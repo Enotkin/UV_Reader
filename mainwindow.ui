@@ -340,44 +340,6 @@
     <string>Ctrl+A</string>
    </property>
   </action>
-  <action name="analysisPanelAction">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Панель анализа</string>
-   </property>
-  </action>
-  <action name="actionTestAnalysis">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>ТЕСТ_Анализ</string>
-   </property>
-  </action>
-  <action name="actionTestMaskCreate">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Режим создания маски</string>
-   </property>
-  </action>
-  <action name="actionSettings">
-   <property name="text">
-    <string>Настройки</string>
-   </property>
-  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>

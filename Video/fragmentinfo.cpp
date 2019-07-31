@@ -1,20 +1,25 @@
 #include "fragmentinfo.h"
+#include <QtDebug>
 
 FragmentInfo::FragmentInfo(int frameNumber, QString pillarName, QTime time, QString status = "Added")
     : empty(false),
       frameRange(frameNumber, frameNumber),
       pillarRange(pillarName, pillarName),
       time (time, time),
-      status(status),
-      frameNumberReport(average(frameRange)){}
+      status(status)
+{
+    frameNumberReport = average(frameRange);
+}
 
 FragmentInfo::FragmentInfo(FrameRange frameRange, PillarRange pillarRange, TimeRange timeRange, QString status = "Added")
     : empty(false),
       frameRange(frameRange),
       pillarRange(pillarRange),
       time(timeRange),
-      status(status),
-      frameNumberReport(average(frameRange)){}
+      status(status)
+{
+    frameNumberReport = average(frameRange);
+}
 
 FragmentInfo::FragmentInfo() : empty(false) {}
 
@@ -112,5 +117,7 @@ void FragmentInfo::setStatus(const QString &value)
 
 int FragmentInfo::average(FrameRange range)
 {
-    return static_cast<int>((range.first + range.second)/2);
+    auto averageValue = (range.first + range.second)/2;
+    qDebug() << range.first << range.second << "average:" << averageValue;
+    return static_cast<int>(averageValue);
 }

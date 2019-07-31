@@ -13,8 +13,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connectMaskCreaterToGraphicsView();
     connectColorSelectionForm();
-    connect(&fileTreeDialog, &FileTreeDialog::signalSelectedFile, this, &MainWindow::openVideoFile);
 
+    connect(&fileTreeDialog, &FileTreeDialog::signalSelectedFile, this, &MainWindow::openVideoFile);
     connect(ui->analysisWidget, &AnalysisForm::playFragment, this, &MainWindow::playFragment);
     connect(ui->analysisWidget, &AnalysisForm::stopFragment, this, &MainWindow::stopFragment);
 
@@ -79,8 +79,6 @@ void MainWindow::openVideoFile(const QString &pathToFile)
     ui->graphicsView->setFileName(fileInfo.baseName());
     setEnadledActions(true);
     ui->statusBar->showMessage(fileInfo.absoluteFilePath());
-    videoData = std::make_shared<VideoFileReader>(fileInfo);
-    ui->analysisWidget->setVideoData(videoData);
 
     ui->videoPlaybackMenu->setEnabled(true);
     ui->analysisMenu->setEnabled(true);

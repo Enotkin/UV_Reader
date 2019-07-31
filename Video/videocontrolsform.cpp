@@ -107,17 +107,18 @@ void VideoControlsForm::stop()
 
 void VideoControlsForm::updateFrame(Frame frame)
 {
-    if (displayFrame){
-        displayFrame(frame.getQImage());
-        if (videoPlayer){
-            updateLabel(ui->frameLabel, QString::number(frame.number), QString::number(videoSettings->getCountFrames()));
-            updateLabel(ui->timeLabel, msecToStr(frame.time), msecToStr(videoSettings->getDuration()));
-            updateSlider(frame.number);
-        } else {
-            updateLabel(ui->frameLabel, "-", "-");
-            updateLabel(ui->timeLabel, "-", "-");
-            updateSlider(0, 0);
-        }
+    if (!displayFrame)
+        return;
+
+    displayFrame(frame.getQImage());
+    if (videoPlayer){
+        updateLabel(ui->frameLabel, QString::number(frame.number), QString::number(videoSettings->getCountFrames()));
+        updateLabel(ui->timeLabel, msecToStr(frame.time), msecToStr(videoSettings->getDuration()));
+        updateSlider(frame.number);
+    } else {
+        updateLabel(ui->frameLabel, "-", "-");
+        updateLabel(ui->timeLabel, "-", "-");
+        updateSlider(0, 0);
     }
 }
 

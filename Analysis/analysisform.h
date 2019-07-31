@@ -38,7 +38,6 @@ public:
     void clear();
     ~AnalysisForm();
 
-    void setVideoData(const std::shared_ptr<VideoFileReader> &value);
     void setMask(const QList<QRect> &value);
     void startAnalysis();
 
@@ -82,7 +81,7 @@ private:
     QFileInfo fileInfo;
     std::unique_ptr<QItemSelectionModel> selectionModel;
     std::unique_ptr<FragmentModel> model;
-    std::shared_ptr<VideoFileReader> videoData;
+//    std::shared_ptr<VideoFileReader> videoData;
 
     void setupUI();
     void setVideoControlButtomEnabled(const bool &state);

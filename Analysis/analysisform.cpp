@@ -79,10 +79,10 @@ void AnalysisForm::on_actionClear_triggered()
     model->clearModel();
 }
 
-void AnalysisForm::on_actionAddIntervalComment_triggered()
+void AnalysisForm::on_actionAddIntervalComment_triggered() // Добавление фрагмента в ручную
 {
-    AddFragmentCommentDialog dialog;
-    dialog.setFrameInfo(50, 174);
+    VideoSettings videoSettings(fileInfo);
+    AddFragmentCommentDialog dialog(videoSettings.getCountFrames());
     connect(&dialog, &AddFragmentCommentDialog::data, this, [&](FragmentInfo fragmentInfo){
         model->addFragment(fragmentInfo);
     });
@@ -165,10 +165,10 @@ void AnalysisForm::setupUI()
     this->setVideoControlButtomEnabled(false);
 }
 
-void AnalysisForm::setVideoData(const std::shared_ptr<VideoFileReader> &value)
-{
-    videoData = value;
-}
+//void AnalysisForm::setVideoData(const std::shared_ptr<VideoFileReader> &value)
+//{
+//    videoData = value;
+//}
 
 void AnalysisForm::on_actionExcelExport_triggered()
 {
@@ -232,6 +232,7 @@ void AnalysisForm::on_actionExcelExport_triggered()
     int row = 9;
     int imageNumber = 1;
     int imageRowNumber = model->getFragments().size() + 1 + row;
+    VideoFileReader videoReader(fileInfo);
     for (auto &fragment : model->getFragments()){
         excel.SetCellValue(row, 1, QString::number(imageNumber));
         excel.SetCellValue(row, 2, QString::number(fragment.getFrameRange().first));
@@ -245,8 +246,9 @@ void AnalysisForm::on_actionExcelExport_triggered()
         imageNumber++;
 
         QString imageFileName = QString("Рисунок %1.png").arg(imageNumber);
+//        qDebug()<<imageFileName << imageNumber << fragment.getFrameNumberReport();
 
-        videoData->getQImage(fragment.getFrameNumberReport()).save(dir.absoluteFilePath(imageFileName));
+        videoReader.getQImage(fragment.getFrameNumberReport()).save(dir.absoluteFilePath(imageFileName));
         excel.SetCellValue(imageRowNumber, 1, QString("См. рис. %1").arg(imageNumber));
 
         QString range = QString("A%1:H%1").arg(imageRowNumber+1);
