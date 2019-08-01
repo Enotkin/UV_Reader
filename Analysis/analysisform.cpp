@@ -246,7 +246,6 @@ void AnalysisForm::on_actionExcelExport_triggered()
         imageNumber++;
 
         QString imageFileName = QString("Рисунок %1.png").arg(imageNumber);
-//        qDebug()<<imageFileName << imageNumber << fragment.getFrameNumberReport();
 
         videoReader.getQImage(fragment.getFrameNumberReport()).save(dir.absoluteFilePath(imageFileName));
         excel.SetCellValue(imageRowNumber, 1, QString("См. рис. %1").arg(imageNumber));

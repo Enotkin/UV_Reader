@@ -105,8 +105,8 @@ void FragmentInfo::setCrownCharge(const CrownCharge &value)
 {
     crownCharge = value;
     if (frameRange.first == 0 && frameRange.second == 0){
-        auto ss = crownCharge.getRange();
-        frameRange = ss;
+        frameRange = crownCharge.getRange();
+        frameNumberReport = average(frameRange);
     }
 }
 

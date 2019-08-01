@@ -30,6 +30,8 @@ void Analyzer::analyze()
         auto contours = searchContours(frameNumber, maskedFrame);
         detector.findCrownCharges(contours);
         auto lastCharges = detector.getLastDetectedCharges();
+        if(frameNumber == 56)
+            cv::imshow("dfdf", monochromeFrame);
     }
     crownCharges = detector.getDetectedCharges();
     crownCharges.sort([](CrownCharge &first, CrownCharge &second){return first.getFirstFrameNumber() < second.getFirstFrameNumber();});

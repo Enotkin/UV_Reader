@@ -9,6 +9,7 @@
 #include <QSlider>
 #include <functional>
 #include <memory>
+#include "binarizator.h"
 
 #include <videoplayer.h>
 #include <ktime.h>

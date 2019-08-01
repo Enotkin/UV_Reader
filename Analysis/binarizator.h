@@ -20,7 +20,7 @@ private:
     cv::Mat binarizationNormal(const cv::Mat &src);
 
     std::tuple<cv::Scalar, cv::Scalar> getHsvRanges();
-    std::pair<int, int> getRange(int channel, const QPair<int, int> &range);
+    std::pair<int, int> getRange(int channel, const QPair<int, int> &range, int maxValue = 255);
 };
 
 #endif // BINARIZATOR_H

@@ -11,9 +11,9 @@ enum class FilterType
 struct FilterSettings
 {
     struct CoefficientHsv {
-        QPair<int, int> hue {15, 15};
-        QPair<int, int> saturation {10, 10};
-        QPair<int, int> value {10, 10};
+        QPair<int, int> hue {20, 20};
+        QPair<int, int> saturation {30,30};
+        QPair<int, int> value {30, 30};
     };
 
     QColor color {Qt::white};

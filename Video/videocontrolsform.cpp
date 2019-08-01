@@ -110,6 +110,9 @@ void VideoControlsForm::updateFrame(Frame frame)
     if (!displayFrame)
         return;
 
+//    Binarizator bin(SettingKeeper::getInstance()->loadFilterSettings());
+//    frame.image = bin.getImage(frame.image);
+
     displayFrame(frame.getQImage());
     if (videoPlayer){
         updateLabel(ui->frameLabel, QString::number(frame.number), QString::number(videoSettings->getCountFrames()));
